@@ -36,9 +36,10 @@ export async function run(interaction: CommandInteraction) {
 
     const amount = interaction.options.get("amount")!.value as number;
 
-    const guild = await getGuild(BigInt(interaction.guildId!));
+    const gid = BigInt(interaction.guildId!)
+    const guild = await getGuild(gid);
     const sufficientFunds = await transfer(
-        BigInt(interaction.guildId!),
+        gid,
         BigInt(interaction.user.id),
         BigInt(user.id),
         BigInt(amount),
