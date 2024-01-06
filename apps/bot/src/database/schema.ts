@@ -10,7 +10,7 @@ export const guilds = sqliteTable("guilds", {
     dropImage: text("drop_image").default("https://i.imgur.com/dFpT1Zy.jpg").notNull(),
     xpEnabled: integer("xp_enabled", {mode: "boolean"}).default(true).notNull(),
     levelMultiplier: integer("level_multiplier", {mode: "number"}).default(10).notNull(),
-    dropMessage: text("drop_message").default("{amount} {emoji} has dropped into this channel!").notNull(),
+    dropMessage: text("drop_message").default("{emoji} {amount} has dropped into this channel!").notNull(),
     levelUpMessage: text("level_up_message").default("Congratulations {user}, you have leveled up to level {level}!").notNull(),
     levelUpDM: integer("level_up_dm", {mode: "boolean"}).default(true).notNull(),
     dropsCalculation: text("drops_calculation").default("5").notNull(),

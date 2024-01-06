@@ -1,6 +1,7 @@
 import type { Client } from "@libsql/client";
 import type { Client as DjsClient } from "discord.js";
-import { ReacordDiscordJs } from "reacord";
+import { ReacordDiscordJs, ReacordInstance } from "reacord";
+import * as Discord from "discord.js";
 
 type State = {
     // Anything added here will be persisted across hot reloads.

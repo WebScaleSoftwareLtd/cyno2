@@ -60,7 +60,7 @@ CREATE TABLE `guilds` (
 	`drop_image` text DEFAULT 'https://i.imgur.com/dFpT1Zy.jpg' NOT NULL,
 	`xp_enabled` integer DEFAULT true NOT NULL,
 	`level_multiplier` integer DEFAULT 10 NOT NULL,
-	`drop_message` text DEFAULT '{amount} {emoji} has dropped into this channel!' NOT NULL,
+	`drop_message` text DEFAULT '{emoji} {amount} has dropped into this channel!' NOT NULL,
 	`level_up_message` text DEFAULT 'Congratulations {user}, you have leveled up to level {level}!' NOT NULL,
 	`level_up_dm` integer DEFAULT true NOT NULL,
 	`drops_calculation` text DEFAULT '5' NOT NULL,

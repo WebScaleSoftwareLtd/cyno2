@@ -1,4 +1,4 @@
-import { and, eq, gte, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { client, transactions, wallet } from "../../database";
 
 export default (
@@ -11,7 +11,7 @@ export default (
     }).where(and(
         eq(wallet.guildId, guildId),
         eq(wallet.userId, sourceUserId),
-        gte(wallet.balance, amount),
+        sql`${wallet.balance} >= ${amount}`,
     ));
 
     // If a row wasn't updated, return false.

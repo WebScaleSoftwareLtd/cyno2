@@ -461,7 +461,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'{amount} {emoji} has dropped into this channel!'"
+          "default": "'{emoji} {amount} has dropped into this channel!'"
         },
         "level_up_message": {
           "name": "level_up_message",
