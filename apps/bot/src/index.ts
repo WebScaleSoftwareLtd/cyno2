@@ -1,5 +1,5 @@
 // Get the discord.js type.
-import type { ApplicationCommand, Client } from "discord.js";
+import type { ApplicationCommand, AutocompleteInteraction, Client } from "discord.js";
 
 // Get all of the events.
 import message from "./events/message";
@@ -58,8 +58,24 @@ export default (client: Client) => {
     // Setup Reacord.
     setupReacord(client);
 
+    // Handle auto-complete interactions.
+    const autocompleteHandler = async (interaction: AutocompleteInteraction) => {
+        // Get the command.
+        const command = (commands as Record<string, Command | undefined>)[interaction.commandName];
+        if (!command) return;
+
+        // If there isn't a select menu handler, return.
+        if (!command.autocompleteHandler) return;
+
+        // Find the option in question.
+        interaction.respond(
+            await command.autocompleteHandler(interaction.options.getFocused(true))
+        );
+    };
+
     // Defines the interaction handler.
     client.on("interactionCreate", async interaction => {
+        if (interaction.isAutocomplete()) return autocompleteHandler(interaction);
         if (!interaction.isCommand()) return;
 
         const command = (commands as Record<string, Command | undefined>)[interaction.commandName];

@@ -8,5 +8,5 @@ export default (interaction: CommandInteraction, reason: string, description: st
         description={description}
         color={0x00ff00}
     />;
-    return reacord.createInteractionReply(interaction, { ephemeral: true }).render(embed);
+    return reacord.createInteractionReply(interaction, { ephemeral: true }).render(embed).deactivate();
 };

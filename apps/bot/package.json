@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "@libsql/client": "^0.4.0-pre.7",
+        "axios": "^1.6.5",
         "color-parse": "^2.0.0",
         "discord.js": "^14.14.1",
         "dotenv": "^16.3.1",
