@@ -1,6 +1,6 @@
 import { client, transactions, wallet } from "../../database";
 
-export default async (guildId: bigint, userId: bigint, balance: bigint, reason: string) => client.transaction(async tx => {
+export default (guildId: bigint, userId: bigint, balance: bigint, reason: string) => client.transaction(async tx => {
     // Select the wallet row.
     const walletRow = await tx.query.wallet.findFirst({
         where: (tx, { and, eq }) => and(
