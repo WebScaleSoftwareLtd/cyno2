@@ -112,7 +112,7 @@ export const levelRoles = sqliteTable("level_roles", {
 });
 
 export const transactions = sqliteTable("transactions", {
-    createdAt: integer("created_at", {mode: "timestamp"}).notNull().default(sql`CURRENT_TIMESTAMP`),
+    createdAt: integer("created_at", {mode: "timestamp"}).notNull(),
     guildId: blob("guild_id", { mode: "bigint" }).notNull().references(() => guilds.guildId, {
         onDelete: "cascade",
     }),

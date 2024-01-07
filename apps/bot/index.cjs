@@ -47,7 +47,7 @@ if (process.env.DEV === "1") {
                 sourcemap: true,
                 target: "node18",
                 platform: "node",
-                external: ["discord.js", "nodejs-snowflake"],
+                external: ["discord.js", "@libsql/client", "deasync"],
             });
         } catch {
             // esbuild logs the error, so we don't need to.
