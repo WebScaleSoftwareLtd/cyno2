@@ -39,36 +39,34 @@ type Props = {
 export const TransactionPage = ({
     displayedTransactions, setDisplayedTransactions, uid, gid,
     emoji,
-}: Props) => {
-    return <>
-        <Embed
-            fields={displayedTransactions.page.map(tx => {
-                const timestamp = tx.createdAt.getTime() / 1000;
-                return {
-                    name: `${tx.amount} ${emoji} (<t:${timestamp}:f>)`,
-                    value: tx.reason,
-                    inline: false,
-                };
-            })}
-        />
+}: Props) => <>
+    <Embed
+        fields={displayedTransactions.page.map(tx => {
+            const timestamp = tx.createdAt.getTime() / 1000;
+            return {
+                name: `${tx.amount} ${emoji} (<t:${timestamp}:f>)`,
+                value: tx.reason,
+                inline: false,
+            };
+        })}
+    />
 
-        <Button
-            label="Show Balance" onClick={() => setDisplayedTransactions(undefined)}
-            emoji="🔼"
+    <Button
+        label="Show Balance" onClick={() => setDisplayedTransactions(undefined)}
+        emoji="🔼"
+    />
+    {
+        displayedTransactions.pageNumber !== 1 && <Button
+            label="Previous Page" onClick={async () => setDisplayedTransactions(
+                await loadTransactions(gid, uid, displayedTransactions.pageNumber - 1)
+            )} emoji="⬅️"
         />
-        {
-            displayedTransactions.pageNumber !== 1 && <Button
-                label="Previous Page" onClick={async () => setDisplayedTransactions(
-                    await loadTransactions(gid, uid, displayedTransactions.pageNumber - 1)
-                )} emoji="⬅️"
-            />
-        }
-        {
-            !displayedTransactions.endPage && <Button
-                label="Next Page" onClick={async () => setDisplayedTransactions(
-                    await loadTransactions(gid, uid, displayedTransactions.pageNumber + 1)
-                )} emoji="➡️"
-            />
-        }
-    </>;
-};
+    }
+    {
+        !displayedTransactions.endPage && <Button
+            label="Next Page" onClick={async () => setDisplayedTransactions(
+                await loadTransactions(gid, uid, displayedTransactions.pageNumber + 1)
+            )} emoji="➡️"
+        />
+    }
+</>;
