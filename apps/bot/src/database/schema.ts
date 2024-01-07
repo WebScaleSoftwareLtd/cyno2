@@ -83,7 +83,7 @@ export const currencyDrop = sqliteTable("currency_drop", {
 });
 
 export const wallet = sqliteTable("wallet", {
-    userId: blob("user_id", { mode: "bigint" }),
+    userId: blob("user_id", { mode: "bigint" }).notNull(),
     guildId: blob("guild_id", { mode: "bigint" }).notNull().references(() => guilds.guildId, {
         onDelete: "cascade",
     }),
