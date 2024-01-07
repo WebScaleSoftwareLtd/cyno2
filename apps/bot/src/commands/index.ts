@@ -8,3 +8,4 @@ export * as giveall from "./giveall";
 export * as invest from "./invest";
 export * as leaderboard from "./leaderboard";
 export * as remotebal from "./remotebal";
+export * as roleshop from "./roleshop";
