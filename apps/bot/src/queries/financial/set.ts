@@ -19,9 +19,7 @@ export default (guildId: bigint, userId: bigint, balance: bigint, reason: string
         guildId, userId, balance,
     }).onConflictDoUpdate({
         target: [wallet.guildId, wallet.userId],
-        set: {
-            balance,
-        },
+        set: { balance },
     });
 
     // Insert the transaction.
