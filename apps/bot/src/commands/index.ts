@@ -10,3 +10,4 @@ export * as leaderboard from "./leaderboard";
 export * as remotebal from "./remotebal";
 export * as roleshop from "./roleshop";
 export * as setbal from "./setbal";
+export * as setlocation from "./setlocation";
