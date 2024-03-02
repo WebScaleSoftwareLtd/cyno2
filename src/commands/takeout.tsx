@@ -21,10 +21,10 @@ export async function run(interaction: CommandInteraction) {
 
         const diff = now.getTime() - last.getTime();
         if (diff < 1000 * 60 * 60 * 24) {
-            //return interaction.reply({
-            //    content: "You can only take a database takeout once every 24 hours.",
-            //    ephemeral: true,
-            //});
+            return interaction.reply({
+                content: "You can only take a database takeout once every 24 hours.",
+                ephemeral: true,
+            });
         }
     }
 
