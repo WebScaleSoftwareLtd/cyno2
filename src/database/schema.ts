@@ -14,7 +14,6 @@ export const guilds = takeable(
         dropMessage: text("drop_message").default("{emoji} {amount} has dropped into this channel!").notNull(),
         levelUpMessage: text("level_up_message").default("Congratulations {user}, you have leveled up to level {level}!").notNull(),
         levelUpDM: integer("level_up_dm", {mode: "boolean"}).default(true).notNull(),
-        dropsCalculation: text("drops_calculation").default("5").notNull(),
         dropBlanks: integer("drop_blanks").default(0).notNull(),
         dropSecondsCooldown: integer("drop_seconds_cooldown", {mode: "number"}).default(5),
         destroyAt: integer("destroy_at", {mode: "timestamp"}),
@@ -110,7 +109,7 @@ export const wallet = takeable(
 
 export const levelRoles = takeable(
     sqliteTable("level_roles", {
-        roleId: blob("role_id", { mode: "bigint" }),
+        roleId: blob("role_id", { mode: "bigint" }).notNull(),
         guildId: blob("guild_id", { mode: "bigint" }).notNull().references(() => guilds.guildId, {
             onDelete: "cascade",
         }),
