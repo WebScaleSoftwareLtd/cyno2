@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { getGuild } from "../queries/guild";
 import { client } from "../database";
-import { reacord } from "../state";
+import { renderManager } from "../state";
 import Balance from "./shared/Balance";
 
 export const description = "Allows you to remotely check someone else's balance.";
@@ -35,11 +35,11 @@ export async function run(interaction: CommandInteraction) {
         ),
     }).execute();
 
-    reacord.createInteractionReply(interaction, { ephemeral: true }).render(<Balance
+    renderManager.reply(interaction, <Balance
         uid={uid}
         gid={BigInt(interaction.guildId!)}
         balance={wallet?.balance}
         emoji={guild.currencyEmoji}
         self={false}
-    />);
+    />, { ephemeral: true });
 }

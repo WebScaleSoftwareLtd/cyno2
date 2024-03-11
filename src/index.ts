@@ -6,7 +6,7 @@ import message from "./events/message";
 import ready from "./events/ready";
 
 // Get everything required for command setup.
-import { setupReacord } from "./state";
+import { setupReactDjs } from "./state";
 import type { Command } from "./globalTypes";
 import * as commands from "./commands";
 
@@ -55,8 +55,8 @@ export default (client: Client) => {
     client.on("messageCreate", message);
     client.on("ready", () => ready(client));
 
-    // Setup Reacord.
-    setupReacord(client);
+    // Setup react-djs.
+    setupReactDjs(client);
 
     // Handle auto-complete interactions.
     const autocompleteHandler = async (interaction: AutocompleteInteraction) => {

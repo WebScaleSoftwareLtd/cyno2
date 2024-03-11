@@ -22,7 +22,7 @@ export default (
         createdAt: new Date(),
         guildId, userId, amount: -amount,
         reason,
-    });
+    }).run();
 
     // Return true.
     return true;
@@ -44,7 +44,7 @@ export default (
         createdAt: new Date(),
         guildId, userId, amount: -amount,
         reason,
-    });
+    }).run();
 
     // Return true.
     return true;

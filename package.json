@@ -6,7 +6,7 @@
     "scripts": {
         "lint": "eslint . --max-warnings 0",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --outfile=dist/bundle.cjs --sourcemap --minify --external:better-sqlite3 --external:discord.js --external:@libsql/client --external:deasync",
+        "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --outfile=dist/bundle.cjs --sourcemap --minify --external:react --external:better-sqlite3 --external:discord.js --external:@libsql/client --external:deasync",
         "dev": "npm run build && DEV=1 node --enable-source-maps index.cjs",
         "start": "node --enable-source-maps index.cjs",
         "db:generate-migrations": "drizzle-kit generate:sqlite",
@@ -26,12 +26,12 @@
         "dotenv": "^16.3.1",
         "drizzle-orm": "^0.29.3",
         "pureimage": "^0.4.13",
-        "reacord": "^0.6.0",
         "react": "^18.2.0",
         "yahoo-finance2": "^2.9.0",
         "patch-package": "^6.4.7",
         "drizzle-kit": "^0.20.14",
-        "better-sqlite3": "^9.4.3"
+        "better-sqlite3": "^9.4.3",
+        "react-djs": "1.0.0"
     },
     "optionalDependencies": {
         "@libsql/linux-x64-gnu": "^0.2.0-pre.7"

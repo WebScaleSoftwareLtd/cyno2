@@ -1,9 +1,9 @@
 import type { Client, CommandInteraction, EmbedField, Role } from "discord.js";
 import { useState } from "react";
 import { client, guilds, roleShop } from "../database";
-import { reacord } from "../state";
+import { renderManager } from "../state";
 import { getGuild } from "../queries/guild";
-import { Button, Embed } from "reacord";
+import { Button, Embed } from "react-djs";
 import take from "../queries/financial/take";
 import add from "../queries/financial/add";
 
@@ -31,7 +31,7 @@ const RoleShop = ({ guild, uid, client, guildRoles, soldRoles, initMemberRoles, 
                 color={0xFF0000}
             />
             <Button
-                style="secondary" label="Return to Shop" onClick={() => setApplyError(false)}
+                label="Return to Shop" onClick={() => setApplyError(false)}
             />
         </>;
     }
@@ -67,7 +67,7 @@ const RoleShop = ({ guild, uid, client, guildRoles, soldRoles, initMemberRoles, 
 
                 // Add the button.
                 buttons.push(<Button
-                    style="secondary" label={`Buy ${role.name}`} onClick={async () => {
+                    label={`Buy ${role.name}`} onClick={async () => {
                         // Take the money for the role.
                         await take(guild.guildId, uid, BigInt(price), `Bought <@&${roleIdS}>`);
 
@@ -139,7 +139,7 @@ export async function run(interaction: CommandInteraction) {
     }).execute())?.balance ?? BigInt(0);
 
     // Render the component.
-    const instance = reacord.createInteractionReply(interaction, { ephemeral: true }).render(<RoleShop
+    renderManager.reply(interaction, <RoleShop
         guild={guild}
         uid={BigInt(interaction.user.id)}
         client={interaction.client}
@@ -147,6 +147,5 @@ export async function run(interaction: CommandInteraction) {
         soldRoles={soldRoles}
         initMemberRoles={memberRoles}
         initBalance={balance}
-    />);
-    if (soldRoles.length < 6) instance.deactivate();
+    />, { ephemeral: true });
 }

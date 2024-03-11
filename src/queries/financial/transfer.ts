@@ -23,7 +23,7 @@ export default (
         createdAt: new Date(),
         guildId, userId: sourceUserId, amount: -amount,
         reason: outboundReason,
-    });
+    }).run();
 
     // Add to the target user.
     await tx.insert(wallet).values({
@@ -33,14 +33,14 @@ export default (
         set: {
             balance: sql`${wallet.balance} + ${amount}`,
         },
-    });
+    }).run();
 
     // Insert the transaction to the target user.
     await tx.insert(transactions).values({
         createdAt: new Date(),
         guildId, userId: targetUserId, amount,
         reason: inboundReason || outboundReason,
-    });
+    }).run();
 
     // Return true.
     return true;
@@ -62,7 +62,7 @@ export default (
         createdAt: new Date(),
         guildId, userId: sourceUserId, amount: -amount,
         reason: outboundReason,
-    });
+    }).run();
 
     // Add to the target user.
     tx.insert(wallet).values({
@@ -72,14 +72,14 @@ export default (
         set: {
             balance: sql`${wallet.balance} + ${amount}`,
         },
-    });
+    }).run();
 
     // Insert the transaction to the target user.
     tx.insert(transactions).values({
         createdAt: new Date(),
         guildId, userId: targetUserId, amount,
         reason: inboundReason || outboundReason,
-    });
+    }).run();
 
     // Return true.
     return true;

@@ -1,6 +1,6 @@
-import { Button, ComponentEvent, Embed } from "reacord";
-import { useCallback, useState } from "react";
-import { Message } from "discord.js";
+import { Button, Embed } from "react-djs";
+import { useState } from "react";
+import { ButtonStyle, Message, MessageComponentInteraction } from "discord.js";
 import { client, currencyDrop } from "../database";
 import { eq } from "drizzle-orm";
 import add from "../queries/financial/add";
@@ -22,35 +22,6 @@ export default ({ blanks, amount, emoji, description, embedImageUrl, messagePtr 
     // Defines the collector for the drop.
     const [collector, setCollector] = useState<string | undefined>();
 
-    // Memoize the callback to the message.
-    const dropCallback = useCallback(async (ev: ComponentEvent) => {
-        // Make sure message is set in the message pointer.
-        const message = messagePtr[0];
-        if (!message) return;
-
-        // Attempt to delete the drop from the database.
-        const deleteResult = await client.delete(currencyDrop).where(
-            eq(currencyDrop.messageId, BigInt(message.id)),
-        ).execute();
-
-        // If nothing was deleted, return.
-        if (rowsAffected(deleteResult) === 0) return;
-
-        // Set the collector.
-        setCollector(ev.user.id);
-
-        // Give the user their currency.
-        await add(
-            BigInt(message.guildId!),
-            BigInt(ev.user.id),
-            amount,
-            `Collected drop in <#${message.channelId}>`,
-        );
-
-        // In 5 seconds, delete the message.
-        setTimeout(() => message.delete(), 5000);
-    }, []);
-
     // If there is a collector, return a ending embed.
     if (collector) {
         return <Embed
@@ -71,9 +42,35 @@ export default ({ blanks, amount, emoji, description, embedImageUrl, messagePtr 
     // Create the drop button at the drop index.
     buttons.splice(dropIndex, 0, <Button
         label={`${amount}`}
-        onClick={dropCallback}
+        onClick={async (ev: MessageComponentInteraction) => {
+            // Make sure message is set in the message pointer.
+            const message = messagePtr[0];
+            if (!message) return;
+    
+            // Attempt to delete the drop from the database.
+            const deleteResult = await client.delete(currencyDrop).where(
+                eq(currencyDrop.messageId, BigInt(message.id)),
+            ).execute();
+    
+            // If nothing was deleted, return.
+            if (rowsAffected(deleteResult) === 0) return;
+    
+            // Set the collector.
+            setCollector(ev.user.id);
+    
+            // Give the user their currency.
+            await add(
+                BigInt(message.guildId!),
+                BigInt(ev.user.id),
+                amount,
+                `Collected drop in <#${message.channelId}>`,
+            );
+    
+            // In 5 seconds, delete the message.
+            setTimeout(() => message.delete(), 5000);
+        }}
         emoji={emoji}
-        style="primary"
+        style={ButtonStyle.Primary}
         key="__drop__"
     />);
 

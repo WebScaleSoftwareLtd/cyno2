@@ -26,5 +26,5 @@ export default (guildId: bigint, userId: bigint, balance: bigint, reason: string
     await tx.insert(transactions).values({
         createdAt: new Date(),
         guildId, userId, amount: balance - balanceBefore, reason,
-    });
+    }).run();
 });

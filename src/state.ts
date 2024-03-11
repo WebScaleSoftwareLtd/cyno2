@@ -1,7 +1,7 @@
 import type { Client } from "@libsql/client";
 import type { Database } from "better-sqlite3";
 import type { Client as DjsClient } from "discord.js";
-import { ReacordDiscordJs } from "reacord";
+import { RenderManager } from "react-djs";
 
 type State = {
     // Anything added here will be persisted across hot reloads.
@@ -18,6 +18,6 @@ export const globalState = global.__STATE__ ? global.__STATE__ : (() => {
     return state;
 })() as State;
 
-export let reacord: ReacordDiscordJs;
+export let renderManager: RenderManager;
 
-export const setupReacord = (client: DjsClient) => reacord = new ReacordDiscordJs(client);
+export const setupReactDjs = (client: DjsClient) => renderManager = new RenderManager(client);

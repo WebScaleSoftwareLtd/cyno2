@@ -1,10 +1,10 @@
 import { CommandInteraction } from "discord.js";
 import { useState } from "react";
-import { Button, Embed } from "reacord";
+import { Button, Embed } from "react-djs";
 import yahooFinance from "yahoo-finance2";
 import { client, shares } from "../database";
 import { getGuild } from "../queries/guild";
-import { reacord } from "../state";
+import { renderManager } from "../state";
 import { eq } from "drizzle-orm";
 import add from "../queries/financial/add";
 import rowsAffected from "../database/rowsAffected";
@@ -204,10 +204,10 @@ export async function run(interaction: CommandInteraction) {
     const initialPage = await loadShares(gid, uid, 1);
 
     // Render the router.
-    reacord.createInteractionReply(interaction, { ephemeral: true }).render(<Router
+    renderManager.reply(interaction, <Router
         uid={uid}
         gid={gid}
         emoji={guild.currencyEmoji}
         initialPage={initialPage}
-    />);
+    />, { ephemeral: true });
 }

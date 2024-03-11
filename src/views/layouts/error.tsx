@@ -1,5 +1,5 @@
-import { Embed } from "reacord";
-import { reacord } from "../../state";
+import { Embed } from "react-djs";
+import { renderManager } from "../../state";
 import type { CommandInteraction } from "discord.js";
 
 export default (interaction: CommandInteraction, reason: string, description: string) => {
@@ -8,5 +8,5 @@ export default (interaction: CommandInteraction, reason: string, description: st
         description={description}
         color={0xff0000}
     />;
-    return reacord.createInteractionReply(interaction, { ephemeral: true }).render(embed).deactivate();
+    return renderManager.reply(interaction, embed, { ephemeral: true });
 };

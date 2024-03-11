@@ -7,7 +7,7 @@ import {
 import take from "../queries/financial/take";
 import { getGuild } from "../queries/guild";
 import { insufficientFunds } from "../views/errors";
-import { reacord } from "../state";
+import { renderManager } from "../state";
 import CurrencyDrop from "../shared/CurrencyDrop";
 import { client, currencyDrop } from "../database";
 
@@ -42,18 +42,15 @@ export async function run(interaction: CommandInteraction) {
 
     // Reply with the drop.
     const messagePtr: [Message | undefined] = [undefined];
-    reacord.createInteractionReply(interaction, {
-        onMessage: async message => {
-            messagePtr[0] = message;
-            await client.insert(currencyDrop).values({
-                messageId: BigInt(message.id),
-                guildId: gid,
-                amount,
-            }).onConflictDoNothing().execute();
-        },
-    }).render(<CurrencyDrop
+    const message = await renderManager.reply(interaction, <CurrencyDrop
         amount={BigInt(amount)} emoji={guild.currencyEmoji}
         blanks={guild.dropBlanks} description={guild.dropMessage}
         embedImageUrl={guild.dropImage} messagePtr={messagePtr}
     />);
+    messagePtr[0] = message;
+    await client.insert(currencyDrop).values({
+        messageId: BigInt(message.id),
+        guildId: gid,
+        amount,
+    }).onConflictDoNothing().execute();
 }

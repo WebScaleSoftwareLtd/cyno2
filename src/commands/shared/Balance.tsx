@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TransactionPage, DisplayedTransactions, loadTransactions } from "./TransactionPage";
-import { Button, Embed } from "reacord";
+import { Button, Embed } from "react-djs";
 
 type Props = {
     uid: bigint;

@@ -8,8 +8,8 @@ import {
 import { useState } from "react";
 import { client } from "../database";
 import { getGuild } from "../queries/guild";
-import { reacord } from "../state";
-import { Button, Embed } from "reacord";
+import { renderManager } from "../state";
+import { Button, Embed } from "react-djs";
 
 type PageResult = {
     fields: EmbedField[];
@@ -171,13 +171,7 @@ export async function run(interaction: CommandInteraction) {
 
     // Run the handler and render the React component.
     const page = await pageLoader(1);
-    const instance = reacord.createInteractionReply(interaction, {
-        ephemeral: true,
-    }).render(<Leaderboard
+    renderManager.reply(interaction, <Leaderboard
         initPageResult={page} pageLoader={pageLoader}
-    />);
-    if (page.endPage) {
-        // If page 1 is the end instance, there is no navigation.
-        instance.deactivate();
-    }
+    />, { ephemeral: true });
 }

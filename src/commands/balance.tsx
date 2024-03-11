@@ -1,6 +1,6 @@
 import type { CommandInteraction } from "discord.js";
 import { client } from "../database";
-import { reacord } from "../state";
+import { renderManager } from "../state";
 import { getGuild } from "../queries/guild";
 import Balance from "./shared/Balance";
 
@@ -16,11 +16,11 @@ export async function run(interaction: CommandInteraction) {
         ),
     }).execute();
 
-    reacord.createInteractionReply(interaction, { ephemeral: true }).render(<Balance
+    renderManager.reply(interaction, <Balance
         uid={BigInt(interaction.user.id)}
         gid={BigInt(interaction.guildId!)}
         balance={wallet?.balance}
         emoji={guild.currencyEmoji}
         self={true}
-    />);
+    />, { ephemeral: true });
 }

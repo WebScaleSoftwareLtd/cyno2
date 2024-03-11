@@ -1,5 +1,5 @@
 import { client, transactions } from "../../database";
-import { Button, Embed } from "reacord";
+import { Button, Embed } from "react-djs";
 
 export type DisplayedTransactions = {
     page: typeof transactions.$inferSelect[];
