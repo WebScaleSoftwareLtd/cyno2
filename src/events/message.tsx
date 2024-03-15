@@ -1,6 +1,6 @@
 import type { Message } from "discord.js";
 import { getGuild } from "../queries/guild";
-import { client, currencyDrop, experiencePoints, guilds } from "../database";
+import { allowedDropChannels, client, currencyDrop, experiencePoints, guilds } from "../database";
 import { renderManager } from "../state";
 import CurrencyDrop from "../shared/CurrencyDrop";
 import { additionalXp, levelToXp } from "../utils/tasoAlgo";
@@ -45,6 +45,18 @@ async function handleDrops(message: Message, gid: bigint, guild: typeof guilds.$
         guildId: gid,
         amount,
     }).onConflictDoNothing().execute();
+
+    // Update the last drop time.
+    await client.insert(allowedDropChannels).values({
+        guildId: gid,
+        channelId: BigInt(message.channel.id),
+        lastDrop: new Date(),
+    }).onConflictDoUpdate({
+        target: [allowedDropChannels.guildId, allowedDropChannels.channelId],
+        set: {
+            lastDrop: new Date(),
+        },
+    }).execute();
 }
 
 type UserXP = {

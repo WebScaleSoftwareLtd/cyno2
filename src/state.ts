@@ -6,6 +6,9 @@ import { RenderManager } from "react-djs";
 type State = {
     // Anything added here will be persisted across hot reloads.
     databaseConnection?: Client | Database;
+
+    // Defines the discord.js client.
+    client?: DjsClient;
 };
 
 declare global {
@@ -20,4 +23,4 @@ export const globalState = global.__STATE__ ? global.__STATE__ : (() => {
 
 export let renderManager: RenderManager;
 
-export const setupReactDjs = (client: DjsClient) => renderManager = new RenderManager(client);
+export const setupReactDjs = () => renderManager = new RenderManager(globalState.client!);

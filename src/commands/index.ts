@@ -8,6 +8,7 @@ export * as giveall from "./giveall";
 export * as ping from "./ping";
 export * as invest from "./invest";
 export * as leaderboard from "./leaderboard";
+export * as remindchannel from "./remindchannel";
 export * as remotebal from "./remotebal";
 export * as roleshop from "./roleshop";
 export * as setbal from "./setbal";

@@ -13,7 +13,7 @@ export const guilds = takeable(
         levelMultiplier: integer("level_multiplier", {mode: "number"}).default(10).notNull(),
         dropMessage: text("drop_message").default("{emoji} {amount} has dropped into this channel!").notNull(),
         levelUpMessage: text("level_up_message").default("Congratulations {user}, you have leveled up to level {level}!").notNull(),
-        levelUpDM: integer("level_up_dm", {mode: "boolean"}).default(true).notNull(),
+        levelUpDM: integer("level_up_dm", {mode: "boolean"}).default(false).notNull(),
         dropBlanks: integer("drop_blanks").default(0).notNull(),
         dropSecondsCooldown: integer("drop_seconds_cooldown", {mode: "number"}).default(5),
         destroyAt: integer("destroy_at", {mode: "timestamp"}),
@@ -34,6 +34,7 @@ export const allowedDropChannels = takeable(
     }, table => {
         return {
             guildIdIdx: index("adc_guild_id_idx").on(table.guildId),
+            guildChannelIdx: uniqueIndex("adc_guild_channel_idx").on(table.guildId, table.channelId),
         };
     })
 );
@@ -239,4 +240,31 @@ export const guildBirthdayConfig = takeable(
     })
 );
 
-// TODO: channel reminders
+export const guildTimeouts = takeable(
+    sqliteTable("guild_timeouts", {
+        jobId: text("job_id").primaryKey(),
+        guildId: blob("guild_id", { mode: "bigint" }).notNull(),
+        timeout: integer("timeout", {mode: "timestamp"}).notNull(),
+        jobType: text("job_type").notNull(),
+        json: blob("json", { mode: "json" }).notNull(),
+    }, table => {
+        return {
+            guildIdIdx: index("guild_timeouts_guild_id_idx").on(table.guildId),
+        };
+    })
+);
+
+export const guildIntervals = takeable(
+    sqliteTable("guild_intervals", {
+        jobId: text("job_id").primaryKey(),
+        guildId: blob("guild_id", { mode: "bigint" }).notNull(),
+        interval: integer("interval").notNull(),
+        jobType: text("job_type").notNull(),
+        json: blob("json", { mode: "json" }).notNull(),
+    }, table => {
+        return {
+            guildIdIdx: index("guild_intervals_guild_id_idx").on(table.guildId),
+            guildJobTypeIdx: index("guild_intervals_job_type_idx").on(table.guildId, table.jobType),
+        };
+    })
+);

@@ -1,12 +1,13 @@
 // Get the discord.js type.
 import type { ApplicationCommand, AutocompleteInteraction, Client } from "discord.js";
 
-// Get all of the events.
+// Get all of the discord.js events.
 import message from "./events/message";
 import ready from "./events/ready";
+import guildCreate from "./events/guildCreate";
 
 // Get everything required for command setup.
-import { setupReactDjs } from "./state";
+import { globalState, setupReactDjs } from "./state";
 import type { Command } from "./globalTypes";
 import * as commands from "./commands";
 
@@ -54,9 +55,13 @@ export default (client: Client) => {
     // Add Discord events.
     client.on("messageCreate", message);
     client.on("ready", () => ready(client));
+    client.on("guildCreate", guildCreate);
+
+    // Hook the client to the global state.
+    globalState.client = client;
 
     // Setup react-djs.
-    setupReactDjs(client);
+    setupReactDjs();
 
     // Handle auto-complete interactions.
     const autocompleteHandler = async (interaction: AutocompleteInteraction) => {
