@@ -19,6 +19,5 @@ export * as shares from "./shares";
 export * as takeout from "./takeout";
 export * as timefor from "./timefor";
 export * as timely from "./timely";
-//export * as translate from "./translate";
 export * as wheel from "./wheel";
 export * as xp from "./xp";
