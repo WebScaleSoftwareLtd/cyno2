@@ -6,8 +6,6 @@ import {
 import error from "../views/layouts/error";
 import * as PImage from "pureimage";
 import { Writable } from "stream";
-
-// @ts-expect-error: No type definitions exist for this package :(
 import parse from "color-parse";
 
 export const description = "Renders the specified color.";

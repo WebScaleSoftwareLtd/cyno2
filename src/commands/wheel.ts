@@ -78,7 +78,7 @@ export async function run(interaction: CommandInteraction) {
     const earnings = Math.floor(amount * wheel.Ratio);
 
     // If it isn't 0, give the user the money.
-    if (earnings !== 0) await add(gid, uid, BigInt(earnings), "WHeel spin earnings");
+    if (earnings !== 0) await add(gid, uid, BigInt(earnings), "Wheel spin earnings");
 
     // Reply with the wheel.
     await interaction.reply({

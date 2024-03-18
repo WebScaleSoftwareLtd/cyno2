@@ -7,7 +7,6 @@ import { getGuild } from "../queries/guild";
 import { renderManager } from "../state";
 import { eq } from "drizzle-orm";
 import add from "../queries/financial/add";
-import rowsAffected from "../database/rowsAffected";
 
 export const description = "Lists your users shares.";
 
@@ -133,7 +132,7 @@ const ManageShare = ({ uid, gid, share, pageNumber, setView, emoji }: ShareProps
         const res = await client.delete(shares).where(eq(shares.id, share.id)).execute();
 
         // If the share was deleted, pay the user.
-        if (rowsAffected(res) !== 0) {
+        if (res.rowsAffected !== 0) {
             await add(
                 gid, uid, BigInt(share.value), `Sold ${share.shareCount} shares in ${share.shareLabel || "Unknown Share"}`,
             );

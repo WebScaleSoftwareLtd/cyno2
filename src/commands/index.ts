@@ -13,7 +13,7 @@ export * as remindchannel from "./remindchannel";
 export * as remotebal from "./remotebal";
 export * as roleshop from "./roleshop";
 export * as setbal from "./setbal";
-//export * as setbirthday from "./setbirthday";
+export * as setbirthday from "./setbirthday";
 export * as setlocation from "./setlocation";
 export * as shares from "./shares";
 export * as takeout from "./takeout";

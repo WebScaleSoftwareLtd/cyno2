@@ -1,11 +1,10 @@
 import type { Client } from "@libsql/client";
-import type { Database } from "better-sqlite3";
 import type { Client as DjsClient } from "discord.js";
 import { RenderManager } from "react-djs";
 
 type State = {
     // Anything added here will be persisted across hot reloads.
-    databaseConnection?: Client | Database;
+    databaseConnection?: Client;
 
     // Defines the discord.js client.
     client?: DjsClient;

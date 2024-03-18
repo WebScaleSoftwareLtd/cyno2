@@ -4,7 +4,6 @@ import { ButtonStyle, Message, MessageComponentInteraction } from "discord.js";
 import { client, currencyDrop } from "../database";
 import { eq } from "drizzle-orm";
 import add from "../queries/financial/add";
-import rowsAffected from "../database/rowsAffected";
 
 type Props = {
     blanks: number;
@@ -53,7 +52,7 @@ export default ({ blanks, amount, emoji, description, embedImageUrl, messagePtr 
             ).execute();
     
             // If nothing was deleted, return.
-            if (rowsAffected(deleteResult) === 0) return;
+            if (deleteResult.rowsAffected === 0) return;
     
             // Set the collector.
             setCollector(ev.user.id);

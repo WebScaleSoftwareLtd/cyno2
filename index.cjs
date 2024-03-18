@@ -28,7 +28,7 @@ let destruct = setup(client);
 if (process.env.DEV === "1") {
     // Require fs and esbuild.
     const fs = require("fs");
-    const esbuild = require("esbuild");
+    const builder = require("./build.cjs").build;
 
     // Handle process changes.
     fs.watch("./src", {
@@ -39,16 +39,7 @@ if (process.env.DEV === "1") {
 
         // Build the bundle.
         try {
-            await esbuild.build({
-                entryPoints: ["./src/index.ts"],
-                bundle: true,
-                minify: true,
-                outfile: "./dist/bundle.cjs",
-                sourcemap: true,
-                target: "node18",
-                platform: "node",
-                external: ["better-sqlite3", "discord.js", "react", "@libsql/client", "deasync"],
-            });
+            await builder();
         } catch {
             // esbuild logs the error, so we don't need to.
             return;

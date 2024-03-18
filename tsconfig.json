@@ -1,8 +1,8 @@
 {
     "include": [
-      "**/*.ts",
-      "**/*.tsx",
-      "**/*.js"
+      "./src/**/*.ts",
+      "./src/**/*.tsx",
+      "./src/**/*.js"
     ],
     "compilerOptions": {
       "moduleResolution": "Bundler",

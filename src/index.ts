@@ -5,6 +5,7 @@ import type { ApplicationCommand, AutocompleteInteraction, Client } from "discor
 import message from "./events/message";
 import ready from "./events/ready";
 import guildCreate from "./events/guildCreate";
+import guildDelete from "./events/guildDelete";
 
 // Get everything required for command setup.
 import { globalState, setupReactDjs } from "./state";
@@ -56,6 +57,7 @@ export default (client: Client) => {
     client.on("messageCreate", message);
     client.on("ready", () => ready(client));
     client.on("guildCreate", guildCreate);
+    client.on("guildDelete", guildDelete);
 
     // Hook the client to the global state.
     globalState.client = client;
