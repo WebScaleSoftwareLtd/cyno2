@@ -1,6 +1,8 @@
 import {
-    APIApplicationCommandOption, ApplicationCommandOptionType,
-    CommandInteraction, PermissionResolvable,
+    APIApplicationCommandOption,
+    ApplicationCommandOptionType,
+    CommandInteraction,
+    PermissionResolvable,
 } from "discord.js";
 import durationParse from "../utils/durationParse";
 import error from "../views/layouts/error";
@@ -8,7 +10,8 @@ import { createTimeout } from "../scheduler";
 import ChannelReminderJob from "../scheduler/ChannelReminderJob";
 import success from "../views/layouts/success";
 
-export const description = "Reminds this current channel of something at a specific time.";
+export const description =
+    "Reminds this current channel of something at a specific time.";
 
 export const options: APIApplicationCommandOption[] = [
     {
@@ -26,18 +29,25 @@ export const options: APIApplicationCommandOption[] = [
 ];
 
 export const defaultPermissions: PermissionResolvable = [
-    "Administrator", "ManageGuild", "ManageMessages",
+    "Administrator",
+    "ManageGuild",
+    "ManageMessages",
 ];
 
 export async function run(interaction: CommandInteraction) {
     // Get the message and time.
     const message = interaction.options.get("message")!.value as string;
-    const duration = durationParse(interaction.options.get("duration")!.value as string);
+    const duration = durationParse(
+        interaction.options.get("duration")!.value as string,
+    );
 
     // If duration is less than 1 minute in ms, return.
-    if (duration < 60000) return error(
-        interaction, "Invalid Duration", "The duration must be at least 1 minute.",
-    );
+    if (duration < 60000)
+        return error(
+            interaction,
+            "Invalid Duration",
+            "The duration must be at least 1 minute.",
+        );
 
     // Create the timeout.
     await createTimeout(
@@ -52,7 +62,8 @@ export async function run(interaction: CommandInteraction) {
 
     // Reply with the success message.
     await success(
-        interaction, "Channel Reminder Set",
+        interaction,
+        "Channel Reminder Set",
         `You have successfully set a reminder for this channel in ${duration / 1000} seconds.`,
     );
 }

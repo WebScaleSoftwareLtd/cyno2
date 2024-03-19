@@ -10,7 +10,8 @@ export type Command = {
     description: string;
     options?: APIApplicationCommandOption[];
     defaultPermissions?: PermissionResolvable;
-    autocompleteHandler?: (interaction: AutocompleteFocusedOption) =>
-        Promise<ApplicationCommandOptionChoiceData[]>;
+    autocompleteHandler?: (
+        interaction: AutocompleteFocusedOption,
+    ) => Promise<ApplicationCommandOptionChoiceData[]>;
     run: (interaction: CommandInteraction) => Promise<any>;
 };

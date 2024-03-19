@@ -21,10 +21,10 @@ function diff(cl: number) {
 
 // Takes a level and returns the amount of XP required to reach that level.
 export function levelToXp(mul: number, cl: number) {
-    return Math.floor(((mul * cl) + diff(cl)) * mxp(cl));
+    return Math.floor((mul * cl + diff(cl)) * mxp(cl));
 }
 
 // This is the amount of XP that is added to the player at the specified level.
 export function additionalXp(cl: number) {
-    return (cl * 5) + 45;
+    return cl * 5 + 45;
 }

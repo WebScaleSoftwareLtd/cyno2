@@ -14,12 +14,15 @@ declare global {
     var __STATE__: State;
 }
 
-export const globalState = global.__STATE__ ? global.__STATE__ : (() => {
-    const state = {};
-    global.__STATE__ = state;
-    return state;
-})() as State;
+export const globalState = global.__STATE__
+    ? global.__STATE__
+    : ((() => {
+          const state = {};
+          global.__STATE__ = state;
+          return state;
+      })() as State);
 
 export let renderManager: RenderManager;
 
-export const setupReactDjs = () => renderManager = new RenderManager(globalState.client!);
+export const setupReactDjs = () =>
+    (renderManager = new RenderManager(globalState.client!));

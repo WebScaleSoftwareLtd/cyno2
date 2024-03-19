@@ -13,7 +13,8 @@ export const description = "Renders the specified color.";
 export const options: APIApplicationCommandOption[] = [
     {
         name: "color",
-        description: "The color hex, RGB(R,G,B), or RGBA(R,G,B,A) you wish to render.",
+        description:
+            "The color hex, RGB(R,G,B), or RGBA(R,G,B,A) you wish to render.",
         type: ApplicationCommandOptionType.String,
         required: true,
     },
@@ -35,9 +36,8 @@ class WriteableBuffer extends Writable {
 
 export async function run(interaction: CommandInteraction) {
     // Get the color.
-    const color = parse(
-        interaction.options.get("color")!.value as string
-    ).values as [number, number, number] | [];
+    const color = parse(interaction.options.get("color")!.value as string)
+        .values as [number, number, number] | [];
 
     // If the color is invalid, return an error.
     if (!color.length) {
@@ -60,9 +60,11 @@ export async function run(interaction: CommandInteraction) {
 
     // Send the png.
     return interaction.reply({
-        files: [{
-            attachment: buf.buffer,
-            name: "color.png",
-        }],
+        files: [
+            {
+                attachment: buf.buffer,
+                name: "color.png",
+            },
+        ],
     });
 }

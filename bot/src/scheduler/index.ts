@@ -11,14 +11,18 @@ type JobConstructor<T> = new (data: T) => { toJson(): T; run(): Promise<void> };
 
 // Defines the job types.
 const jobTypes: { [key: string]: JobConstructor<any> } = {
-    ChannelReminderJob, BirthdayPollJob,
+    ChannelReminderJob,
+    BirthdayPollJob,
 } as const;
 
 // Defines the mapping of guilds to timeouts.
-const guildTimeoutsMapping: Map<bigint, {
-    intervals: Map<string, any>;
-    timeouts: Map<string, any>;
-}> = new Map();
+const guildTimeoutsMapping: Map<
+    bigint,
+    {
+        intervals: Map<string, any>;
+        timeouts: Map<string, any>;
+    }
+> = new Map();
 
 // Clears all timeouts for a guild.
 function clearGuildTimeouts(guildId: bigint) {
@@ -64,7 +68,10 @@ export async function getGuildIntervalsAndTimeouts(guildId: bigint) {
                 await job.run();
 
                 // Delete the timeout.
-                await client.delete(guildTimeouts).where(eq(guildTimeouts.jobId, timeout.jobId)).execute();
+                await client
+                    .delete(guildTimeouts)
+                    .where(eq(guildTimeouts.jobId, timeout.jobId))
+                    .execute();
 
                 // Delete from the mapping.
                 const mapping = guildTimeoutsMapping.get(guildId);
@@ -126,13 +133,22 @@ export async function getGuildIntervalsAndTimeouts(guildId: bigint) {
 
 // Create a timeout for a specific job.
 export async function createTimeout<T extends ScheduledJob<any>>(
-    guildId: bigint, job: T, timeout: Date,
+    guildId: bigint,
+    job: T,
+    timeout: Date,
 ) {
     // Start by inserting the timeout into the database.
     const jobId = randomUUID();
-    await client.insert(guildTimeouts).values({
-        guildId, jobId, jobType: job.constructor.name, timeout, json: job.toJson(),
-    }).execute();
+    await client
+        .insert(guildTimeouts)
+        .values({
+            guildId,
+            jobId,
+            jobType: job.constructor.name,
+            timeout,
+            json: job.toJson(),
+        })
+        .execute();
 
     // Check if the guild is in the mapping.
     const mapping = guildTimeoutsMapping.get(guildId);
@@ -148,7 +164,10 @@ export async function createTimeout<T extends ScheduledJob<any>>(
                 await job.run();
 
                 // Delete the timeout.
-                await client.delete(guildTimeouts).where(eq(guildTimeouts.jobId, jobId)).execute();
+                await client
+                    .delete(guildTimeouts)
+                    .where(eq(guildTimeouts.jobId, jobId))
+                    .execute();
 
                 // Delete from the mapping.
                 const mapping = guildTimeoutsMapping.get(guildId);
@@ -174,7 +193,7 @@ export async function createTimeout<T extends ScheduledJob<any>>(
 
         // Set the timeout in the mapping.
         mapping.timeouts.set(jobId, timeoutId);
-    } else { 
+    } else {
         // Get the guilds intervals and timeouts.
         await getGuildIntervalsAndTimeouts(guildId);
     }
@@ -182,13 +201,22 @@ export async function createTimeout<T extends ScheduledJob<any>>(
 
 // Create a interval for a specific job.
 export async function createInterval<T extends ScheduledJob<any>>(
-    guildId: bigint, job: T, interval: number,
+    guildId: bigint,
+    job: T,
+    interval: number,
 ) {
     // Start by inserting the interval into the database.
     const jobId = randomUUID();
-    await client.insert(guildIntervals).values({
-        guildId, jobId, jobType: job.constructor.name, interval, json: job.toJson(),
-    }).execute();
+    await client
+        .insert(guildIntervals)
+        .values({
+            guildId,
+            jobId,
+            jobType: job.constructor.name,
+            interval,
+            json: job.toJson(),
+        })
+        .execute();
 
     // Check if the guild is in the mapping.
     const mapping = guildTimeoutsMapping.get(guildId);
@@ -207,7 +235,7 @@ export async function createInterval<T extends ScheduledJob<any>>(
 
         // Set the interval in the mapping.
         mapping.intervals.set(jobId, intervalId);
-    } else { 
+    } else {
         // Get the guilds intervals and timeouts.
         await getGuildIntervalsAndTimeouts(guildId);
     }
@@ -219,17 +247,24 @@ export async function wipeGuildIntervalsAndTimeouts(guildId: bigint) {
     clearGuildTimeouts(guildId);
 
     // Delete them from the database.
-    await client.delete(guildIntervals).where(eq(guildIntervals.guildId, guildId)).execute();
-    await client.delete(guildTimeouts).where(eq(guildTimeouts.guildId, guildId)).execute();
+    await client
+        .delete(guildIntervals)
+        .where(eq(guildIntervals.guildId, guildId))
+        .execute();
+    await client
+        .delete(guildTimeouts)
+        .where(eq(guildTimeouts.guildId, guildId))
+        .execute();
 }
 
 // Check if a interval job type exists.
 export async function intervalJobTypeExists(guildId: bigint, jobType: string) {
     const val = await client.query.guildIntervals.findFirst({
-        where: (guildIntervals, { and, eq }) => and(
-            eq(guildIntervals.guildId, guildId),
-            eq(guildIntervals.jobType, jobType),
-        ),
+        where: (guildIntervals, { and, eq }) =>
+            and(
+                eq(guildIntervals.guildId, guildId),
+                eq(guildIntervals.jobType, jobType),
+            ),
     });
     return !!val;
 }

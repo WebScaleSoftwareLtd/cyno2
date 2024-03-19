@@ -11,7 +11,10 @@ import success from "../views/layouts/success";
 
 export const description = "Allows a admin to add balance to someone else.";
 
-export const defaultPermissions: PermissionResolvable = ["Administrator", "ManageGuild"];
+export const defaultPermissions: PermissionResolvable = [
+    "Administrator",
+    "ManageGuild",
+];
 
 export const options: APIApplicationCommandOption[] = [
     {
@@ -44,10 +47,16 @@ export async function run(interaction: CommandInteraction) {
     const reason = interaction.options.get("reason")!.value as string;
 
     const guild = await getGuild(BigInt(interaction.guildId!));
-    await add(BigInt(interaction.guildId!), BigInt(user.id), BigInt(amount), reason);
+    await add(
+        BigInt(interaction.guildId!),
+        BigInt(user.id),
+        BigInt(amount),
+        reason,
+    );
 
     return success(
-        interaction, "Balance Add Successful",
+        interaction,
+        "Balance Add Successful",
         `You successfully added to <@${user.id}>'s balance ${guild.currencyEmoji} ${amount}!`,
     );
 }

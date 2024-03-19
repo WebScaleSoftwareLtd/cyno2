@@ -32,25 +32,36 @@ export async function run(interaction: CommandInteraction) {
         BigInt(interaction.user.id),
         BigInt(amount),
         "Dropped currency",
-    )
+    );
 
     // Get the guild.
     const guild = await getGuild(gid);
 
     // If there are insufficient funds, return.
-    if (!sufficientFunds) return insufficientFunds(interaction, amount, guild.currencyEmoji);
+    if (!sufficientFunds)
+        return insufficientFunds(interaction, amount, guild.currencyEmoji);
 
     // Reply with the drop.
     const messagePtr: [Message | undefined] = [undefined];
-    const message = await renderManager.reply(interaction, <CurrencyDrop
-        amount={BigInt(amount)} emoji={guild.currencyEmoji}
-        blanks={guild.dropBlanks} description={guild.dropMessage}
-        embedImageUrl={guild.dropImage} messagePtr={messagePtr}
-    />);
+    const message = await renderManager.reply(
+        interaction,
+        <CurrencyDrop
+            amount={BigInt(amount)}
+            emoji={guild.currencyEmoji}
+            blanks={guild.dropBlanks}
+            description={guild.dropMessage}
+            embedImageUrl={guild.dropImage}
+            messagePtr={messagePtr}
+        />,
+    );
     messagePtr[0] = message;
-    await client.insert(currencyDrop).values({
-        messageId: BigInt(message.id),
-        guildId: gid,
-        amount,
-    }).onConflictDoNothing().execute();
+    await client
+        .insert(currencyDrop)
+        .values({
+            messageId: BigInt(message.id),
+            guildId: gid,
+            amount,
+        })
+        .onConflictDoNothing()
+        .execute();
 }

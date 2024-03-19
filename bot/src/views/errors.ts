@@ -1,7 +1,11 @@
 import { CommandInteraction } from "discord.js";
 import error from "./layouts/error";
 
-export const insufficientFunds = (interaction: CommandInteraction, amount: number, emoji: string) =>
+export const insufficientFunds = (
+    interaction: CommandInteraction,
+    amount: number,
+    emoji: string,
+) =>
     error(
         interaction,
         "Insufficient Funds",

@@ -32,11 +32,12 @@ export async function run(interaction: CommandInteraction) {
     if (!member) return errors.notAMember(interaction);
 
     // Handle if the user is itself.
-    if (interaction.user.id === user.id) return errors.financialActionToSelf(interaction);
+    if (interaction.user.id === user.id)
+        return errors.financialActionToSelf(interaction);
 
     const amount = interaction.options.get("amount")!.value as number;
 
-    const gid = BigInt(interaction.guildId!)
+    const gid = BigInt(interaction.guildId!);
     const guild = await getGuild(gid);
     const sufficientFunds = await transfer(
         gid,
@@ -46,10 +47,16 @@ export async function run(interaction: CommandInteraction) {
         `Paid <@${user.id}>`,
         `Paid by <@${interaction.user.id}>`,
     );
-    if (!sufficientFunds) return errors.insufficientFunds(interaction, amount, guild.currencyEmoji);
+    if (!sufficientFunds)
+        return errors.insufficientFunds(
+            interaction,
+            amount,
+            guild.currencyEmoji,
+        );
 
     return success(
-        interaction, "Payment Successful",
+        interaction,
+        "Payment Successful",
         `You successfully paid <@${user.id}> ${guild.currencyEmoji} ${amount}.`,
     );
 }

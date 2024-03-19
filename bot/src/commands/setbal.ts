@@ -11,7 +11,10 @@ import { getGuild } from "../queries/guild";
 
 export const description = "Allows you to set the balance of another member.";
 
-export const defaultPermissions: PermissionResolvable = ["Administrator", "ManageGuild"];
+export const defaultPermissions: PermissionResolvable = [
+    "Administrator",
+    "ManageGuild",
+];
 
 export const options: APIApplicationCommandOption[] = [
     {
@@ -38,14 +41,17 @@ export async function run(interaction: CommandInteraction) {
     // Set the balance.
     const amount = interaction.options.get("amount")!.value as number;
     await set(
-        BigInt(interaction.guildId!), BigInt(user.id),
-        BigInt(amount), `Balance set by <@${interaction.user.id}>`,
-    )
+        BigInt(interaction.guildId!),
+        BigInt(user.id),
+        BigInt(amount),
+        `Balance set by <@${interaction.user.id}>`,
+    );
 
     // Send a success message.
     const guild = await getGuild(BigInt(interaction.guildId!));
     success(
-        interaction, "Balance Set",
+        interaction,
+        "Balance Set",
         `You successfully set the balance of <@${user.id}> to ${guild.currencyEmoji} ${amount}.`,
     );
 }

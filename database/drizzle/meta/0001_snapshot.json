@@ -1,1195 +1,1068 @@
 {
-  "version": "5",
-  "dialect": "sqlite",
-  "id": "ff0bb38e-e073-4bdd-9b46-60489f287419",
-  "prevId": "26bb3bad-e474-4a02-83bb-78c80285f397",
-  "tables": {
-    "allowed_drop_channels": {
-      "name": "allowed_drop_channels",
-      "columns": {
-        "channel_id": {
-          "name": "channel_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+    "version": "5",
+    "dialect": "sqlite",
+    "id": "ff0bb38e-e073-4bdd-9b46-60489f287419",
+    "prevId": "26bb3bad-e474-4a02-83bb-78c80285f397",
+    "tables": {
+        "allowed_drop_channels": {
+            "name": "allowed_drop_channels",
+            "columns": {
+                "channel_id": {
+                    "name": "channel_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "last_drop": {
+                    "name": "last_drop",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "adc_guild_id_idx": {
+                    "name": "adc_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "adc_guild_channel_idx": {
+                    "name": "adc_guild_channel_idx",
+                    "columns": ["guild_id", "channel_id"],
+                    "isUnique": true
+                }
+            },
+            "foreignKeys": {
+                "allowed_drop_channels_guild_id_guilds_guild_id_fk": {
+                    "name": "allowed_drop_channels_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "allowed_drop_channels",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
         },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+        "birthdays": {
+            "name": "birthdays",
+            "columns": {
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "day": {
+                    "name": "day",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "month": {
+                    "name": "month",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
         },
-        "last_drop": {
-          "name": "last_drop",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "adc_guild_id_idx": {
-          "name": "adc_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
+        "currency_drop": {
+            "name": "currency_drop",
+            "columns": {
+                "message_id": {
+                    "name": "message_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "amount": {
+                    "name": "amount",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "drop_guild_id_idx": {
+                    "name": "drop_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {
+                "currency_drop_guild_id_guilds_guild_id_fk": {
+                    "name": "currency_drop_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "currency_drop",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
         },
-        "adc_guild_channel_idx": {
-          "name": "adc_guild_channel_idx",
-          "columns": [
-            "guild_id",
-            "channel_id"
-          ],
-          "isUnique": true
+        "dashboard_admins": {
+            "name": "dashboard_admins",
+            "columns": {
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                },
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "admins_guild_member_idx": {
+                    "name": "admins_guild_member_idx",
+                    "columns": ["guild_id", "user_id"],
+                    "isUnique": true
+                }
+            },
+            "foreignKeys": {
+                "dashboard_admins_guild_id_guilds_guild_id_fk": {
+                    "name": "dashboard_admins_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "dashboard_admins",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "experience_points": {
+            "name": "experience_points",
+            "columns": {
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "xp": {
+                    "name": "xp",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "total_xp": {
+                    "name": "total_xp",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 0
+                },
+                "level": {
+                    "name": "level",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 1
+                },
+                "last_xp": {
+                    "name": "last_xp",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "xp_guild_id_idx": {
+                    "name": "xp_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "xp_guild_member_idx": {
+                    "name": "xp_guild_member_idx",
+                    "columns": ["guild_id", "user_id"],
+                    "isUnique": true
+                },
+                "xp_guild_total_xp_idx": {
+                    "name": "xp_guild_total_xp_idx",
+                    "columns": ["guild_id", "total_xp"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {
+                "experience_points_guild_id_guilds_guild_id_fk": {
+                    "name": "experience_points_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "experience_points",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "guild_birthday_config": {
+            "name": "guild_birthday_config",
+            "columns": {
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "role_id": {
+                    "name": "role_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                },
+                "currency": {
+                    "name": "currency",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 0
+                },
+                "channel_id": {
+                    "name": "channel_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                },
+                "birthday_message": {
+                    "name": "birthday_message",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": "'{user} is 1 year older today! Wish them a happy birthday!'"
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "guild_birthday_config_guild_id_guilds_guild_id_fk": {
+                    "name": "guild_birthday_config_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "guild_birthday_config",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "guild_intervals": {
+            "name": "guild_intervals",
+            "columns": {
+                "job_id": {
+                    "name": "job_id",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "interval": {
+                    "name": "interval",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "job_type": {
+                    "name": "job_type",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "json": {
+                    "name": "json",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "guild_intervals_guild_id_idx": {
+                    "name": "guild_intervals_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "guild_intervals_job_type_idx": {
+                    "name": "guild_intervals_job_type_idx",
+                    "columns": ["guild_id", "job_type"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "guild_timely_config": {
+            "name": "guild_timely_config",
+            "columns": {
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "enabled": {
+                    "name": "enabled",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": false
+                },
+                "amount": {
+                    "name": "amount",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 10
+                },
+                "hours_between_collections": {
+                    "name": "hours_between_collections",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 24
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "guild_timely_config_guild_id_guilds_guild_id_fk": {
+                    "name": "guild_timely_config_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "guild_timely_config",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "guild_timeouts": {
+            "name": "guild_timeouts",
+            "columns": {
+                "job_id": {
+                    "name": "job_id",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "timeout": {
+                    "name": "timeout",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "job_type": {
+                    "name": "job_type",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "json": {
+                    "name": "json",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "guild_timeouts_guild_id_idx": {
+                    "name": "guild_timeouts_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "guilds": {
+            "name": "guilds",
+            "columns": {
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "drops_enabled": {
+                    "name": "drops_enabled",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": true
+                },
+                "currency_emoji": {
+                    "name": "currency_emoji",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": "'💰'"
+                },
+                "drop_amount_min": {
+                    "name": "drop_amount_min",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 75
+                },
+                "drop_amount_max": {
+                    "name": "drop_amount_max",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 100
+                },
+                "drop_image": {
+                    "name": "drop_image",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": "'https://i.imgur.com/dFpT1Zy.jpg'"
+                },
+                "xp_enabled": {
+                    "name": "xp_enabled",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": true
+                },
+                "level_multiplier": {
+                    "name": "level_multiplier",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 10
+                },
+                "drop_message": {
+                    "name": "drop_message",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": "'{emoji} {amount} has dropped into this channel!'"
+                },
+                "level_up_message": {
+                    "name": "level_up_message",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": "'Congratulations {user}, you have leveled up to level {level}!'"
+                },
+                "level_up_dm": {
+                    "name": "level_up_dm",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": false
+                },
+                "drop_blanks": {
+                    "name": "drop_blanks",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 0
+                },
+                "drop_seconds_cooldown": {
+                    "name": "drop_seconds_cooldown",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false,
+                    "default": 5
+                },
+                "destroy_at": {
+                    "name": "destroy_at",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "guilds_destroy_at_idx": {
+                    "name": "guilds_destroy_at_idx",
+                    "columns": ["destroy_at"],
+                    "isUnique": true
+                }
+            },
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "last_guild_takeout": {
+            "name": "last_guild_takeout",
+            "columns": {
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "last_takeout": {
+                    "name": "last_takeout",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "last_guild_takeout_guild_id_guilds_guild_id_fk": {
+                    "name": "last_guild_takeout_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "last_guild_takeout",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "level_blacklisted_channels": {
+            "name": "level_blacklisted_channels",
+            "columns": {
+                "channel_id": {
+                    "name": "channel_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "lbc_guild_id_idx": {
+                    "name": "lbc_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {
+                "level_blacklisted_channels_guild_id_guilds_guild_id_fk": {
+                    "name": "level_blacklisted_channels_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "level_blacklisted_channels",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "level_roles": {
+            "name": "level_roles",
+            "columns": {
+                "role_id": {
+                    "name": "role_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "level": {
+                    "name": "level",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "lr_guild_id_idx": {
+                    "name": "lr_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "lr_guild_level_idx": {
+                    "name": "lr_guild_level_idx",
+                    "columns": ["guild_id", "level"],
+                    "isUnique": false
+                },
+                "lr_guild_role_level_idx": {
+                    "name": "lr_guild_role_level_idx",
+                    "columns": ["guild_id", "level", "role_id"],
+                    "isUnique": true
+                }
+            },
+            "foreignKeys": {
+                "level_roles_guild_id_guilds_guild_id_fk": {
+                    "name": "level_roles_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "level_roles",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "role_shop": {
+            "name": "role_shop",
+            "columns": {
+                "role_id": {
+                    "name": "role_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "price": {
+                    "name": "price",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "revised": {
+                    "name": "revised",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": false
+                }
+            },
+            "indexes": {
+                "role_shop_guild_id_idx": {
+                    "name": "role_shop_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {
+                "role_shop_guild_id_guilds_guild_id_fk": {
+                    "name": "role_shop_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "role_shop",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "shares": {
+            "name": "shares",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "integer",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": true
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "invested": {
+                    "name": "invested",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "stock_name": {
+                    "name": "stock_name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "share_count": {
+                    "name": "share_count",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "shares_guild_id_idx": {
+                    "name": "shares_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "shares_member_idx": {
+                    "name": "shares_member_idx",
+                    "columns": ["guild_id", "user_id"],
+                    "isUnique": false
+                },
+                "shares_created_at_idx": {
+                    "name": "shares_created_at_idx",
+                    "columns": ["guild_id", "user_id", "created_at"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {
+                "shares_guild_id_guilds_guild_id_fk": {
+                    "name": "shares_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "shares",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "time_locations": {
+            "name": "time_locations",
+            "columns": {
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "location": {
+                    "name": "location",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "timely_collections": {
+            "name": "timely_collections",
+            "columns": {
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "last_collected": {
+                    "name": "last_collected",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "timely_guild_id_idx": {
+                    "name": "timely_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "timely_guild_member_idx": {
+                    "name": "timely_guild_member_idx",
+                    "columns": ["guild_id", "user_id"],
+                    "isUnique": true
+                }
+            },
+            "foreignKeys": {
+                "timely_collections_guild_id_guilds_guild_id_fk": {
+                    "name": "timely_collections_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "timely_collections",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "transactions": {
+            "name": "transactions",
+            "columns": {
+                "created_at": {
+                    "name": "created_at",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "amount": {
+                    "name": "amount",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "reason": {
+                    "name": "reason",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "tx_guild_id_idx": {
+                    "name": "tx_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "tx_member_idx": {
+                    "name": "tx_member_idx",
+                    "columns": ["guild_id", "user_id"],
+                    "isUnique": false
+                },
+                "tx_created_at_idx": {
+                    "name": "tx_created_at_idx",
+                    "columns": ["guild_id", "user_id", "created_at"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {
+                "transactions_guild_id_guilds_guild_id_fk": {
+                    "name": "transactions_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "transactions",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "wallet": {
+            "name": "wallet",
+            "columns": {
+                "user_id": {
+                    "name": "user_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "guild_id": {
+                    "name": "guild_id",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "balance": {
+                    "name": "balance",
+                    "type": "blob",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {
+                "wallet_guild_id_idx": {
+                    "name": "wallet_guild_id_idx",
+                    "columns": ["guild_id"],
+                    "isUnique": false
+                },
+                "wallet_guild_member_idx": {
+                    "name": "wallet_guild_member_idx",
+                    "columns": ["guild_id", "user_id"],
+                    "isUnique": true
+                },
+                "wallet_guild_balance_idx": {
+                    "name": "wallet_guild_balance_idx",
+                    "columns": ["guild_id", "balance"],
+                    "isUnique": false
+                }
+            },
+            "foreignKeys": {
+                "wallet_guild_id_guilds_guild_id_fk": {
+                    "name": "wallet_guild_id_guilds_guild_id_fk",
+                    "tableFrom": "wallet",
+                    "tableTo": "guilds",
+                    "columnsFrom": ["guild_id"],
+                    "columnsTo": ["guild_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
         }
-      },
-      "foreignKeys": {
-        "allowed_drop_channels_guild_id_guilds_guild_id_fk": {
-          "name": "allowed_drop_channels_guild_id_guilds_guild_id_fk",
-          "tableFrom": "allowed_drop_channels",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
     },
-    "birthdays": {
-      "name": "birthdays",
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "day": {
-          "name": "day",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "month": {
-          "name": "month",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "currency_drop": {
-      "name": "currency_drop",
-      "columns": {
-        "message_id": {
-          "name": "message_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "amount": {
-          "name": "amount",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "drop_guild_id_idx": {
-          "name": "drop_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "currency_drop_guild_id_guilds_guild_id_fk": {
-          "name": "currency_drop_guild_id_guilds_guild_id_fk",
-          "tableFrom": "currency_drop",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "dashboard_admins": {
-      "name": "dashboard_admins",
-      "columns": {
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "admins_guild_member_idx": {
-          "name": "admins_guild_member_idx",
-          "columns": [
-            "guild_id",
-            "user_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "dashboard_admins_guild_id_guilds_guild_id_fk": {
-          "name": "dashboard_admins_guild_id_guilds_guild_id_fk",
-          "tableFrom": "dashboard_admins",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "experience_points": {
-      "name": "experience_points",
-      "columns": {
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "xp": {
-          "name": "xp",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "total_xp": {
-          "name": "total_xp",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "level": {
-          "name": "level",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 1
-        },
-        "last_xp": {
-          "name": "last_xp",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "xp_guild_id_idx": {
-          "name": "xp_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "xp_guild_member_idx": {
-          "name": "xp_guild_member_idx",
-          "columns": [
-            "guild_id",
-            "user_id"
-          ],
-          "isUnique": true
-        },
-        "xp_guild_total_xp_idx": {
-          "name": "xp_guild_total_xp_idx",
-          "columns": [
-            "guild_id",
-            "total_xp"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "experience_points_guild_id_guilds_guild_id_fk": {
-          "name": "experience_points_guild_id_guilds_guild_id_fk",
-          "tableFrom": "experience_points",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "guild_birthday_config": {
-      "name": "guild_birthday_config",
-      "columns": {
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "role_id": {
-          "name": "role_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "currency": {
-          "name": "currency",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "channel_id": {
-          "name": "channel_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "birthday_message": {
-          "name": "birthday_message",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'{user} is 1 year older today! Wish them a happy birthday!'"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "guild_birthday_config_guild_id_guilds_guild_id_fk": {
-          "name": "guild_birthday_config_guild_id_guilds_guild_id_fk",
-          "tableFrom": "guild_birthday_config",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "guild_intervals": {
-      "name": "guild_intervals",
-      "columns": {
-        "job_id": {
-          "name": "job_id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "interval": {
-          "name": "interval",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "job_type": {
-          "name": "job_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "json": {
-          "name": "json",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "guild_intervals_guild_id_idx": {
-          "name": "guild_intervals_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "guild_intervals_job_type_idx": {
-          "name": "guild_intervals_job_type_idx",
-          "columns": [
-            "guild_id",
-            "job_type"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "guild_timely_config": {
-      "name": "guild_timely_config",
-      "columns": {
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "enabled": {
-          "name": "enabled",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        },
-        "amount": {
-          "name": "amount",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 10
-        },
-        "hours_between_collections": {
-          "name": "hours_between_collections",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 24
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "guild_timely_config_guild_id_guilds_guild_id_fk": {
-          "name": "guild_timely_config_guild_id_guilds_guild_id_fk",
-          "tableFrom": "guild_timely_config",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "guild_timeouts": {
-      "name": "guild_timeouts",
-      "columns": {
-        "job_id": {
-          "name": "job_id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "timeout": {
-          "name": "timeout",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "job_type": {
-          "name": "job_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "json": {
-          "name": "json",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "guild_timeouts_guild_id_idx": {
-          "name": "guild_timeouts_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "guilds": {
-      "name": "guilds",
-      "columns": {
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "drops_enabled": {
-          "name": "drops_enabled",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
-        },
-        "currency_emoji": {
-          "name": "currency_emoji",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'💰'"
-        },
-        "drop_amount_min": {
-          "name": "drop_amount_min",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 75
-        },
-        "drop_amount_max": {
-          "name": "drop_amount_max",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 100
-        },
-        "drop_image": {
-          "name": "drop_image",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'https://i.imgur.com/dFpT1Zy.jpg'"
-        },
-        "xp_enabled": {
-          "name": "xp_enabled",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
-        },
-        "level_multiplier": {
-          "name": "level_multiplier",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 10
-        },
-        "drop_message": {
-          "name": "drop_message",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'{emoji} {amount} has dropped into this channel!'"
-        },
-        "level_up_message": {
-          "name": "level_up_message",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'Congratulations {user}, you have leveled up to level {level}!'"
-        },
-        "level_up_dm": {
-          "name": "level_up_dm",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        },
-        "drop_blanks": {
-          "name": "drop_blanks",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "drop_seconds_cooldown": {
-          "name": "drop_seconds_cooldown",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": 5
-        },
-        "destroy_at": {
-          "name": "destroy_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "guilds_destroy_at_idx": {
-          "name": "guilds_destroy_at_idx",
-          "columns": [
-            "destroy_at"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "last_guild_takeout": {
-      "name": "last_guild_takeout",
-      "columns": {
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "last_takeout": {
-          "name": "last_takeout",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "last_guild_takeout_guild_id_guilds_guild_id_fk": {
-          "name": "last_guild_takeout_guild_id_guilds_guild_id_fk",
-          "tableFrom": "last_guild_takeout",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "level_blacklisted_channels": {
-      "name": "level_blacklisted_channels",
-      "columns": {
-        "channel_id": {
-          "name": "channel_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "lbc_guild_id_idx": {
-          "name": "lbc_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "level_blacklisted_channels_guild_id_guilds_guild_id_fk": {
-          "name": "level_blacklisted_channels_guild_id_guilds_guild_id_fk",
-          "tableFrom": "level_blacklisted_channels",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "level_roles": {
-      "name": "level_roles",
-      "columns": {
-        "role_id": {
-          "name": "role_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "level": {
-          "name": "level",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "lr_guild_id_idx": {
-          "name": "lr_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "lr_guild_level_idx": {
-          "name": "lr_guild_level_idx",
-          "columns": [
-            "guild_id",
-            "level"
-          ],
-          "isUnique": false
-        },
-        "lr_guild_role_level_idx": {
-          "name": "lr_guild_role_level_idx",
-          "columns": [
-            "guild_id",
-            "level",
-            "role_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "level_roles_guild_id_guilds_guild_id_fk": {
-          "name": "level_roles_guild_id_guilds_guild_id_fk",
-          "tableFrom": "level_roles",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "role_shop": {
-      "name": "role_shop",
-      "columns": {
-        "role_id": {
-          "name": "role_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "price": {
-          "name": "price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "revised": {
-          "name": "revised",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        }
-      },
-      "indexes": {
-        "role_shop_guild_id_idx": {
-          "name": "role_shop_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "role_shop_guild_id_guilds_guild_id_fk": {
-          "name": "role_shop_guild_id_guilds_guild_id_fk",
-          "tableFrom": "role_shop",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "shares": {
-      "name": "shares",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "invested": {
-          "name": "invested",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "stock_name": {
-          "name": "stock_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "share_count": {
-          "name": "share_count",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "shares_guild_id_idx": {
-          "name": "shares_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "shares_member_idx": {
-          "name": "shares_member_idx",
-          "columns": [
-            "guild_id",
-            "user_id"
-          ],
-          "isUnique": false
-        },
-        "shares_created_at_idx": {
-          "name": "shares_created_at_idx",
-          "columns": [
-            "guild_id",
-            "user_id",
-            "created_at"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "shares_guild_id_guilds_guild_id_fk": {
-          "name": "shares_guild_id_guilds_guild_id_fk",
-          "tableFrom": "shares",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "time_locations": {
-      "name": "time_locations",
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "location": {
-          "name": "location",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "timely_collections": {
-      "name": "timely_collections",
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "last_collected": {
-          "name": "last_collected",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "timely_guild_id_idx": {
-          "name": "timely_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "timely_guild_member_idx": {
-          "name": "timely_guild_member_idx",
-          "columns": [
-            "guild_id",
-            "user_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "timely_collections_guild_id_guilds_guild_id_fk": {
-          "name": "timely_collections_guild_id_guilds_guild_id_fk",
-          "tableFrom": "timely_collections",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "transactions": {
-      "name": "transactions",
-      "columns": {
-        "created_at": {
-          "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "amount": {
-          "name": "amount",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "reason": {
-          "name": "reason",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "tx_guild_id_idx": {
-          "name": "tx_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "tx_member_idx": {
-          "name": "tx_member_idx",
-          "columns": [
-            "guild_id",
-            "user_id"
-          ],
-          "isUnique": false
-        },
-        "tx_created_at_idx": {
-          "name": "tx_created_at_idx",
-          "columns": [
-            "guild_id",
-            "user_id",
-            "created_at"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "transactions_guild_id_guilds_guild_id_fk": {
-          "name": "transactions_guild_id_guilds_guild_id_fk",
-          "tableFrom": "transactions",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "wallet": {
-      "name": "wallet",
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "balance": {
-          "name": "balance",
-          "type": "blob",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "wallet_guild_id_idx": {
-          "name": "wallet_guild_id_idx",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "wallet_guild_member_idx": {
-          "name": "wallet_guild_member_idx",
-          "columns": [
-            "guild_id",
-            "user_id"
-          ],
-          "isUnique": true
-        },
-        "wallet_guild_balance_idx": {
-          "name": "wallet_guild_balance_idx",
-          "columns": [
-            "guild_id",
-            "balance"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "wallet_guild_id_guilds_guild_id_fk": {
-          "name": "wallet_guild_id_guilds_guild_id_fk",
-          "tableFrom": "wallet",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+    "enums": {},
+    "_meta": {
+        "schemas": {},
+        "tables": {},
+        "columns": {}
     }
-  },
-  "enums": {},
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {}
-  }
 }

@@ -14,12 +14,10 @@ export async function run(interaction: CommandInteraction) {
 
     // Get the user's XP.
     const gid = BigInt(interaction.guildId!);
-    const xp = await client.query.experiencePoints.findFirst({
-        where: (points, { and, eq }) => and(
-            eq(points.userId, BigInt(user.id)),
-            eq(points.guildId, gid),
-        ),
-    }) || { xp: 0, level: 1 };
+    const xp = (await client.query.experiencePoints.findFirst({
+        where: (points, { and, eq }) =>
+            and(eq(points.userId, BigInt(user.id)), eq(points.guildId, gid)),
+    })) || { xp: 0, level: 1 };
 
     // Get the guild.
     const guild = await getGuild(gid);
@@ -38,7 +36,7 @@ export async function run(interaction: CommandInteraction) {
     return interaction.reply({
         embeds: [
             {
-                color: 0x00FF00,
+                color: 0x00ff00,
                 description: `<@${user.id}>: **${xp.xp}XP | Level ${xp.level}**\n\n${blocks}`,
             },
         ],

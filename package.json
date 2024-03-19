@@ -1,4 +1,14 @@
 {
     "name": "cyno",
-    "workspaces": ["bot", "database"]
+    "workspaces": [
+        "bot",
+        "database",
+        "site"
+    ],
+    "devDependencies": {
+        "prettier": "^3.2.5"
+    },
+    "scripts": {
+        "lint": "prettier --write ."
+    }
 }

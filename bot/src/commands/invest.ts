@@ -44,10 +44,12 @@ export const autocompleteHandler = async (
     let quotes = (await yahooFinance.search(q)).quotes;
 
     // Make sure we only have a maximum of 25 quotes.
-    quotes = quotes.slice(0, 25).filter(quote => quote.symbol && quote.shortname);
+    quotes = quotes
+        .slice(0, 25)
+        .filter((quote) => quote.symbol && quote.shortname);
 
     // Return the choices.
-    return quotes.map(quote => ({
+    return quotes.map((quote) => ({
         name: quote.shortname,
         value: quote.symbol,
     }));
@@ -55,12 +57,16 @@ export const autocompleteHandler = async (
 
 export async function run(interaction: CommandInteraction) {
     // Get the stock.
-    const stock = await yahooFinance.quote(interaction.options.get("stock_symbol")!.value as string, {
-        fields: ["regularMarketPrice", "shortName"],
-    });
+    const stock = await yahooFinance.quote(
+        interaction.options.get("stock_symbol")!.value as string,
+        {
+            fields: ["regularMarketPrice", "shortName"],
+        },
+    );
     if (!stock) {
         return error(
-            interaction, "Invalid Stock Specified",
+            interaction,
+            "Invalid Stock Specified",
             "The stock you specified is invalid.",
         );
     }
@@ -69,29 +75,43 @@ export async function run(interaction: CommandInteraction) {
     const amount = interaction.options.get("amount")!.value as number;
     const gid = BigInt(interaction.guildId!);
     const uid = BigInt(interaction.user.id);
-    const sufficientFunds = await take(gid, uid, BigInt(amount), `Invested in ${stock.shortName}`);
+    const sufficientFunds = await take(
+        gid,
+        uid,
+        BigInt(amount),
+        `Invested in ${stock.shortName}`,
+    );
     const guild = await getGuild(gid);
-    if (!sufficientFunds) return insufficientFunds(interaction, amount, guild.currencyEmoji);
+    if (!sufficientFunds)
+        return insufficientFunds(interaction, amount, guild.currencyEmoji);
 
     // Handle if the regular market price is zero.
     if (!stock.regularMarketPrice) {
         return error(
-            interaction, "Cannot Invest In Share",
+            interaction,
+            "Cannot Invest In Share",
             "You cannot invest in this share since it does not have a USD price.",
         );
     }
     const shareCount = Math.floor(amount / stock.regularMarketPrice) || 1;
 
     // Write the stock to the database.
-    await client.insert(shares).values({
-        createdAt: new Date(),
-        guildId: gid, userId: uid, invested: amount,
-        stockName: stock.symbol, shareCount,
-    }).execute();
+    await client
+        .insert(shares)
+        .values({
+            createdAt: new Date(),
+            guildId: gid,
+            userId: uid,
+            invested: amount,
+            stockName: stock.symbol,
+            shareCount,
+        })
+        .execute();
 
     // Respond to the user.
     success(
-        interaction, "Investment Successful",
+        interaction,
+        "Investment Successful",
         `You successfully invested ${guild.currencyEmoji} ${amount} in ${stock.shortName}.`,
     );
 }

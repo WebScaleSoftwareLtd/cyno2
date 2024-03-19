@@ -11,7 +11,10 @@ import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 
 export default async function takeout(gid: bigint) {
     // Create a temp file.
-    const tempFile = path.join(os.tmpdir(), `${gid}_${new Date()}_${Math.random()}_cyno.db`);
+    const tempFile = path.join(
+        os.tmpdir(),
+        `${gid}_${new Date()}_${Math.random()}_cyno.db`,
+    );
 
     // Create the database.
     const db = new BetterSQLite3(tempFile);
@@ -23,7 +26,11 @@ export default async function takeout(gid: bigint) {
     // Copy the data from the takeable tables.
     for (const table of takeableTables) {
         // Get from the main database.
-        const rows = await mainClient.select().from(table).where(sql`guild_id = CAST(${gid} AS BLOB)`).execute();
+        const rows = await mainClient
+            .select()
+            .from(table)
+            .where(sql`guild_id = CAST(${gid} AS BLOB)`)
+            .execute();
 
         // Insert into the temp database.
         if (rows.length > 0) client.insert(table).values(rows).execute();

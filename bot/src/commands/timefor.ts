@@ -25,12 +25,15 @@ export async function run(interaction: CommandInteraction) {
     if (!member) return notAMember(interaction);
 
     // Try to get the users timezone.
-    const record = await client.query.timeLocation.findFirst({
-        where: (locations, { eq }) => eq(locations.userId, BigInt(user.id)),
-    }).execute();
+    const record = await client.query.timeLocation
+        .findFirst({
+            where: (locations, { eq }) => eq(locations.userId, BigInt(user.id)),
+        })
+        .execute();
     if (!record) {
         return error(
-            interaction, "Timezone Not Found",
+            interaction,
+            "Timezone Not Found",
             `The user <@${user.id}> has not set their timezone.`,
         );
     }
@@ -38,12 +41,15 @@ export async function run(interaction: CommandInteraction) {
 
     // Get the current time and return it formatted.
     const formatted = new Date().toLocaleString("en-US", {
-        timeZone, hour: "numeric", minute: "numeric", second: "numeric",
+        timeZone,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
     });
     return interaction.reply({
         embeds: [
             {
-                color: 0x00FF00,
+                color: 0x00ff00,
                 description: `The current time for <@${user.id}> is ${formatted}`,
             },
         ],

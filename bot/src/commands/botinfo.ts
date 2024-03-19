@@ -10,7 +10,8 @@ Want to invite Cyno to your own guild? You can use the invite link [here](https:
 
 export async function run(interaction: CommandInteraction) {
     const embed: APIEmbed = {
-        color: 0x00ff00, description: embedDescription,
+        color: 0x00ff00,
+        description: embedDescription,
         fields: [
             {
                 name: "Developers",

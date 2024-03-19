@@ -8,11 +8,12 @@ export const getGuild = async (guildId: bigint) => {
     if (guild) return guild;
 
     // Insert the guild.
-    const rows = await client.insert(guilds).
-        values({ guildId }).
-        onConflictDoNothing().
-        returning().
-        execute();
+    const rows = await client
+        .insert(guilds)
+        .values({ guildId })
+        .onConflictDoNothing()
+        .returning()
+        .execute();
 
     if (!rows[0]) {
         // Special case where we were raced by another insert.

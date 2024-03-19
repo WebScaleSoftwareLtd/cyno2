@@ -10,37 +10,37 @@ import add from "../queries/financial/add";
 
 const wheelRatios = [
     {
-		Ratio: 1.5,
-		Emoji: "↖️",
-	},
-	{
-		Ratio: 1.7,
-		Emoji: "⬆️",
-	},
-	{
-		Ratio: 2.4,
-		Emoji: "↗️",
-	},
-	{
-		Ratio: 0.2,
-		Emoji: "⬅️",
-	},
-	{
-		Ratio: 1.2,
-		Emoji: "➡️",
-	},
-	{
-		Ratio: 0.1,
-		Emoji: "↙️",
-	},
-	{
-		Ratio: 0.3,
-		Emoji: "⬇️",
-	},
-	{
-		Ratio: 0.5,
-		Emoji: "↘️",
-	},
+        Ratio: 1.5,
+        Emoji: "↖️",
+    },
+    {
+        Ratio: 1.7,
+        Emoji: "⬆️",
+    },
+    {
+        Ratio: 2.4,
+        Emoji: "↗️",
+    },
+    {
+        Ratio: 0.2,
+        Emoji: "⬅️",
+    },
+    {
+        Ratio: 1.2,
+        Emoji: "➡️",
+    },
+    {
+        Ratio: 0.1,
+        Emoji: "↙️",
+    },
+    {
+        Ratio: 0.3,
+        Emoji: "⬇️",
+    },
+    {
+        Ratio: 0.5,
+        Emoji: "↘️",
+    },
 ] as const;
 
 export const description = "Allows you to gamble your currency on a wheel.";
@@ -64,11 +64,10 @@ export async function run(interaction: CommandInteraction) {
     // Take the money.
     const gid = BigInt(interaction.guildId!);
     const uid = BigInt(interaction.user.id);
-    const sufficient = await take(
-        gid, uid, BigInt(amount), "Spun wheel",
-    );
+    const sufficient = await take(gid, uid, BigInt(amount), "Spun wheel");
     const guild = await getGuild(gid);
-    if (!sufficient) return insufficientFunds(interaction, amount, guild.currencyEmoji);
+    if (!sufficient)
+        return insufficientFunds(interaction, amount, guild.currencyEmoji);
 
     // Spin the wheel (get a value between 0 and length of wheelRatios).
     const wheelIndex = Math.floor(Math.random() * wheelRatios.length);
@@ -78,13 +77,14 @@ export async function run(interaction: CommandInteraction) {
     const earnings = Math.floor(amount * wheel.Ratio);
 
     // If it isn't 0, give the user the money.
-    if (earnings !== 0) await add(gid, uid, BigInt(earnings), "Wheel spin earnings");
+    if (earnings !== 0)
+        await add(gid, uid, BigInt(earnings), "Wheel spin earnings");
 
     // Reply with the wheel.
     await interaction.reply({
         embeds: [
             {
-                color: 0x00FF00,
+                color: 0x00ff00,
                 title: `${interaction.user.username} won: ${guild.currencyEmoji} ${earnings}`,
                 description: wheelFormat.replace("EMOJI", wheel.Emoji),
             },

@@ -9,7 +9,8 @@ import { readdir, stat } from "fs/promises";
 import { client, timeLocation } from "database";
 import success from "../views/layouts/success";
 
-export const description = "Sets the location for your user. Used for timezone lookups.";
+export const description =
+    "Sets the location for your user. Used for timezone lookups.";
 
 export const options: APIApplicationCommandOption[] = [
     {
@@ -24,7 +25,7 @@ export const options: APIApplicationCommandOption[] = [
 async function loadTzLocations() {
     const timezones: string[] = [];
     let loadFolder: (frag: string) => Promise<void>;
-    loadFolder = async frag => {
+    loadFolder = async (frag) => {
         const files = await readdir(`/usr/share/zoneinfo/${frag}`);
         for (const file of files) {
             // Make sure the file starts upper case if this is a root.
@@ -68,13 +69,15 @@ export const autocompleteHandler = async (
     const locations = await tzLocations;
 
     // Filter the locations.
-    const filteredLocations = locations.filter(location => location.toLowerCase().includes(q));
+    const filteredLocations = locations.filter((location) =>
+        location.toLowerCase().includes(q),
+    );
 
     // Make sure we only have a maximum of 25 locations.
     const slicedLocations = filteredLocations.slice(0, 25);
 
     // Return the choices.
-    return slicedLocations.map(location => ({
+    return slicedLocations.map((location) => ({
         name: location,
         value: location,
     }));
@@ -85,16 +88,21 @@ export async function run(interaction: CommandInteraction) {
     const location = interaction.options.get("location")!.value as string;
 
     // Write the location to the database.
-    await client.insert(timeLocation).values({
-        userId: BigInt(interaction.user.id),
-        location,
-    }).onConflictDoUpdate({
-        target: [timeLocation.userId],
-        set: { location },
-    });
+    await client
+        .insert(timeLocation)
+        .values({
+            userId: BigInt(interaction.user.id),
+            location,
+        })
+        .onConflictDoUpdate({
+            target: [timeLocation.userId],
+            set: { location },
+        });
 
     // Respond with a success.
     success(
-        interaction, "Timezone Set", `Your timezone has been set to **${location}**.`,
+        interaction,
+        "Timezone Set",
+        `Your timezone has been set to **${location}**.`,
     );
 }

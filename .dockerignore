@@ -3,5 +3,5 @@ bot/node_modules/
 site/node_modules/
 dist/
 bot/dist/
-site/dist/
+site/.next/
 .env
