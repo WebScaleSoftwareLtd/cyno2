@@ -1,5 +1,5 @@
 import { and, eq, sql } from "drizzle-orm";
-import { client, transactions, wallet } from "../../database";
+import { client, transactions, wallet } from "database";
 
 export default (
     guildId: bigint, userId: bigint, amount: bigint, reason: string,

@@ -1,4 +1,4 @@
-import { client, guilds } from "../database";
+import { client, guilds } from "database";
 
 export const getGuild = async (guildId: bigint) => {
     // Select the guild. This is MOST cases.

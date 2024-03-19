@@ -1,4 +1,4 @@
-import { client, transactions } from "../../database";
+import { client, transactions } from "database";
 import { Button, Embed } from "react-djs";
 
 export type DisplayedTransactions = {

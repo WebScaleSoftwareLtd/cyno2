@@ -2,7 +2,7 @@ import { CommandInteraction } from "discord.js";
 import { useState } from "react";
 import { Button, Embed } from "react-djs";
 import yahooFinance from "yahoo-finance2";
-import { client, shares } from "../database";
+import { client, shares } from "database";
 import { getGuild } from "../queries/guild";
 import { renderManager } from "../state";
 import { eq } from "drizzle-orm";

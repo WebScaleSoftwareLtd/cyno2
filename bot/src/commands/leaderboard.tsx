@@ -6,7 +6,7 @@ import {
     type User
 } from "discord.js";
 import { useState } from "react";
-import { client } from "../database";
+import { client } from "database";
 import { getGuild } from "../queries/guild";
 import { renderManager } from "../state";
 import { Button, Embed } from "react-djs";

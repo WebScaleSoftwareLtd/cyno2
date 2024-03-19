@@ -15,6 +15,27 @@ import * as commands from "./commands";
 // Log that the module was loaded.
 console.log("Module loaded!");
 
+// Get the global libsql client.
+import { createClient } from "@libsql/client";
+if (!globalState.databaseConnection) {
+    // Get the database URL.
+    const url = process.env.DATABASE_URL;
+    if (!url) throw new Error("DATABASE_URL is not set!");
+
+    // Create a libsql client.
+    const client = createClient({
+        url,
+        authToken: process.env.DATABASE_AUTH_TOKEN,
+    });
+
+    // Set the state to the client.
+    globalState.databaseConnection = client;
+}
+
+// Setup the database module.
+import { setup } from "database";
+setup(globalState.databaseConnection);
+
 // Handle command migrations.
 const commandRegistration = async (client: Client) => {
     const currentCommands = await client.application!.commands.fetch();
@@ -97,5 +118,3 @@ export default (client: Client) => {
     // Defines the destructor.
     return () => client.removeAllListeners();
 };
-
-export { doMigrations } from "./database";

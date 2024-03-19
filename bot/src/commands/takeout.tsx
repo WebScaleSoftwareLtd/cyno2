@@ -1,6 +1,6 @@
 import { CommandInteraction, PermissionResolvable } from "discord.js";
-import takeout from "../database/takeout";
-import { client, lastGuildTakeout } from "../database";
+import takeout from "database/takeout";
+import { client, lastGuildTakeout } from "database";
 
 export const description = "Allows you to take a SQLite3 copy of your guild's database.";
 

@@ -1,5 +1,7 @@
 // Load environment variables.
-require("dotenv").config();
+require("dotenv").config({
+    path: require("path").resolve(__dirname, "..", ".env"),
+});
 
 // Build the client.
 const { Client } = require("discord.js");
@@ -12,16 +14,7 @@ const client = new Client({
 });
 
 // Require the bundle.
-let { default: setup, doMigrations } = require("./dist/bundle.cjs");
-if (process.env.DB_MIGRATE === "1") {
-    // Handle migrations.
-    console.log("Starting migrations...");
-    doMigrations().catch(e => {
-        console.error(e);
-        process.exit(1);
-    });
-    return;
-}
+let { default: setup } = require("./dist/bundle.cjs");
 
 // Handle setup generally.
 let destruct = setup(client);

@@ -1,0 +1,4 @@
+{
+    "name": "cyno",
+    "workspaces": ["bot", "database"]
+}

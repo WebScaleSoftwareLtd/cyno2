@@ -4,7 +4,7 @@ import {
     type CommandInteraction,
 } from "discord.js";
 import { notAMember } from "../views/errors";
-import { client } from "../database";
+import { client } from "database";
 import error from "../views/layouts/error";
 
 export const description = "Gets the time for a user.";

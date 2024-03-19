@@ -1,6 +1,6 @@
 import type { Message } from "discord.js";
 import { getGuild } from "../queries/guild";
-import { allowedDropChannels, client, currencyDrop, experiencePoints, guilds } from "../database";
+import { allowedDropChannels, client, currencyDrop, experiencePoints, guilds } from "database";
 import { renderManager } from "../state";
 import CurrencyDrop from "../shared/CurrencyDrop";
 import { additionalXp, levelToXp } from "../utils/tasoAlgo";

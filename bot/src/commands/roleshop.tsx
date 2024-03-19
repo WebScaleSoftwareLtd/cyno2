@@ -1,6 +1,6 @@
 import type { Client, CommandInteraction, EmbedField, Role } from "discord.js";
 import { useState } from "react";
-import { client, guilds, roleShop } from "../database";
+import { client, guilds, roleShop } from "database";
 import { renderManager } from "../state";
 import { getGuild } from "../queries/guild";
 import { Button, Embed } from "react-djs";

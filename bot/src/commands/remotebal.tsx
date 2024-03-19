@@ -5,7 +5,7 @@ import {
     type CommandInteraction,
 } from "discord.js";
 import { getGuild } from "../queries/guild";
-import { client } from "../database";
+import { client } from "database";
 import { renderManager } from "../state";
 import Balance from "./shared/Balance";
 

@@ -9,7 +9,7 @@ import error from "../views/layouts/error";
 import take from "../queries/financial/take";
 import { insufficientFunds } from "../views/errors";
 import { getGuild } from "../queries/guild";
-import { client, shares } from "../database";
+import { client, shares } from "database";
 import success from "../views/layouts/success";
 import yahooFinance from "yahoo-finance2";
 

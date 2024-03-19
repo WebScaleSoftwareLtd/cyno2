@@ -1,5 +1,5 @@
 import type { CommandInteraction } from "discord.js";
-import { client, timelyCollections } from "../database";
+import { client, timelyCollections } from "database";
 import error from "../views/layouts/error";
 import add from "../queries/financial/add";
 import { getGuild } from "../queries/guild";

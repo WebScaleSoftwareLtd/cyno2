@@ -1,5 +1,5 @@
 import type { CommandInteraction } from "discord.js";
-import { client } from "../database";
+import { client } from "database";
 import { getGuild } from "../queries/guild";
 import { levelToXp } from "../utils/tasoAlgo";
 

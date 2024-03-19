@@ -1,4 +1,4 @@
-import { client, guildIntervals, guildTimeouts } from "../database";
+import { client, guildIntervals, guildTimeouts } from "database";
 import { eq } from "drizzle-orm";
 import ScheduledJob from "./ScheduledJob";
 import { randomUUID } from "crypto";

@@ -18,7 +18,7 @@ export default async function takeout(gid: bigint) {
 
     // Do the database migrations.
     const client = drizzle(db, { schema });
-    migrate(client, { migrationsFolder: "./drizzle" });
+    migrate(client, { migrationsFolder: "../database/drizzle" });
 
     // Copy the data from the takeable tables.
     for (const table of takeableTables) {

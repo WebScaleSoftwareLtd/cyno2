@@ -6,7 +6,7 @@ import {
     type CommandInteraction,
 } from "discord.js";
 import { readdir, stat } from "fs/promises";
-import { client, timeLocation } from "../database";
+import { client, timeLocation } from "database";
 import success from "../views/layouts/success";
 
 export const description = "Sets the location for your user. Used for timezone lookups.";

@@ -1,7 +1,7 @@
 import { Button, Embed } from "react-djs";
 import { useState } from "react";
 import { ButtonStyle, Message, MessageComponentInteraction } from "discord.js";
-import { client, currencyDrop } from "../database";
+import { client, currencyDrop } from "database";
 import { eq } from "drizzle-orm";
 import add from "../queries/financial/add";
 

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { client, transactions, wallet } from "../../database";
+import { client, transactions, wallet } from "database";
 
 export default async (guildId: bigint, userId: bigint, amount: bigint, reason: string) => {
     const v = await client.batch([

@@ -1,6 +1,5 @@
 {
     "name": "bot",
-    "version": "1.0.0",
     "private": true,
     "type": "module",
     "scripts": {
@@ -9,30 +8,25 @@
         "build": "node ./build.cjs",
         "dev": "npm run build && DEV=1 node --enable-source-maps index.cjs",
         "start": "node --enable-source-maps index.cjs",
-        "db:generate-migrations": "drizzle-kit generate:sqlite",
-        "db:migrate": "npm run build && DB_MIGRATE=1 node --enable-source-maps index.cjs",
-        "commands:migrate": "npm run build && CMD_MIGRATE=1 node --enable-source-maps index.cjs",
-        "postinstall": "patch-package"
+        "commands:migrate": "npm run build && CMD_MIGRATE=1 node --enable-source-maps index.cjs"
     },
     "devDependencies": {
         "@types/better-sqlite3": "^7.6.9",
         "@types/react": "^18.2.66",
-        "esbuild": "0.19.11",
+        "esbuild": "^0.20.2",
         "typescript": "^5.2.2"
     },
     "dependencies": {
-        "@libsql/client": "^0.4.0-pre.7",
-        "better-sqlite3": "^9.4.3",
         "color-parse": "^2.0.0",
+        "database": "*",
         "discord.js": "^14.14.1",
-        "dotenv": "^16.3.1",
-        "drizzle-kit": "^0.20.14",
-        "drizzle-orm": "^0.29.3",
-        "patch-package": "^6.4.7",
+        "dotenv": "16.4.5",
+        "drizzle-orm": "^0.30.4",
         "pureimage": "^0.4.13",
         "react": "^18.2.0",
         "react-djs": "1.0.0",
-        "yahoo-finance2": "^2.9.0"
+        "yahoo-finance2": "^2.9.0",
+        "zod": "^3.22.4"
     },
     "optionalDependencies": {
         "@libsql/linux-x64-gnu": "^0.2.0-pre.7"

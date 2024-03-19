@@ -1,4 +1,4 @@
-import { client, transactions, wallet } from "../../database";
+import { client, transactions, wallet } from "database";
 
 export default (guildId: bigint, userId: bigint, balance: bigint, reason: string) => client.transaction(async tx => {
     // Select the wallet row.

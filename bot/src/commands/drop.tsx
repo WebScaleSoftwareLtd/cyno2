@@ -9,7 +9,7 @@ import { getGuild } from "../queries/guild";
 import { insufficientFunds } from "../views/errors";
 import { renderManager } from "../state";
 import CurrencyDrop from "../shared/CurrencyDrop";
-import { client, currencyDrop } from "../database";
+import { client, currencyDrop } from "database";
 
 export const description = "Allows you to drop currency.";
 

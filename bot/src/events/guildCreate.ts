@@ -1,5 +1,5 @@
 import type { Guild } from "discord.js";
-import { client, guilds } from "../database";
+import { client, guilds } from "database";
 import { createInterval, getGuildIntervalsAndTimeouts, intervalJobTypeExists } from "../scheduler";
 import BirthdayPollJob from "../scheduler/BirthdayPollJob";
 
