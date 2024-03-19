@@ -1,0 +1,11 @@
+FROM node:20.11-alpine
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+WORKDIR /home/node/app
+COPY package.json /home/node/app
+COPY package-lock.json /home/node/app
+COPY bot/package.json /home/node/app/bot/package.json
+COPY database/package.json /home/node/app/database/package.json
+RUN npm ci
+COPY . /home/node/app
+RUN npm run build --workspace bot
+ENTRYPOINT ["npm", "start", "--workspace", "bot"]

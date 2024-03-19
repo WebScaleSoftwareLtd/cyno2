@@ -1,0 +1,7 @@
+node_modules/
+bot/node_modules/
+site/node_modules/
+dist/
+bot/dist/
+site/dist/
+.env
