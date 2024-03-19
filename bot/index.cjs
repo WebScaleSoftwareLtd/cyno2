@@ -1,10 +1,5 @@
 "use strict";
 
-// Load environment variables.
-require("dotenv").config({
-    path: require("path").resolve(__dirname, "..", ".env"),
-});
-
 // Build the client.
 const { Client } = require("discord.js");
 const client = new Client({

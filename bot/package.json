@@ -18,7 +18,6 @@
         "color-parse": "^2.0.0",
         "database": "*",
         "discord.js": "^14.14.1",
-        "dotenv": "16.4.5",
         "drizzle-orm": "^0.30.4",
         "pureimage": "^0.4.13",
         "react": "^18.2.0",

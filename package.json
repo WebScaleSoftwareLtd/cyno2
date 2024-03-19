@@ -6,9 +6,11 @@
         "site"
     ],
     "devDependencies": {
+        "foreman": "^3.0.1",
         "prettier": "^3.2.5"
     },
     "scripts": {
+        "dev": "nf -j Procfile.dev start",
         "lint": "prettier --write ."
     }
 }

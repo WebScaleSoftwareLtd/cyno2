@@ -1,0 +1,2 @@
+bot: npm run dev --workspace bot
+site: npm run dev --workspace site

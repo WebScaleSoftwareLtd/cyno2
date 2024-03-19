@@ -8,6 +8,9 @@
         "drizzle-kit": "^0.20.14",
         "drizzle-orm": "^0.30.4"
     },
+    "devDependencies": {
+        "dotenv": "^16.4.5"
+    },
     "scripts": {
         "db:generate-migrations": "drizzle-kit generate:sqlite",
         "db:migrate": "drizzle-kit push:sqlite"
