@@ -39,6 +39,6 @@ export async function GET(req: NextRequest) {
                 "Content-Type": "text/html",
                 "Set-Cookie": `state=${state}; Path=/; SameSite=Lax; HttpOnly`,
             },
-        }
+        },
     );
 }

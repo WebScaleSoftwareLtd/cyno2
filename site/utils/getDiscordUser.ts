@@ -8,7 +8,7 @@ export type User = {
     avatar: string | null;
 };
 
-export default async function(): Promise<User | null> {
+export default async function (): Promise<User | null> {
     const token = await getDiscordToken();
     if (!token) return null;
 

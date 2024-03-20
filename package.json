@@ -11,6 +11,7 @@
     },
     "scripts": {
         "dev": "node ./ensurePrivateKey.js && nf -j Procfile.dev start",
-        "lint": "prettier . --check"
+        "lint": "prettier . --check",
+        "lint:fix": "prettier . --write"
     }
 }
