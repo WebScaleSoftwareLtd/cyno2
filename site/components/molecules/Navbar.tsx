@@ -1,13 +1,14 @@
 import React from "react";
-import AvatarMenu from "../atoms/AvatarMenu";
+import AvatarMenu from "../atoms/UserSidebar";
+import Link from "next/link";
 
 export default () => {
     // TODO: Make link a image
     return (
         <nav className="dark:bg-slate-800 p-4 flex justify-between items-center shadow-lg">
-            <a href="/" className="text-lg font-bold">
+            <Link href="/" className="text-lg font-bold">
                 Cyno
-            </a>
+            </Link>
             <div>
                 <React.Suspense fallback={<></>}>
                     <AvatarMenu />
