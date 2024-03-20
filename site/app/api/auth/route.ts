@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
             status: 200,
             headers: {
                 "Content-Type": "text/html",
-                "Set-Cookie": `state=${state}; Path=/; HttpOnly; SameSite=Strict`,
+                "Set-Cookie": `state=${state}; Path=/; SameSite=Lax; HttpOnly`,
             },
         }
     );
