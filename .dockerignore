@@ -4,4 +4,5 @@ site/node_modules/
 dist/
 bot/dist/
 site/.next/
+site/private.key
 .env

@@ -10,7 +10,7 @@
         "prettier": "^3.2.5"
     },
     "scripts": {
-        "dev": "nf -j Procfile.dev start",
-        "lint": "prettier --write ."
+        "dev": "node ./ensurePrivateKey.js && nf -j Procfile.dev start",
+        "lint": "prettier . --check"
     }
 }
