@@ -6,6 +6,7 @@ export type Guild = {
     name: string;
     owner: boolean;
     permissions: string;
+    icon: string | null;
 };
 
 export default async function (): Promise<Guild[] | null> {
