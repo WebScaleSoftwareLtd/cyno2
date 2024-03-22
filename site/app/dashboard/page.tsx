@@ -2,9 +2,9 @@ import React from "react";
 import getDiscordGuilds from "@/utils/getDiscordGuilds";
 import Loading from "@/components/atoms/Loading";
 import KillLogin from "@/components/atoms/KillLogin";
+import GuildCards from "@/components/atoms/GuildCards";
 import { client } from "database";
 import getDiscordUser, { User } from "@/utils/getDiscordUser";
-import GuildCards from "@/components/atoms/GuildCards";
 
 function inviteUrl(guildId: string) {
     const url = new URL("https://discord.com/oauth2/authorize");
@@ -110,6 +110,7 @@ async function Guilds() {
                             return {
                                 buttonText: "Dashboard",
                                 enabled: true,
+                                guildId: guild.id,
                                 guildName: guild.name,
                                 guildImage: guild.icon,
                                 url: `/dashboard/${guild.id}`,
@@ -132,6 +133,7 @@ async function Guilds() {
                             return {
                                 buttonText: "Dashboard",
                                 enabled: false,
+                                guildId: guild.id,
                                 guildName: guild.name,
                                 guildImage: guild.icon,
                                 url: `/dashboard/${guild.id}`,
@@ -154,6 +156,7 @@ async function Guilds() {
                             return {
                                 buttonText: "Add",
                                 enabled: true,
+                                guildId: guild.id,
                                 guildName: guild.name,
                                 guildImage: guild.icon,
                                 url: inviteUrl(guild.id),
@@ -176,6 +179,7 @@ async function Guilds() {
                             return {
                                 buttonText: "Add",
                                 enabled: false,
+                                guildId: guild.id,
                                 guildName: guild.name,
                                 guildImage: guild.icon,
                                 url: inviteUrl(guild.id),

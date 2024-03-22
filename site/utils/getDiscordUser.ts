@@ -18,9 +18,6 @@ export default async function (): Promise<User | null> {
             Accept: "application/json",
         },
     });
-    if (!response.ok) {
-        cookies().delete("encrypted_token");
-        return null;
-    }
+    if (!response.ok) return null;
     return await response.json();
 }

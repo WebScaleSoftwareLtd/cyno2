@@ -1,0 +1,51 @@
+import React from "react";
+import getGuild from "./getGuild";
+import Button from "@/components/atoms/Button";
+import { notFound } from "next/navigation";
+import GuildSidebar from "@/components/atoms/GuildSidebar";
+import Loading from "@/components/atoms/Loading";
+
+export default async function GuildLayout(
+    { params, children }: React.PropsWithChildren<{params: { guildId: string }}>,
+) {
+    // Get the guild.
+    const guild = await getGuild(params.guildId);
+    if (!guild) return notFound();
+
+    // Return the layout which the configuration gets rendered into.
+    return (
+        <main>
+            <div className="flex justify-between items-center mb-4">
+                <div className="flex items-center space-x-4">
+                    <img
+                        src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : `https://cdn.discordapp.com/embed/avatars/0.png`}
+                        alt=""
+                        className="mx-auto w-12 h-12 rounded-full"
+                    />
+                    <h1 className="text-2xl font-semibold">{guild.name}</h1>
+                </div>
+                <Button
+                    link="/dashboard"
+                    label="Back to Dashboard"
+                    style="link"
+                />
+            </div>
+
+            <hr className="my-4 border-gray-200 dark:border-gray-800" />
+
+            <div className="flex flex-wrap">
+                <div className="flex-col">
+                    <GuildSidebar guildId={guild.id} />
+                </div>
+
+                <div className="flex-col">
+                    <div className="relative">
+                        <React.Suspense fallback={<Loading />}>
+                            {children}
+                        </React.Suspense>
+                    </div>
+                </div>
+            </div>
+        </main>
+    );
+}
