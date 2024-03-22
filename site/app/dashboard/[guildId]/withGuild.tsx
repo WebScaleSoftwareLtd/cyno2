@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import getGuild from "./getGuild";
 import React from "react";
 import { Guild } from "@/utils/getDiscordGuilds";
 import Loading from "@/components/atoms/Loading";
+import getGuild from "@/components/server/getGuild";
 
 type Props = {
     guildId: string;

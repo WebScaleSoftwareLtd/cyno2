@@ -3,6 +3,8 @@ import getDiscordUser from "@/utils/getDiscordUser";
 import { client } from "database";
 import { cache } from "react";
 
+// I'm not a big fan of where this lives, but it serves a weird role.
+
 async function getGuild(guildId: string) {
     // Spawn a promise we might need to get the user. Do not await it.
     const userPromise = getDiscordUser().catch(() => null);

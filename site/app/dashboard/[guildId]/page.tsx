@@ -1,11 +1,17 @@
 import { Guild } from "@/utils/getDiscordGuilds";
 import withGuild from "./withGuild";
+import ServerCheckbox from "@/components/server/ServerCheckbox";
 
 async function GuildLevelling({ guild }: { guild: Guild }) {
-    // Return the configuration options for this page.
     return (
         <>
-            Hello World!
+            <ServerCheckbox
+                tableName="guilds"
+                column="xpEnabled"
+                guildId={guild.id}
+                title="Enable XP"
+                description="Enable or disable the XP system."
+            />
         </>
     );
 }
