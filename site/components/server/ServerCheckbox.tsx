@@ -35,7 +35,7 @@ export default async function ServerCheckbox<
         if (typeof value !== "boolean") throw new Error("Not a boolean.");
 
         // Check the user has permission.
-        if (!await getGuild(props.guildId)) return;
+        if (!await getGuild(props.guildId)) throw new Error("No permission.");
 
         // Update the value on the database.
         await client.insert(schema[props.tableName]).values({
@@ -49,7 +49,7 @@ export default async function ServerCheckbox<
             set: {
                 [props.column]: value,
             },
-        });
+        }).execute();
     }
 
     // Render the checkbox.
