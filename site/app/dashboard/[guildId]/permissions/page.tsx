@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import getGuild from "./getGuild";
+import getGuild from "../getGuild";
 
-export default async function GuildLevelling(
+export default async function GuildPermissions(
     { params }: { params: { guildId: string } }
 ) {
     // Check we have permissions for this guild.
