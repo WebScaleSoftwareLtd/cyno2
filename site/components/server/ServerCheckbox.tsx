@@ -32,7 +32,7 @@ export default async function ServerCheckbox<
         "use server";
 
         // Make sure this is actually a boolean.
-        if (typeof value !== "boolean") throw new Error("Not a booleaan.");
+        if (typeof value !== "boolean") throw new Error("Not a boolean.");
 
         // Check the user has permission.
         if (!await getGuild(props.guildId)) return;
