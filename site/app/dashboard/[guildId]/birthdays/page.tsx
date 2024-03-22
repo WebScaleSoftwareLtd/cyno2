@@ -1,13 +1,7 @@
-import { notFound } from "next/navigation";
-import getGuild from "../getGuild";
+import { Guild } from "@/utils/getDiscordGuilds";
+import withGuild from "../withGuild";
 
-export default async function GuildBirthdays(
-    { params }: { params: { guildId: string } }
-) {
-    // Check we have permissions for this guild.
-    const guild = await getGuild(params.guildId);
-    if (!guild) return notFound();
-
+async function GuildBirthdays({ guild }: { guild: Guild }) {
     // Return the configuration options for this page.
     return (
         <>
@@ -15,3 +9,5 @@ export default async function GuildBirthdays(
         </>
     );
 }
+
+export default withGuild(GuildBirthdays);

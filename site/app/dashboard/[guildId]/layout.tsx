@@ -1,7 +1,7 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import getGuild from "./getGuild";
 import Button from "@/components/atoms/Button";
-import { notFound } from "next/navigation";
 import GuildSidebar from "@/components/atoms/GuildSidebar";
 import Loading from "@/components/atoms/Loading";
 
@@ -43,9 +43,7 @@ async function GuildLayout({ params, children }: Props) {
 
                 <div className="flex-col">
                     <div className="relative">
-                        <React.Suspense fallback={<Loading />}>
-                            {children}
-                        </React.Suspense>
+                        {children}
                     </div>
                 </div>
             </div>
