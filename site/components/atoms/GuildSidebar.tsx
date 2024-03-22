@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const options = [
@@ -23,6 +25,19 @@ const options = [
 
 const ALL_NUMBERS = /^[0-9]+$/;
 
+type SidebarButtonProps = {
+    title: string;
+    active: boolean;
+    uri: string;
+};
+
+function SidebarButton({ title, active, uri }: SidebarButtonProps) {
+    return <Link
+        href={uri}
+        className={`font-bold w-full px-2 ${active && "text-blue-500 dark:text-blue-400"}`}
+    >{title}</Link>;
+}
+
 export default function GuildSidebar({ guildId }: { guildId: string }) {
     const pathname = usePathname();
 
@@ -36,6 +51,27 @@ export default function GuildSidebar({ guildId }: { guildId: string }) {
         suffix = `/${suffix}`;
     }
 
-    // TODO: Create a sidebar.
-    return <p>{pathname}</p>;
+    // Create a sidebar.
+    const endIndex = options.length - 1;
+    return (
+        <>
+            <div className="bg-gray-300 dark:bg-gray-950 p-4 rounded-lg sm:mr-8 mr-0 sm:mb-0 mb-6">
+                {
+                    options.map((opts, index) => {
+                        return (
+                            <React.Fragment key={opts.key}>
+                                <SidebarButton
+                                    title={opts.key}
+                                    active={opts.suffix === suffix}
+                                    uri={`/dashboard/${guildId}${opts.suffix}`}
+                                />
+                                {index !== endIndex && <hr className="my-2 border-gray-200 dark:border-gray-800" />}
+                            </React.Fragment>
+                        );
+                    })
+                }
+            </div>
+            <hr className="my-4 sm:hidden border-gray-200 dark:border-gray-800" />
+        </>
+    );
 }

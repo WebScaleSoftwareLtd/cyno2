@@ -15,26 +15,29 @@ export default async function GuildLayout(
     // Return the layout which the configuration gets rendered into.
     return (
         <main>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 flex-wrap">
                 <div className="flex items-center space-x-4">
                     <img
                         src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : `https://cdn.discordapp.com/embed/avatars/0.png`}
                         alt=""
                         className="mx-auto w-12 h-12 rounded-full"
+                        loading="lazy"
                     />
                     <h1 className="text-2xl font-semibold">{guild.name}</h1>
                 </div>
-                <Button
-                    link="/dashboard"
-                    label="Back to Dashboard"
-                    style="link"
-                />
+                <div className="xs:mt-0 mt-6 xs:mb-0 mb-4">
+                    <Button
+                        link="/dashboard"
+                        label="Back to Dashboard"
+                        style="link"
+                    />
+                </div>
             </div>
 
             <hr className="my-4 border-gray-200 dark:border-gray-800" />
 
             <div className="flex flex-wrap">
-                <div className="flex-col">
+                <div className="flex-col sm:flex-grow-0 sm:w-auto w-full">
                     <GuildSidebar guildId={guild.id} />
                 </div>
 

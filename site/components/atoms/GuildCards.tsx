@@ -20,6 +20,7 @@ function GuildCard({ guildId, guildName, guildImage, url, enabled, buttonText }:
                         src={guildImage ? `https://cdn.discordapp.com/icons/${guildId}/${guildImage}.png` : `https://cdn.discordapp.com/embed/avatars/0.png`}
                         alt=""
                         className="mx-auto w-12 h-12 rounded-full"
+                        loading="lazy"
                     />
                 </p>
                 <h4 className="text-md font-bold text-center mt-3 select-none">{guildName}</h4>

@@ -3,8 +3,8 @@
 import Link from "next/link";
 
 const buttonStyles = {
-    standard: "select-none bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-950 disabled:bg-gray-300 disabled:text-gray-400 disabled:dark:bg-gray-600 disabled:dark:text-gray-300",
-    link: "select-none bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-500 dark:bg-blue-900 dark:hover:bg-blue-950 disabled:bg-blue-300 disabled:text-gray-400",
+    standard: "text-nowrap select-none bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-950 disabled:bg-gray-300 disabled:text-gray-400 disabled:dark:bg-gray-600 disabled:dark:text-gray-300",
+    link: "text-nowrap select-none bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-500 dark:bg-blue-900 dark:hover:bg-blue-950 disabled:bg-blue-300 disabled:text-gray-400",
 } as const;
 
 export type ButtonProps = {
