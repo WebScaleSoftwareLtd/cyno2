@@ -31,6 +31,9 @@ export default async function ServerCheckbox<
     async function change(value: boolean) {
         "use server";
 
+        // Make sure this is actually a boolean.
+        if (typeof value !== "boolean") throw new Error("Not a booleaan.");
+
         // Check the user has permission.
         if (!await getGuild(props.guildId)) return;
 
