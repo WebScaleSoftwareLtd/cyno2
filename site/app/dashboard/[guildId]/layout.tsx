@@ -5,16 +5,16 @@ import { notFound } from "next/navigation";
 import GuildSidebar from "@/components/atoms/GuildSidebar";
 import Loading from "@/components/atoms/Loading";
 
-export default async function GuildLayout(
-    { params, children }: React.PropsWithChildren<{params: { guildId: string }}>,
-) {
+type Props = React.PropsWithChildren<{params: { guildId: string }}>;
+
+async function GuildLayout({ params, children }: Props) {
     // Get the guild.
     const guild = await getGuild(params.guildId);
     if (!guild) return notFound();
 
     // Return the layout which the configuration gets rendered into.
     return (
-        <main>
+        <>
             <div className="flex justify-between items-center mb-4 flex-wrap">
                 <div className="flex items-center space-x-4">
                     <img
@@ -49,6 +49,16 @@ export default async function GuildLayout(
                     </div>
                 </div>
             </div>
+        </>
+    );
+}
+
+export default async function AsyncGuildLayout(props: Props) {
+    return (
+        <main>
+            <React.Suspense fallback={<Loading />}>
+                <GuildLayout {...props} />
+            </React.Suspense>
         </main>
     );
 }
