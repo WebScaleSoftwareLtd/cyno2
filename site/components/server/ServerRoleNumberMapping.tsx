@@ -5,7 +5,8 @@ import OptionCard from "../atoms/OptionCard";
 import getGuild from "./getGuild";
 import { client } from "database";
 import { sql } from "drizzle-orm";
-import { ClientRoleMapping, Role } from "../atoms/ClientRoleMapping";
+import { Role } from "../atoms/RolePicker";
+import { ClientRoleMapping } from "../molecules/ClientRoleMapping";
 
 type Props<
     TableName extends keyof typeof schema,
@@ -49,7 +50,7 @@ async function getRolesFromDb<
         columns: { [roleColumn]: true, [numberColumn]: true },
 
         // @ts-ignore: This definitely exists.
-        where: { guildId: BigInt(guildId) },
+        where: (row, { eq }) => eq(row.guildId, BigInt(guildId)),
     }).execute() as Promise<{ [key: string]: number | bigint }[]>;
 }
 

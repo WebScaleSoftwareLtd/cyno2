@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-
-export type Role = {
-    id: string;
-    name: string;
-    color: number;
-};
+import Button from "../atoms/Button";
+import { RolePicker, Role } from "../atoms/RolePicker";
 
 type ClientInputProps = {
     roles: Role[];
+    roleColumn: string;
+    numberColumn: string;
     records: {[key: string]: number | bigint}[];
     setRecords: (records: {[key: string]: number | bigint}[]) => void;
     create: (roleId: string, number: number) => Promise<void>;
@@ -18,7 +16,59 @@ type ClientInputProps = {
 };
 
 function ClientInput(props: ClientInputProps) {
-    return <></>;
+    const [roleId, setRoleId] = React.useState(null as string | null);
+    const [number, setNumber] = React.useState(props.min ?? 0);
+
+    const submit = React.useCallback(() => {
+        // Check if it already exists.
+        if (roleId === null) return;
+        const roleIdBigInt = BigInt(roleId);
+        for (const r of props.records) {
+            if (r[props.roleColumn] === roleIdBigInt) return;
+        }
+
+        // Add the role.
+        props.create(roleId, number).then(() => {
+            props.setRecords([...props.records, {
+                [props.roleColumn]: roleIdBigInt,
+                [props.numberColumn]: number,
+            }]);
+        });
+    }, [roleId, number]);
+
+    return (
+        <tr>
+            <td>
+                <RolePicker
+                    roles={props.roles}
+                    value={roleId}
+                    onChange={setRoleId}
+                />
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    value={number}
+                    onChange={e => {
+                        const v = parseInt(e.target.value);
+                        if (isNaN(v)) return;
+                        setNumber(v);
+                    }}
+                    min={props.min}
+                    max={props.max}
+                />
+            </td>
+
+            <td>
+                <Button
+                    action={submit}
+                    label="Add"
+                    style="link"
+                />
+            </td>
+        </tr>
+    );
 }
 
 type Props = {
@@ -101,9 +151,16 @@ export function ClientRoleMapping(props: Props) {
             </tbody>
 
             <tfoot>
-                <tr>
-                    
-                </tr>
+                <ClientInput
+                    roles={props.roles}
+                    roleColumn={props.roleColumn}
+                    numberColumn={props.numberColumn}
+                    records={records}
+                    setRecords={setRecords}
+                    create={props.create}
+                    min={props.min}
+                    max={props.max}
+                />
             </tfoot>
         </table>
     );
