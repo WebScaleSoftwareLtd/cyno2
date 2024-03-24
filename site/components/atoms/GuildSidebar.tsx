@@ -55,7 +55,7 @@ export default function GuildSidebar({ guildId }: { guildId: string }) {
     const endIndex = options.length - 1;
     return (
         <>
-            <div className="bg-gray-300 dark:bg-gray-950 p-4 rounded-lg sm:mr-8 mr-0 sm:mb-0 mb-6">
+            <div className="bg-gray-100 dark:bg-gray-950 p-4 rounded-lg sm:mr-8 mr-0 sm:mb-0 mb-6">
                 {
                     options.map((opts, index) => {
                         return (
