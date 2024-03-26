@@ -27,13 +27,13 @@ async function GuildBirthdays({ guild }: { guild: Guild }) {
                 description="This option defines the message that will be sent to a channel on a users birthday."
             />
 
-            <ServerChannelInput
+            {/* <ServerChannelInput
                 tableName="guildBirthdayConfig"
                 column="birthdayChannel"
                 guildId={guild.id}
                 title="Birthday Channel"
                 description="This option defines the channel that the birthday message will be sent to."
-            />
+            /> */}
 
             <ServerNumberInput
                 tableName="guildBirthdayConfig"
