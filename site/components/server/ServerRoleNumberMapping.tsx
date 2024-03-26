@@ -5,8 +5,8 @@ import OptionCard from "../atoms/OptionCard";
 import getGuild from "./getGuild";
 import { client } from "database";
 import { sql } from "drizzle-orm";
-import { Role } from "../atoms/RolePicker";
 import { ClientRoleMapping } from "../molecules/ClientRoleMapping";
+import getGuildRoles from "./getGuildRoles";
 
 type Props<
     TableName extends keyof typeof schema,
@@ -24,18 +24,6 @@ type Props<
     min?: number;
     max?: number;
 };
-
-async function getGuildRoles(guildId: string): Promise<Role[]> {
-    return (await fetch(
-        `https://discord.com/api/v10/guilds/${guildId}/roles`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
-            },
-        },
-    )).json();
-}
 
 async function getRolesFromDb<
     TableName extends keyof typeof schema,

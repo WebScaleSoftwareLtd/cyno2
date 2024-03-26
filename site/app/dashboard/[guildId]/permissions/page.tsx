@@ -1,11 +1,11 @@
 import { Guild } from "@/utils/getDiscordGuilds";
 import withGuild from "../withGuild";
+import ServerRoleInput from "@/components/server/ServerRoleInput";
 
 async function GuildPermissions({ guild }: { guild: Guild }) {
-    // Return the configuration options for this page.
     return (
         <>
-            Hello World!
+            
         </>
     );
 }

@@ -1,11 +1,48 @@
 import { Guild } from "@/utils/getDiscordGuilds";
 import withGuild from "../withGuild";
+import ServerRoleInput from "@/components/server/ServerRoleInput";
+import ServerTextInput from "@/components/server/ServerTextInput";
+import ServerNumberInput from "@/components/server/ServerNumberInput";
 
 async function GuildBirthdays({ guild }: { guild: Guild }) {
-    // Return the configuration options for this page.
     return (
         <>
-            Hello World!
+            <ServerRoleInput
+                tableName="guildBirthdayConfig"
+                column="roleId"
+                guildId={guild.id}
+                title="Birthday Role"
+                description="This option defines the role that will be set on a users birthday and removed automatically afterwards."
+            />
+
+            <ServerTextInput
+                tableName="guildBirthdayConfig"
+                column="birthdayMessage"
+                guildId={guild.id}
+                validator={{
+                    max: 1000,
+                    min: 1,
+                }}
+                title="Birthday Message"
+                description="This option defines the message that will be sent to a channel on a users birthday."
+            />
+
+            <ServerChannelInput
+                tableName="guildBirthdayConfig"
+                column="birthdayChannel"
+                guildId={guild.id}
+                title="Birthday Channel"
+                description="This option defines the channel that the birthday message will be sent to."
+            />
+
+            <ServerNumberInput
+                tableName="guildBirthdayConfig"
+                column="currency"
+                min={0}
+                guildId={guild.id}
+                title="Birthday Currency"
+                description="This option defines the amount of currency a user will get on their birthday."
+            />
         </>
     );
 }
