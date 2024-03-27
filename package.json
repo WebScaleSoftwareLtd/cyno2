@@ -13,5 +13,9 @@
         "dev": "node ./ensurePrivateKey.js && nf -j Procfile.dev start",
         "lint": "prettier . --check",
         "lint:fix": "prettier . --write"
+    },
+    "dependencies": {
+        "@uploadthing/react": "^6.4.1",
+        "uploadthing": "^6.7.0"
     }
 }
