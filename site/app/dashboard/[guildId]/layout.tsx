@@ -41,7 +41,7 @@ async function GuildLayout({ params, children }: Props) {
                     <GuildSidebar guildId={guild.id} />
                 </div>
 
-                <div className="flex-col">
+                <div className="flex-col flex-grow">
                     <div className="relative">
                         {children}
                     </div>
@@ -54,9 +54,11 @@ async function GuildLayout({ params, children }: Props) {
 export default async function AsyncGuildLayout(props: Props) {
     return (
         <main>
-            <React.Suspense fallback={<Loading />}>
-                <GuildLayout {...props} />
-            </React.Suspense>
+            <div className="max-w-5xl mx-auto">
+                <React.Suspense fallback={<Loading />}>
+                    <GuildLayout {...props} />
+                </React.Suspense>
+            </div>
         </main>
     );
 }

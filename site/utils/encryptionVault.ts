@@ -1,10 +1,10 @@
-import { readFile } from "fs/promises";
 import Neboris from "neboris";
 
 export default (async () => {
     let privateKey = process.env.COOKIE_PRIVATE_KEY;
     if (!privateKey) {
         try {
+            const readFile = (await import("fs/promises")).readFile;
             privateKey = await readFile("private.key", "utf8");
         } catch {
             throw new Error(
