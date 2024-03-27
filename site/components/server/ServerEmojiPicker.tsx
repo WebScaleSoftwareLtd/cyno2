@@ -31,7 +31,6 @@ async function ServerEmojiInput<
         dbCache(props.tableName, props.guildId),
         getEmojis(props.guildId),
     ]);
-    console.log(emojis);
 
     // Get the default value.
     let defaultValue = "";
