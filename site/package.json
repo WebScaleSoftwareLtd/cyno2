@@ -1,6 +1,5 @@
 {
     "name": "site",
-    "version": "0.1.0",
     "private": true,
     "scripts": {
         "dev": "next dev --turbo",
@@ -18,7 +17,8 @@
         "react-select": "5.8.0",
         "emoji-picker-react": "^4.9.2",
         "uploadthing": "^6.7.0",
-        "@uploadthing/react": "^6.4.1"
+        "@uploadthing/react": "^6.4.1",
+        "react-spinners": "^0.13.8"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.18",

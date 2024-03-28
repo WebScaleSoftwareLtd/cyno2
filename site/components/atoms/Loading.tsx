@@ -1,5 +1,12 @@
 "use client";
 
+import useDarkMode from "../hooks/useDarkMode";
+import { MoonLoader } from "react-spinners";
+
 export default function Loading() {
-   return <p>Loading...</p>;
+   const darkMode = useDarkMode();
+   return <MoonLoader
+      size={50}
+      color={darkMode ? "#fff" : "#000"}
+   />;
 }
