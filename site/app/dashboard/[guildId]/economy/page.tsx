@@ -5,6 +5,7 @@ import ServerEmojiInput from "@/components/server/ServerEmojiPicker";
 import ServerRoleNumberMapping from "@/components/server/ServerRoleNumberMapping";
 import ServerCheckbox from "@/components/server/ServerCheckbox";
 import ServerNumberInput from "@/components/server/ServerNumberInput";
+import ServerFileUpload from "@/components/server/ServerFileUpload";
 
 async function GuildEconomy({ guild }: { guild: Guild }) {
     return (
@@ -64,6 +65,15 @@ async function GuildEconomy({ guild }: { guild: Guild }) {
                     max={5}
                     title="Drop Blanks"
                     description="This option defines the number of blank buttons on a currency drop embed."
+                />
+
+                <ServerFileUpload
+                    tableName="guilds"
+                    column="dropImage"
+                    guildId={guild.id}
+                    endpoint="imageUrlUploader"
+                    title="Drop Image"
+                    description="This option defines the image that will be used for currency drops."
                 />
             </Section>
         </>
