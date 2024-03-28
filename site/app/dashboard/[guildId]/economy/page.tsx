@@ -6,6 +6,7 @@ import ServerRoleNumberMapping from "@/components/server/ServerRoleNumberMapping
 import ServerCheckbox from "@/components/server/ServerCheckbox";
 import ServerNumberInput from "@/components/server/ServerNumberInput";
 import ServerFileUpload from "@/components/server/ServerFileUpload";
+import ServerTextInput from "@/components/server/ServerTextInput";
 
 async function GuildEconomy({ guild }: { guild: Guild }) {
     return (
@@ -74,6 +75,57 @@ async function GuildEconomy({ guild }: { guild: Guild }) {
                     endpoint="imageUrlUploader"
                     title="Drop Image"
                     description="This option defines the image that will be used for currency drops."
+                />
+
+                <ServerTextInput
+                    tableName="guilds"
+                    column="dropMessage"
+                    guildId={guild.id}
+                    title="Drop Message"
+                    description="This option defines the message that will be sent for currency drops."
+                    validator={{
+                        max: 1000,
+                        min: 1,
+                    }}
+                />
+
+                <ServerNumberInput
+                    tableName="guilds"
+                    column="dropSecondsCooldown"
+                    guildId={guild.id}
+                    min={0}
+                    title="Drop Cooldown"
+                    description="This option defines the number of seconds cooldown between drops."
+                />
+
+                TODO: Channels
+            </Section>
+
+            <Section title="Timely Functionality">
+                <ServerCheckbox
+                    tableName="guildTimelyConfig"
+                    column="enabled"
+                    guildId={guild.id}
+                    title="Timely Enabled"
+                    description="This option enables the timely command. This command allows the user to pick up the amount of currency every number of hours specified."
+                />
+
+                <ServerNumberInput
+                    tableName="guildTimelyConfig"
+                    column="amount"
+                    guildId={guild.id}
+                    min={1}
+                    title="Timely Amount"
+                    description="This option defines the amount the user can pick up from a timely collection."
+                />
+
+                <ServerNumberInput
+                    tableName="guildTimelyConfig"
+                    column="hoursBetweenCollections"
+                    guildId={guild.id}
+                    min={1}
+                    title="Hours Between Collections"
+                    description="This option defines the number of hours before the user is allowed another timely collection."
                 />
             </Section>
         </>
