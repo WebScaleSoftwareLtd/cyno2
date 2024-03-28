@@ -36,7 +36,7 @@ async function GuildLayout({ params, children }: Props) {
 
             <hr className="my-4 border-gray-200 dark:border-gray-800" />
 
-            <div className="flex flex-wrap">
+            <div className="flex max-sm:flex-wrap">
                 <div className="flex-col sm:flex-grow-0 sm:w-auto w-full">
                     <GuildSidebar guildId={guild.id} />
                 </div>
