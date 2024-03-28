@@ -1,11 +1,12 @@
 import { client } from "database";
 import * as schema from "database/schema";
-import dbCache from "./cached/dbCache";
-import getGuild from "./cached/getGuild";
 import { sql } from "drizzle-orm";
-import TextInput from "../molecules/TextInput";
-import React from "react";
-import { Validator, constructValidator } from "@/utils/jsonTextValidator";
+import { FileRouter } from "../external/uploadthing";
+import OptionCard from "../atoms/OptionCard";
+import EagerState from "../atoms/EagerState";
+import ClientUploader from "../atoms/ClientUploader";
+import getGuild from "./cached/getGuild";
+import dbCache from "./cached/dbCache";
 
 type Props<
     TableName extends keyof typeof schema,
@@ -14,30 +15,30 @@ type Props<
     tableName: TableName;
     column: ColumnName;
     guildId: string;
-    validator?: Validator;
+    endpoint: keyof FileRouter;
 
     title: string;
     description: string;
 };
 
-export default async function ServerTextInput<
+export default async function ServerFileUpload<
     TableName extends keyof typeof schema,
     ColumnName extends keyof typeof schema[TableName],
 >(props: Props<TableName, ColumnName>) {
     // Get the table and value.
     const record = await dbCache(props.tableName, props.guildId);
-    let defaultValue = "";
+    let defaultValue: string | null = null;
     if (record) defaultValue = (record as any)[props.column];
 
-    // Change the value on the server.
-    async function change(value: string) {
+    // Handle the table update.
+    async function update(value: string) {
         "use server";
-
-        // Validate the value.
-        if (props.validator) constructValidator(props.validator).parse(value);
 
         // Check the user has permission.
         if (!await getGuild(props.guildId)) throw new Error("No permission.");
+
+        // Ensure this is a string.
+        if (typeof value !== "string") throw new Error("Not a string.");
 
         // Update the value on the database.
         await client.insert(schema[props.tableName]).values({
@@ -54,12 +55,15 @@ export default async function ServerTextInput<
         }).execute();
     }
 
-    // Render the number input.
-    return <TextInput
-        title={props.title}
-        description={props.description}
-        defaultValue={defaultValue}
-        validator={props.validator}
-        onChange={change}
-    />;
+    // Return the option card.
+    return (
+        <OptionCard title={props.title} description={props.description}>
+            <EagerState
+                component={ClientUploader}
+                initialValue={defaultValue}
+                props={{ endpoint: props.endpoint }}
+                update={update}
+            />
+        </OptionCard>
+    );
 }

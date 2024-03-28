@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Button from "@/components/atoms/Button";
 import GuildSidebar from "@/components/atoms/GuildSidebar";
 import Loading from "@/components/atoms/Loading";
-import getGuild from "@/components/server/getGuild";
+import getGuild from "@/components/server/cached/getGuild";
 
 type Props = React.PropsWithChildren<{params: { guildId: string }}>;
 

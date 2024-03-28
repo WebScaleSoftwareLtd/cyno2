@@ -1,9 +1,9 @@
 import { cache } from "react";
-import { Role } from "../atoms/RolePicker";
+import type { DiscordEmoji } from "../../molecules/DiscordEmojiPicker";
 
-async function getGuildRoles(guildId: string): Promise<Role[]> {
+async function getEmojis(guildId: string): Promise<DiscordEmoji[]> {
     return (await fetch(
-        `https://discord.com/api/v10/guilds/${guildId}/roles`,
+        `https://discord.com/api/v10/guilds/${guildId}/emojis`,
         {
             headers: {
                 "Content-Type": "application/json",
@@ -13,4 +13,4 @@ async function getGuildRoles(guildId: string): Promise<Role[]> {
     )).json();
 }
 
-export default cache(getGuildRoles);
+export default cache(getEmojis);

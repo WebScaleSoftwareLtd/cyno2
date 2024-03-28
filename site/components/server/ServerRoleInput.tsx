@@ -1,12 +1,12 @@
 import React from "react";
 import * as schema from "database/schema";
 import { RolePicker } from "../atoms/RolePicker";
-import getGuildRoles from "./getGuildRoles";
+import getGuildRoles from "./cached/getGuildRoles";
 import OptionCard from "../atoms/OptionCard";
 import Loading from "../atoms/Loading";
-import dbCache from "./dbCache";
+import dbCache from "./cached/dbCache";
 import EagerState from "../atoms/EagerState";
-import getGuild from "./getGuild";
+import getGuild from "./cached/getGuild";
 import { client } from "database";
 import { sql } from "drizzle-orm";
 

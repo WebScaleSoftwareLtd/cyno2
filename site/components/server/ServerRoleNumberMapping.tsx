@@ -2,11 +2,11 @@ import * as schema from "database/schema";
 import React from "react";
 import Loading from "../atoms/Loading";
 import OptionCard from "../atoms/OptionCard";
-import getGuild from "./getGuild";
+import getGuild from "./cached/getGuild";
 import { client } from "database";
 import { sql } from "drizzle-orm";
 import { ClientRoleMapping } from "../molecules/ClientRoleMapping";
-import getGuildRoles from "./getGuildRoles";
+import getGuildRoles from "./cached/getGuildRoles";
 
 type Props<
     TableName extends keyof typeof schema,

@@ -1,7 +1,7 @@
 import { client } from "database";
 import * as schema from "database/schema";
-import dbCache from "./dbCache";
-import getGuild from "./getGuild";
+import dbCache from "./cached/dbCache";
+import getGuild from "./cached/getGuild";
 import { sql } from "drizzle-orm";
 import NumberInput from "../molecules/NumberInput";
 
