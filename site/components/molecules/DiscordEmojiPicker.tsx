@@ -5,7 +5,9 @@ import Loading from "../atoms/Loading";
 import { Theme } from "emoji-picker-react";
 import FloatingContainer from "../atoms/FloatingContainer";
 
-const EmojiPicker = React.lazy(() => import("emoji-picker-react"));
+// Start the import as soon as the page loads.
+const pickerImport = import("emoji-picker-react");
+const EmojiPicker = React.lazy(() => pickerImport);
 
 export type DiscordEmoji = {
     id: string;
