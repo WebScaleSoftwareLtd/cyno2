@@ -32,7 +32,7 @@ async function AsyncComponent<
         getGuildRoles(guildId),
     ]);
     let defaultValue: string | null = null;
-    if (record) defaultValue = (record as any)[column];
+    if (record) defaultValue = (record as any)[column].toString();
 
     // Update the role on the server.
     async function update(roleId: string) {
@@ -48,13 +48,13 @@ async function AsyncComponent<
         await client.insert(schema[tableName]).values({
             // @ts-ignore: It existed earlier or we wouldn't be here.
             guildId: BigInt(guildId),
-            [column]: roleId,
+            [column]: BigInt(roleId),
         }).onConflictDoUpdate({
             target: sql`guild_id`,
 
             // @ts-ignore: This definitely exists.
             set: {
-                [column]: roleId,
+                [column]: BigInt(roleId),
             },
         }).execute();
     }

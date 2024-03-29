@@ -4,7 +4,7 @@ import type { User } from "@/utils/getDiscordUser";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
-const buttonStyle = "w-full hover:bg-gray-100 dark:hover:bg-gray-900 p-1 rounded-md text-left";
+const buttonStyle = "w-full hover:bg-gray-50 dark:hover:bg-gray-900 p-1 rounded-md text-left";
 
 export default function UserMenu({ user }: { user: User }) {
     const [isOpen, setIsOpen] = useState(false);
