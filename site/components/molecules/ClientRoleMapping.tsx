@@ -115,7 +115,7 @@ function ClientRow({ roles, roleId, number, remove }: ClientRowProps) {
                         setHidden(false);
                         console.error(e);
                     });
-                }}>
+                }} aria-label="Delete role">
                     &times;
                 </button>
             </td>
