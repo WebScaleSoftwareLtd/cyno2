@@ -55,17 +55,20 @@ function ClientInput(props: ClientInputProps) {
                         if (isNaN(v)) return;
                         setNumber(v);
                     }}
+                    className="w-full p-2 dark:bg-gray-900 rounded-lg ml-2"
                     min={props.min}
                     max={props.max}
                 />
             </td>
 
             <td>
-                <Button
-                    action={submit}
-                    label="Add"
-                    style="link"
-                />
+                <div className="ml-4">
+                    <Button
+                        action={submit}
+                        label="Add"
+                        style="link"
+                    />
+                </div>
             </td>
         </tr>
     );
@@ -124,7 +127,7 @@ export function ClientRoleMapping(props: Props) {
     const [records, setRecords] = React.useState(props.records);
 
     return (
-        <table className="w-full">
+        <table className="w-full table-fixed">
             <thead>
                 <tr>
                     <th>Role</th>
