@@ -30,6 +30,9 @@ export function RolePicker({ roles, value, onChange }: Props) {
         label: <RoleLabel role={role} key={role.id} />,
     }));
 
+    // Remove @everyone.
+    options.shift();
+
     // Get the currently selected value.
     const selected = options.find((role) => role.data === value);
 
