@@ -202,7 +202,6 @@ export const levelRoles = takeable(
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            userId: blob("user_id", { mode: "bigint" }).notNull(),
             level: integer("level", { mode: "number" }).notNull(),
         },
         (table) => {
