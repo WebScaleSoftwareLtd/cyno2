@@ -6,7 +6,7 @@ import getGuildChannels from "./cached/getGuildChannels";
 import dbCache from "./cached/dbCache";
 import { client } from "database";
 import getGuild from "./cached/getGuild";
-import { sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import ChannelPicker from "../atoms/ChannelPicker";
 
 type Props<
@@ -63,11 +63,13 @@ async function AsyncComponent<
         if (typeof channelId !== "bigint") throw new Error("Not a bigint.");
 
         // Delete the value on the database.
-        await client.delete(schema[tableName]).where({
+        await client.delete(schema[tableName]).where(and(
             // @ts-ignore: It existed earlier or we wouldn't be here.
-            guildId: BigInt(guildId),
-            [column]: channelId,
-        }).execute();
+            eq(schema[tableName].guildId, BigInt(guildId)),
+
+            // @ts-ignore: This definitely exists.
+            eq(schema[tableName][column], channelId),
+        )).execute();
     }
 
     // Insert a record into the database.
@@ -103,9 +105,9 @@ async function AsyncComponent<
     return <ChannelPicker
         channels={channels}
         records={records}
+        multiple={multiple}
         remove={remove}
         insert={insert}
-        multiple={multiple}
     />;
 }
 
