@@ -22,21 +22,23 @@ async function getGuild(guildId: string) {
         if (!user) return false;
 
         // Check if the user is an admin.
-        return !!await client.query.dashboardAdmins.findFirst({
+        return !!(await client.query.dashboardAdmins.findFirst({
             columns: { userId: true },
-            where: (admins, { and, eq }) => and(
-                eq(admins.userId, BigInt(user.id)),
-                eq(admins.guildId, guildId),
-            ),
-        });
+            where: (admins, { and, eq }) =>
+                and(
+                    eq(admins.userId, BigInt(user.id)),
+                    eq(admins.guildId, guildId),
+                ),
+        }));
     };
 
     // If the guild is not configurable, return null.
     if (
         !guild.owner && // Owner cannot manage the server.
         !(BigInt(guild.permissions) & BigInt(0x20)) && // Cannot Manage Server
-        !await isAdmin(BigInt(guild.id)) // Is not a dashboard admin.
-    ) return null;
+        !(await isAdmin(BigInt(guild.id))) // Is not a dashboard admin.
+    )
+        return null;
 
     // We are okay to do things in this guild. Return it.
     return guild;

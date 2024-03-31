@@ -6,15 +6,14 @@ export type Channel = {
 };
 
 async function getGuildChannels(guildId: string): Promise<Channel[]> {
-    return (await fetch(
-        `https://discord.com/api/v10/guilds/${guildId}/channels`,
-        {
+    return (
+        await fetch(`https://discord.com/api/v10/guilds/${guildId}/channels`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bot ${process.env.TOKEN}`,
             },
-        },
-    )).json();
+        })
+    ).json();
 }
 
 export default cache(getGuildChannels);

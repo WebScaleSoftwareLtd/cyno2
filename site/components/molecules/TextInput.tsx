@@ -18,39 +18,41 @@ export default function TextInput(props: Props) {
     const [alert, setAlert] = React.useState<string | null>(null);
     const [value, setValue] = React.useState(props.defaultValue);
 
-    const changeHandler = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        // Initially, set to the value of the string.
-        setValue(e.target.value);
+    const changeHandler = React.useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            // Initially, set to the value of the string.
+            setValue(e.target.value);
 
-        // Attempt to validate.
-        try {
-            if (props.validator) constructValidator(props.validator).parse(e.target.value);
-            setAlert(null);
-        } catch (e) {
-            setAlert((e as ZodError).errors[0].message);
-            return;
-        }
+            // Attempt to validate.
+            try {
+                if (props.validator)
+                    constructValidator(props.validator).parse(e.target.value);
+                setAlert(null);
+            } catch (e) {
+                setAlert((e as ZodError).errors[0].message);
+                return;
+            }
 
-        // Write to the server.
-        props.onChange(e.target.value).catch(e => {
-            // Set to the initial value.
-            setValue(value);
+            // Write to the server.
+            props.onChange(e.target.value).catch((e) => {
+                // Set to the initial value.
+                setValue(value);
 
-            // Log out ot the console.
-            console.error(e);
-        });
-    }, [props.onChange, value]);
+                // Log out ot the console.
+                console.error(e);
+            });
+        },
+        [props.onChange, value],
+    );
 
     return (
         <OptionCard title={props.title} description={props.description}>
-            {
-                alert && (
-                    <div className="mb-4">
-                        <Alert severity="error">{alert}</Alert>
-                    </div>
-                )
-            }
-            <form onSubmit={e => e.preventDefault()}>
+            {alert && (
+                <div className="mb-4">
+                    <Alert severity="error">{alert}</Alert>
+                </div>
+            )}
+            <form onSubmit={(e) => e.preventDefault()}>
                 <input
                     type="text"
                     value={value}

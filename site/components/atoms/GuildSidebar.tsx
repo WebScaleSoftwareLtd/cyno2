@@ -28,11 +28,15 @@ type SidebarButtonProps = {
 };
 
 function SidebarButton({ title, active, uri }: SidebarButtonProps) {
-    return <Link
-        href={uri}
-        className={`font-bold w-full px-2 ${active && "text-blue-500 dark:text-blue-400"}`}
-        aria-selected={active}
-    >{title}</Link>;
+    return (
+        <Link
+            href={uri}
+            className={`font-bold w-full px-2 ${active && "text-blue-500 dark:text-blue-400"}`}
+            aria-selected={active}
+        >
+            {title}
+        </Link>
+    );
 }
 
 export default function GuildSidebar({ guildId }: { guildId: string }) {
@@ -53,20 +57,20 @@ export default function GuildSidebar({ guildId }: { guildId: string }) {
     return (
         <>
             <div className="bg-gray-50 dark:bg-gray-950 p-4 rounded-lg sm:mr-8 mr-0 sm:mb-0 mb-6 shadow-lg">
-                {
-                    options.map((opts, index) => {
-                        return (
-                            <React.Fragment key={opts.key}>
-                                <SidebarButton
-                                    title={opts.key}
-                                    active={opts.suffix === suffix}
-                                    uri={`/dashboard/${guildId}${opts.suffix}`}
-                                />
-                                {index !== endIndex && <hr className="my-2 border-gray-200 dark:border-gray-800" />}
-                            </React.Fragment>
-                        );
-                    })
-                }
+                {options.map((opts, index) => {
+                    return (
+                        <React.Fragment key={opts.key}>
+                            <SidebarButton
+                                title={opts.key}
+                                active={opts.suffix === suffix}
+                                uri={`/dashboard/${guildId}${opts.suffix}`}
+                            />
+                            {index !== endIndex && (
+                                <hr className="my-2 border-gray-200 dark:border-gray-800" />
+                            )}
+                        </React.Fragment>
+                    );
+                })}
             </div>
             <hr className="my-4 sm:hidden border-gray-200 dark:border-gray-800" />
         </>

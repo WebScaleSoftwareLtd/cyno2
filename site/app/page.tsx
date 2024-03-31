@@ -5,20 +5,22 @@ import getUser from "@/components/server/cached/getUser";
 import Image from "next/image";
 import inviteUrl from "@/utils/inviteUrl";
 
-async function UserButton({ fallback: C }: { fallback: () => React.ReactNode }) {
-    return await getUser() ? <Button
-        link="/dashboard"
-        label="Dashboard"
-        style="standard"
-    /> : <C />;
+async function UserButton({
+    fallback: C,
+}: {
+    fallback: () => React.ReactNode;
+}) {
+    return (await getUser()) ? (
+        <Button link="/dashboard" label="Dashboard" style="standard" />
+    ) : (
+        <C />
+    );
 }
 
 async function LazyButton() {
-    const fallback = () => <Button
-        link="/api/auth"
-        label="Login"
-        style="standard"
-    />;
+    const fallback = () => (
+        <Button link="/api/auth" label="Login" style="standard" />
+    );
 
     return (
         <React.Suspense fallback={fallback()}>
@@ -27,7 +29,11 @@ async function LazyButton() {
     );
 }
 
-async function Feature({ url, title, children }: React.PropsWithChildren<{url: string; title: string}>) {
+async function Feature({
+    url,
+    title,
+    children,
+}: React.PropsWithChildren<{ url: string; title: string }>) {
     return (
         <div className="flex-col m-4 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 max-w-72 text-center">
             <Image
@@ -72,25 +78,35 @@ export default async function Home() {
             </HomeSplash>
 
             <section className="p-10">
-                <h2 className="text-2xl font-semibold mb-4">Cyno makes your Discord server more fun!</h2>
+                <h2 className="text-2xl font-semibold mb-4">
+                    Cyno makes your Discord server more fun!
+                </h2>
                 <p className="mb-4">
-                    Cyno is a <a href="https://github.com/webscalesoftwareltd/cyno2" className="text-blue-900 dark:text-blue-300">
+                    Cyno is a{" "}
+                    <a
+                        href="https://github.com/webscalesoftwareltd/cyno2"
+                        className="text-blue-900 dark:text-blue-300"
+                    >
                         open source and MIT licensed
-                    </a> Discord bot that adds fun functionality to your server:
+                    </a>{" "}
+                    Discord bot that adds fun functionality to your server:
                 </p>
 
                 <div className="flex flex-wrap">
                     <Feature url="/balance.png" title="Economy">
-                        Cyno supports a fully featured economy system with wallets, sharing currency,
-                        and testing your luck with your currency.
+                        Cyno supports a fully featured economy system with
+                        wallets, sharing currency, and testing your luck with
+                        your currency.
                     </Feature>
 
                     <Feature url="/drop.png" title="Currency Drops">
-                        Cyno drops currency in your server for your members to collect.
+                        Cyno drops currency in your server for your members to
+                        collect.
                     </Feature>
 
                     <Feature url="/roleshop.png" title="Role Shop">
-                        Set roles that members can buy with the currency they collect.
+                        Set roles that members can buy with the currency they
+                        collect.
                     </Feature>
                 </div>
             </section>

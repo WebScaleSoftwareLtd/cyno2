@@ -12,7 +12,7 @@ import { sql } from "drizzle-orm";
 
 type Props<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 > = {
     tableName: TableName;
     column: ColumnName;
@@ -24,7 +24,7 @@ type Props<
 
 async function AsyncComponent<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 >({ tableName, column, guildId }: Props<TableName, ColumnName>) {
     // Get the record and roles.
     const [record, roles] = await Promise.all([
@@ -39,38 +39,44 @@ async function AsyncComponent<
         "use server";
 
         // Check the user has permission.
-        if (!await getGuild(guildId)) throw new Error("No permission.");
+        if (!(await getGuild(guildId))) throw new Error("No permission.");
 
         // Check this is actually a string.
         if (typeof roleId !== "string") throw new Error("Not a string.");
 
         // Update the value on the database.
-        await client.insert(schema[tableName]).values({
-            // @ts-ignore: It existed earlier or we wouldn't be here.
-            guildId: BigInt(guildId),
-            [column]: BigInt(roleId),
-        }).onConflictDoUpdate({
-            target: sql`guild_id`,
-
-            // @ts-ignore: This definitely exists.
-            set: {
+        await client
+            .insert(schema[tableName])
+            .values({
+                // @ts-ignore: It existed earlier or we wouldn't be here.
+                guildId: BigInt(guildId),
                 [column]: BigInt(roleId),
-            },
-        }).execute();
+            })
+            .onConflictDoUpdate({
+                target: sql`guild_id`,
+
+                // @ts-ignore: This definitely exists.
+                set: {
+                    [column]: BigInt(roleId),
+                },
+            })
+            .execute();
     }
 
     // Return the role picker wrapped in a eager state.
-    return <EagerState
-        component={RolePicker}
-        initialValue={defaultValue}
-        props={{ roles }}
-        update={update}
-    />;
+    return (
+        <EagerState
+            component={RolePicker}
+            initialValue={defaultValue}
+            props={{ roles }}
+            update={update}
+        />
+    );
 }
 
 export default async function ServerRoleInput<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 >(props: Props<TableName, ColumnName>) {
     // Make this suspenseful since it might take a while but render the card immediately.
     return (

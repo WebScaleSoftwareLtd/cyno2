@@ -44,39 +44,49 @@ function emoji2alt(emoji: string) {
 export default function DiscordEmojiPicker({ value, onChange, emojis }: Props) {
     const [pickerVisible, setPickerVisible] = React.useState(false);
 
-    return <>
-        <form
-            onSubmit={e => {
-                e.preventDefault();
-                setPickerVisible(x => !x);
-            }}
-            aria-haspopup={pickerVisible ? "true" : "false"}
-        >
-            <button type="submit" className="h-10 w-10 p-2 bg-gray-200 dark:bg-gray-800 rounded-lg">
-                {value ? <img
-                    src={emoji2url(value)} alt={emoji2alt(value)}
-                    loading="lazy"
-                /> : <i>No emoji selected.</i>}
-            </button>
-        </form>
+    return (
+        <>
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    setPickerVisible((x) => !x);
+                }}
+                aria-haspopup={pickerVisible ? "true" : "false"}
+            >
+                <button
+                    type="submit"
+                    className="h-10 w-10 p-2 bg-gray-200 dark:bg-gray-800 rounded-lg"
+                >
+                    {value ? (
+                        <img
+                            src={emoji2url(value)}
+                            alt={emoji2alt(value)}
+                            loading="lazy"
+                        />
+                    ) : (
+                        <i>No emoji selected.</i>
+                    )}
+                </button>
+            </form>
 
-        {
-            pickerVisible && <FloatingContainer>
-                <React.Suspense fallback={<Loading />}>
-                    <EmojiPicker
-                        theme={Theme.AUTO}
-                        onEmojiClick={(e) => {
-                            onChange(e.emoji);
-                            setPickerVisible(false);
-                        }}
-                        customEmojis={emojis.map(emoji => ({
-                            id: `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>`, // Discord emoji format: <:name:id> or <a:name:id> for animated.
-                            names: [emoji.name],
-                            imgUrl: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? "gif" : "png"}`,
-                        }))}
-                    />
-                </React.Suspense>
-            </FloatingContainer>
-        }
-    </>;
+            {pickerVisible && (
+                <FloatingContainer>
+                    <React.Suspense fallback={<Loading />}>
+                        <EmojiPicker
+                            theme={Theme.AUTO}
+                            onEmojiClick={(e) => {
+                                onChange(e.emoji);
+                                setPickerVisible(false);
+                            }}
+                            customEmojis={emojis.map((emoji) => ({
+                                id: `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>`, // Discord emoji format: <:name:id> or <a:name:id> for animated.
+                                names: [emoji.name],
+                                imgUrl: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? "gif" : "png"}`,
+                            }))}
+                        />
+                    </React.Suspense>
+                </FloatingContainer>
+            )}
+        </>
+    );
 }

@@ -11,7 +11,7 @@ import ChannelPicker from "../atoms/ChannelPicker";
 
 type Props<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 > = {
     tableName: TableName;
     column: ColumnName;
@@ -24,8 +24,13 @@ type Props<
 
 async function getChannelRecords<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
->(tableName: TableName, column: ColumnName, guildId: string, multiple: boolean) {
+    ColumnName extends keyof (typeof schema)[TableName],
+>(
+    tableName: TableName,
+    column: ColumnName,
+    guildId: string,
+    multiple: boolean,
+) {
     // Get one record if it's not multiple.
     if (!multiple) {
         const record = await dbCache(tableName, guildId);
@@ -33,18 +38,21 @@ async function getChannelRecords<
     }
 
     // Get all the records.
-    return client.query[tableName].findMany({
-        // @ts-ignore: This definitely exists.
-        columns: { [column]: true },
+    return client.query[tableName]
+        .findMany({
+            // @ts-ignore: This definitely exists.
+            columns: { [column]: true },
 
-        // @ts-ignore: This definitely exists.
-        where: (row, { eq }) => eq(row.guildId, BigInt(guildId)),
-    }).execute().then((rows) => rows.map((row) => (row as any)[column] as bigint));
+            // @ts-ignore: This definitely exists.
+            where: (row, { eq }) => eq(row.guildId, BigInt(guildId)),
+        })
+        .execute()
+        .then((rows) => rows.map((row) => (row as any)[column] as bigint));
 }
 
 async function AsyncComponent<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 >({ tableName, column, guildId, multiple }: Props<TableName, ColumnName>) {
     // Get the channels and records.
     const [channels, records] = await Promise.all([
@@ -57,19 +65,24 @@ async function AsyncComponent<
         "use server";
 
         // Check the user has permission.
-        if (!await getGuild(guildId)) throw new Error("No permission.");
+        if (!(await getGuild(guildId))) throw new Error("No permission.");
 
         // Check if this is a bigint.
         if (typeof channelId !== "bigint") throw new Error("Not a bigint.");
 
         // Delete the value on the database.
-        await client.delete(schema[tableName]).where(and(
-            // @ts-ignore: It existed earlier or we wouldn't be here.
-            eq(schema[tableName].guildId, BigInt(guildId)),
+        await client
+            .delete(schema[tableName])
+            .where(
+                and(
+                    // @ts-ignore: It existed earlier or we wouldn't be here.
+                    eq(schema[tableName].guildId, BigInt(guildId)),
 
-            // @ts-ignore: This definitely exists.
-            eq(schema[tableName][column], channelId),
-        )).execute();
+                    // @ts-ignore: This definitely exists.
+                    eq(schema[tableName][column], channelId),
+                ),
+            )
+            .execute();
     }
 
     // Insert a record into the database.
@@ -77,7 +90,7 @@ async function AsyncComponent<
         "use server";
 
         // Check the user has permission.
-        if (!await getGuild(guildId)) throw new Error("No permission.");
+        if (!(await getGuild(guildId))) throw new Error("No permission.");
 
         // Check if this is a bigint.
         if (typeof channelId !== "bigint") throw new Error("Not a bigint.");
@@ -91,7 +104,7 @@ async function AsyncComponent<
         if (!multiple) {
             q = q.onConflictDoUpdate({
                 target: sql`guild_id`,
-    
+
                 // @ts-ignore: This definitely exists.
                 set: {
                     [column]: channelId,
@@ -102,18 +115,20 @@ async function AsyncComponent<
     }
 
     // Return the channel picker.
-    return <ChannelPicker
-        channels={channels}
-        records={records}
-        multiple={multiple}
-        remove={remove}
-        insert={insert}
-    />;
+    return (
+        <ChannelPicker
+            channels={channels}
+            records={records}
+            multiple={multiple}
+            remove={remove}
+            insert={insert}
+        />
+    );
 }
 
 export default async function ServerChannelInput<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 >(props: Props<TableName, ColumnName>) {
     return (
         <OptionCard title={props.title} description={props.description}>

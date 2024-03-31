@@ -13,12 +13,15 @@ export default async function (): Promise<Guild[] | null> {
     const token = await getDiscordToken();
     if (!token) return null;
 
-    const response = await fetch("https://discord.com/api/v10/users/@me/guilds", {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
+    const response = await fetch(
+        "https://discord.com/api/v10/users/@me/guilds",
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
         },
-    });
+    );
     if (!response.ok) return null;
     return await response.json();
 }

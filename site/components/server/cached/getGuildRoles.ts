@@ -2,15 +2,14 @@ import { cache } from "react";
 import { Role } from "../../atoms/RolePicker";
 
 async function getGuildRoles(guildId: string): Promise<Role[]> {
-    return (await fetch(
-        `https://discord.com/api/v10/guilds/${guildId}/roles`,
-        {
+    return (
+        await fetch(`https://discord.com/api/v10/guilds/${guildId}/roles`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bot ${process.env.TOKEN}`,
             },
-        },
-    )).json();
+        })
+    ).json();
 }
 
 export default cache(getGuildRoles);

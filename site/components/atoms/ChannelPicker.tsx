@@ -29,11 +29,11 @@ export default function ChannelPicker(props: Props) {
     }));
 
     // Get the selected options.
-    const selected = props.multiple ? options.filter(
-        (option) => props.records.includes(BigInt(option.data)),
-    ) : options.find(
-        (option) => props.records.includes(BigInt(option.data)),
-    );
+    const selected = props.multiple
+        ? options.filter((option) =>
+              props.records.includes(BigInt(option.data)),
+          )
+        : options.find((option) => props.records.includes(BigInt(option.data)));
 
     // Return the react-select menu.
     return (
@@ -55,10 +55,14 @@ export default function ChannelPicker(props: Props) {
 
                 // Find the added/removed values.
                 const added = value.filter(
-                    (option) => !currentlySelected.includes(BigInt(option.data)),
+                    (option) =>
+                        !currentlySelected.includes(BigInt(option.data)),
                 );
                 const removed = currentlySelected.filter(
-                    (option) => !value.map((option) => BigInt(option.data)).includes(option),
+                    (option) =>
+                        !value
+                            .map((option) => BigInt(option.data))
+                            .includes(option),
                 );
 
                 // Insert the added values.
@@ -72,7 +76,9 @@ export default function ChannelPicker(props: Props) {
                 }
 
                 // Set the currently selected values.
-                setCurrentlySelected(value.map((option) => BigInt(option.data)));
+                setCurrentlySelected(
+                    value.map((option) => BigInt(option.data)),
+                );
             }}
             classNames={selectTailwindClasses}
         />

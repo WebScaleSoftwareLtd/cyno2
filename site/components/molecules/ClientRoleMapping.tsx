@@ -8,7 +8,7 @@ type ClientInputProps = {
     roles: Role[];
     roleColumn: string;
     numberColumn: string;
-    records: {[key: string]: number | bigint}[];
+    records: { [key: string]: number | bigint }[];
     create: (roleId: string, number: number) => Promise<void>;
     min?: number;
     max?: number;
@@ -44,7 +44,7 @@ function ClientInput(props: ClientInputProps) {
                 <input
                     type="number"
                     value={number}
-                    onChange={e => {
+                    onChange={(e) => {
                         const v = parseInt(e.target.value);
                         if (isNaN(v)) return;
                         setNumber(v);
@@ -57,11 +57,7 @@ function ClientInput(props: ClientInputProps) {
 
             <td>
                 <div className="ml-4">
-                    <Button
-                        action={submit}
-                        label="Add"
-                        style="link"
-                    />
+                    <Button action={submit} label="Add" style="link" />
                 </div>
             </td>
         </tr>
@@ -70,7 +66,7 @@ function ClientInput(props: ClientInputProps) {
 
 type Props = {
     roles: Role[];
-    records: {[key: string]: number | bigint}[];
+    records: { [key: string]: number | bigint }[];
     roleColumn: string;
     numberColumn: string;
     numberColumnName: string;
@@ -90,15 +86,19 @@ type ClientRowProps = {
 function ClientRow({ roles, roleId, number, remove }: ClientRowProps) {
     const [hidden, setHidden] = React.useState(false);
 
-    const matchedRole = roles.find(role => role.id === roleId);
+    const matchedRole = roles.find((role) => role.id === roleId);
     return (
         <tr className={hidden ? "hidden" : ""}>
             <td className="pl-2">
-                {
-                    matchedRole ? <span style={{ color: `#${matchedRole.color.toString(16)}` }}>
+                {matchedRole ? (
+                    <span
+                        style={{ color: `#${matchedRole.color.toString(16)}` }}
+                    >
                         {matchedRole.name}
-                    </span> : <i>Role not found.</i>
-                }
+                    </span>
+                ) : (
+                    <i>Role not found.</i>
+                )}
             </td>
             <td className="pl-4">{number}</td>
 
@@ -106,7 +106,7 @@ function ClientRow({ roles, roleId, number, remove }: ClientRowProps) {
                 <Button
                     action={() => {
                         setHidden(true);
-                        remove(roleId).catch(e => {
+                        remove(roleId).catch((e) => {
                             setHidden(false);
                             console.error(e);
                         });
@@ -132,20 +132,21 @@ export function ClientRoleMapping(props: Props) {
             </thead>
 
             <tbody>
-                {
-                    records.map(
-                        (record, index) => <ClientRow
-                            key={index} roles={props.roles}
-                            roleId={record[props.roleColumn].toString()}
-                            number={record[props.numberColumn] as number}
-                            remove={async () => {
-                                await props.remove(record[props.roleColumn].toString());
-                                records.splice(index, 1);
-                                setRecords([...records]);
-                            }}
-                        />
-                    )
-                }
+                {records.map((record, index) => (
+                    <ClientRow
+                        key={index}
+                        roles={props.roles}
+                        roleId={record[props.roleColumn].toString()}
+                        number={record[props.numberColumn] as number}
+                        remove={async () => {
+                            await props.remove(
+                                record[props.roleColumn].toString(),
+                            );
+                            records.splice(index, 1);
+                            setRecords([...records]);
+                        }}
+                    />
+                ))}
             </tbody>
 
             <tfoot>
@@ -156,10 +157,13 @@ export function ClientRoleMapping(props: Props) {
                     records={records}
                     create={async (roleId, number) => {
                         await props.create(roleId, number);
-                        setRecords([...records, {
-                            [props.roleColumn]: BigInt(roleId),
-                            [props.numberColumn]: number,
-                        }]);
+                        setRecords([
+                            ...records,
+                            {
+                                [props.roleColumn]: BigInt(roleId),
+                                [props.numberColumn]: number,
+                            },
+                        ]);
                     }}
                     min={props.min}
                     max={props.max}

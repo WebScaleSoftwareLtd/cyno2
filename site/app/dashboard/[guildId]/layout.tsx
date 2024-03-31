@@ -5,7 +5,7 @@ import GuildSidebar from "@/components/atoms/GuildSidebar";
 import Loading from "@/components/atoms/Loading";
 import getGuild from "@/components/server/cached/getGuild";
 
-type Props = React.PropsWithChildren<{params: { guildId: string }}>;
+type Props = React.PropsWithChildren<{ params: { guildId: string } }>;
 
 async function GuildLayout({ params, children }: Props) {
     // Get the guild.
@@ -18,7 +18,11 @@ async function GuildLayout({ params, children }: Props) {
             <div className="flex justify-between items-center mb-4 flex-wrap">
                 <div className="flex items-center space-x-4">
                     <img
-                        src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : `https://cdn.discordapp.com/embed/avatars/0.png`}
+                        src={
+                            guild.icon
+                                ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
+                                : `https://cdn.discordapp.com/embed/avatars/0.png`
+                        }
                         alt=""
                         className="mx-auto w-12 h-12 rounded-full"
                         loading="lazy"
@@ -42,9 +46,7 @@ async function GuildLayout({ params, children }: Props) {
                 </div>
 
                 <div className="flex-col flex-grow">
-                    <div className="relative">
-                        {children}
-                    </div>
+                    <div className="relative">{children}</div>
                 </div>
             </div>
         </>

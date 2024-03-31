@@ -17,9 +17,11 @@ type Props = {
 
 function RoleLabel({ role }: { role: Role }) {
     if (role.color === 0) return role.name;
-    return <div style={{ color: `#${role.color.toString(16).padStart(6, "0")}` }}>
-        {role.name}
-    </div>;
+    return (
+        <div style={{ color: `#${role.color.toString(16).padStart(6, "0")}` }}>
+            {role.name}
+        </div>
+    );
 }
 
 export function RolePicker({ roles, value, onChange }: Props) {

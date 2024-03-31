@@ -14,11 +14,16 @@ async function Guilds() {
     if (!guildsArray) return <KillLogin />;
 
     // Get all the guilds this bot is in that are mutual.
-    const mutualGuilds = (await client.query.guilds.findMany({
-        columns: {guildId: true},
-        where: (guilds, { inArray }) =>
-            inArray(guilds.guildId, guildsArray.map((guild) => BigInt(guild.id))),
-    })).map((x) => x.guildId.toString());
+    const mutualGuilds = (
+        await client.query.guilds.findMany({
+            columns: { guildId: true },
+            where: (guilds, { inArray }) =>
+                inArray(
+                    guilds.guildId,
+                    guildsArray.map((guild) => BigInt(guild.id)),
+                ),
+        })
+    ).map((x) => x.guildId.toString());
 
     // Generate 4 arrays:
     // 1) Has permissions to edit Cyno in the guild, Cyno added.
@@ -49,10 +54,11 @@ async function Guilds() {
     const isAdmin = async (guildId: bigint) => {
         const uid = (await getUserFromVar()).id;
         return client.query.dashboardAdmins.findFirst({
-            where: (admins, { and, eq }) => and(
-                eq(admins.userId, BigInt(uid)),
-                eq(admins.guildId, guildId),
-            )
+            where: (admins, { and, eq }) =>
+                and(
+                    eq(admins.userId, BigInt(uid)),
+                    eq(admins.guildId, guildId),
+                ),
         });
     };
 
@@ -65,7 +71,7 @@ async function Guilds() {
             if (
                 guild.owner || // Owner can always manage the server.
                 BigInt(guild.permissions) & BigInt(0x20) || // Manage Server
-                await isAdmin(BigInt(guild.id)) // Is a dashboard admin.
+                (await isAdmin(BigInt(guild.id))) // Is a dashboard admin.
             ) {
                 canManageServer.push(guild);
             } else {
@@ -94,12 +100,12 @@ async function Guilds() {
     if (noManageServer.length > 0) haveItems++;
 
     // Show the guilds.
-    return <>
-        {
-            canManageServer.length > 0 && <>
-                <GuildCards
-                    cards={
-                        canManageServer.map((guild) => {
+    return (
+        <>
+            {canManageServer.length > 0 && (
+                <>
+                    <GuildCards
+                        cards={canManageServer.map((guild) => {
                             return {
                                 buttonText: "Dashboard",
                                 enabled: true,
@@ -108,21 +114,21 @@ async function Guilds() {
                                 guildImage: guild.icon,
                                 url: `/dashboard/${guild.id}`,
                             };
-                        })
-                    }
-                    title="Configurable Guilds"
-                    description="These are guilds that you have permission to configure the bot in."
-                />
+                        })}
+                        title="Configurable Guilds"
+                        description="These are guilds that you have permission to configure the bot in."
+                    />
 
-                {--haveItems > 0 && <hr className="my-4 border-gray-200 dark:border-gray-800" />}
-            </>
-        }
+                    {--haveItems > 0 && (
+                        <hr className="my-4 border-gray-200 dark:border-gray-800" />
+                    )}
+                </>
+            )}
 
-        {
-            cannotManageServer.length > 0 && <>
-                <GuildCards
-                    cards={
-                        cannotManageServer.map((guild) => {
+            {cannotManageServer.length > 0 && (
+                <>
+                    <GuildCards
+                        cards={cannotManageServer.map((guild) => {
                             return {
                                 buttonText: "Dashboard",
                                 enabled: false,
@@ -131,21 +137,21 @@ async function Guilds() {
                                 guildImage: guild.icon,
                                 url: `/dashboard/${guild.id}`,
                             };
-                        })
-                    }
-                    title="Unconfigurable Guilds"
-                    description="These are guilds that have this instance of Cyno but you do not have permission to configure it."
-                />
+                        })}
+                        title="Unconfigurable Guilds"
+                        description="These are guilds that have this instance of Cyno but you do not have permission to configure it."
+                    />
 
-                {--haveItems > 0 && <hr className="my-4 border-gray-200 dark:border-gray-800" />}
-            </>
-        }
+                    {--haveItems > 0 && (
+                        <hr className="my-4 border-gray-200 dark:border-gray-800" />
+                    )}
+                </>
+            )}
 
-        {
-            manageServer.length > 0 && <>
-                <GuildCards
-                    cards={
-                        manageServer.map((guild) => {
+            {manageServer.length > 0 && (
+                <>
+                    <GuildCards
+                        cards={manageServer.map((guild) => {
                             return {
                                 buttonText: "Add",
                                 enabled: true,
@@ -154,21 +160,21 @@ async function Guilds() {
                                 guildImage: guild.icon,
                                 url: inviteUrl(guild.id),
                             };
-                        })
-                    }
-                    title="Addable Guilds"
-                    description="These are guilds that you can add this instance of Cyno to."
-                />
+                        })}
+                        title="Addable Guilds"
+                        description="These are guilds that you can add this instance of Cyno to."
+                    />
 
-                {--haveItems > 0 && <hr className="my-4 border-gray-200 dark:border-gray-800" />}
-            </>
-        }
+                    {--haveItems > 0 && (
+                        <hr className="my-4 border-gray-200 dark:border-gray-800" />
+                    )}
+                </>
+            )}
 
-        {
-            noManageServer.length > 0 && <>
-                <GuildCards
-                    cards={
-                        noManageServer.map((guild) => {
+            {noManageServer.length > 0 && (
+                <>
+                    <GuildCards
+                        cards={noManageServer.map((guild) => {
                             return {
                                 buttonText: "Add",
                                 enabled: false,
@@ -177,21 +183,23 @@ async function Guilds() {
                                 guildImage: guild.icon,
                                 url: inviteUrl(guild.id),
                             };
-                        })
-                    }
-                    title="Unaddable Guilds"
-                    description="These are guilds that you do not have permission to add this instance of Cyno to."
-                />
-            </>
-        }
-    </>;
+                        })}
+                        title="Unaddable Guilds"
+                        description="These are guilds that you do not have permission to add this instance of Cyno to."
+                    />
+                </>
+            )}
+        </>
+    );
 }
 
 export default async function SelectGuild() {
     return (
         <main className="m-12">
             <h1 className="text-3xl font-bold">Select a Guild</h1>
-            <p className="text-gray-500 dark:text-gray-200 mt-4">Select a guild to change its configuration:</p>
+            <p className="text-gray-500 dark:text-gray-200 mt-4">
+                Select a guild to change its configuration:
+            </p>
 
             <hr className="my-4 border-gray-200 dark:border-gray-800" />
 

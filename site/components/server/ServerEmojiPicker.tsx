@@ -12,7 +12,7 @@ import Loading from "../atoms/Loading";
 
 type Props<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 > = {
     tableName: TableName;
     column: ColumnName;
@@ -24,7 +24,7 @@ type Props<
 
 async function ServerEmojiInput<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 >(props: Props<TableName, ColumnName>) {
     // Get the record and emojis.
     const [record, emojis] = await Promise.all([
@@ -41,43 +41,47 @@ async function ServerEmojiInput<
         "use server";
 
         // Check the user has permission.
-        if (!await getGuild(props.guildId)) throw new Error("No permission.");
+        if (!(await getGuild(props.guildId))) throw new Error("No permission.");
 
         // Ensure this is a string.
         if (typeof value !== "string") throw new Error("Not a string.");
 
         // Update the value on the database.
-        await client.insert(schema[props.tableName]).values({
-            // @ts-ignore: It existed earlier or we wouldn't be here.
-            guildId: BigInt(props.guildId),
-            [props.column]: value,
-        }).onConflictDoUpdate({
-            target: sql`guild_id`,
-
-            // @ts-ignore: This definitely exists.
-            set: {
+        await client
+            .insert(schema[props.tableName])
+            .values({
+                // @ts-ignore: It existed earlier or we wouldn't be here.
+                guildId: BigInt(props.guildId),
                 [props.column]: value,
-            },
-        }).execute();
+            })
+            .onConflictDoUpdate({
+                target: sql`guild_id`,
+
+                // @ts-ignore: This definitely exists.
+                set: {
+                    [props.column]: value,
+                },
+            })
+            .execute();
     }
 
     // Render the picker wrapped in a eager state.
-    return <EagerState
-        component={DiscordEmojiPicker}
-        initialValue={defaultValue}
-        props={{ emojis }}
-        update={change}
-    />;
+    return (
+        <EagerState
+            component={DiscordEmojiPicker}
+            initialValue={defaultValue}
+            props={{ emojis }}
+            update={change}
+        />
+    );
 }
 
 export default async function AsyncComponent<
     TableName extends keyof typeof schema,
-    ColumnName extends keyof typeof schema[TableName],
+    ColumnName extends keyof (typeof schema)[TableName],
 >(props: Props<TableName, ColumnName>) {
     return (
-        <OptionCard
-            title={props.title} description={props.description}
-        >
+        <OptionCard title={props.title} description={props.description}>
             <React.Suspense fallback={<Loading />}>
                 <ServerEmojiInput {...props} />
             </React.Suspense>

@@ -11,15 +11,15 @@ type Props = {
 export default function ClientUploader({ value, onChange, endpoint }: Props) {
     return (
         <div className="flex">
-            {
-                value && <div className="flex-col mr-2">
+            {value && (
+                <div className="flex-col mr-2">
                     <img
                         className="w-32 h-16 object-contain"
                         src={value}
                         alt="Current Image"
                     />
                 </div>
-            }
+            )}
 
             <div className="flex-col">
                 <UploadButton

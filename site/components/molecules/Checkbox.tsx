@@ -17,9 +17,9 @@ export default function Checkbox(props: Props) {
         // Initially, set to the value of the checkbox.
         setChecked(e.target.checked);
 
-        props.onChange(e.target.checked).catch(e => {
+        props.onChange(e.target.checked).catch((e) => {
             // If it fails, revert the checkbox.
-            setChecked(x => !x);
+            setChecked((x) => !x);
 
             // Log the error.
             console.error(e);
@@ -28,12 +28,13 @@ export default function Checkbox(props: Props) {
 
     return (
         <OptionCard title={props.title} description={props.description}>
-            <form onSubmit={e => e.preventDefault()}>
+            <form onSubmit={(e) => e.preventDefault()}>
                 <input
                     type="checkbox"
                     checked={checked}
                     onChange={changeHandler}
-                /> {props.title}
+                />{" "}
+                {props.title}
             </form>
         </OptionCard>
     );
