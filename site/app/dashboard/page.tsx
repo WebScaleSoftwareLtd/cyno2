@@ -6,15 +6,7 @@ import GuildCards from "@/components/atoms/GuildCards";
 import { client } from "database";
 import type { User } from "@/utils/getDiscordUser";
 import getUser from "@/components/server/cached/getUser";
-
-function inviteUrl(guildId: string) {
-    const url = new URL("https://discord.com/oauth2/authorize");
-    url.searchParams.append("client_id", process.env.DISCORD_CLIENT_ID!);
-    url.searchParams.append("permissions", "268700672");
-    url.searchParams.append("scope", "bot");
-    url.searchParams.append("guild_id", guildId);
-    return url.toString();
-}
+import inviteUrl from "@/utils/inviteUrl";
 
 async function Guilds() {
     // Get the users guilds.
