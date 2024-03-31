@@ -211,9 +211,7 @@ export const levelRoles = takeable(
                     table.guildId,
                     table.level,
                 ),
-                guildRoleLevelIdx: uniqueIndex("lr_guild_role_level_idx").on(
-                    table.guildId,
-                    table.level,
+                guildRoleLevelIdx: uniqueIndex("lr_guild_role_idx").on(
                     table.roleId,
                 ),
             };
