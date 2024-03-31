@@ -4,7 +4,7 @@ import Loading from "../atoms/Loading";
 import OptionCard from "../atoms/OptionCard";
 import getGuild from "./cached/getGuild";
 import { client } from "database";
-import { sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { ClientRoleMapping } from "../molecules/ClientRoleMapping";
 import getGuildRoles from "./cached/getGuildRoles";
 
@@ -67,11 +67,13 @@ async function AsyncComponent<
         if (typeof roleId !== "string") throw new Error("Not a string.");
 
         // Delete the value on the database.
-        await client.delete(schema[tableName]).where({
+        await client.delete(schema[tableName]).where(and(
             // @ts-ignore: It existed earlier or we wouldn't be here.
-            guildId: BigInt(guildId),
-            [roleColumn]: roleId,
-        }).execute();
+            eq(schema[tableName].guildId, BigInt(guildId)),
+
+            // @ts-ignore: This definitely exists.
+            eq(schema[tableName][roleColumn], BigInt(roleId)),
+        )).execute();
     }
 
     // Defines the server function to add a role.
