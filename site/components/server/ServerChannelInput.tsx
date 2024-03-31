@@ -81,18 +81,22 @@ async function AsyncComponent<
         if (typeof channelId !== "bigint") throw new Error("Not a bigint.");
 
         // Insert the value on the database.
-        await client.insert(schema[tableName]).values({
+        let q = client.insert(schema[tableName]).values({
             // @ts-ignore: It existed earlier or we wouldn't be here.
             guildId: BigInt(guildId),
             [column]: channelId,
-        }).onConflictDoUpdate({
-            target: sql`guild_id`,
-
-            // @ts-ignore: This definitely exists.
-            set: {
-                [column]: channelId,
-            },
-        }).execute();
+        });
+        if (!multiple) {
+            q = q.onConflictDoUpdate({
+                target: sql`guild_id`,
+    
+                // @ts-ignore: This definitely exists.
+                set: {
+                    [column]: channelId,
+                },
+            });
+        }
+        await q.execute();
     }
 
     // Return the channel picker.
