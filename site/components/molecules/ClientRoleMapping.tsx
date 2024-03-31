@@ -32,7 +32,7 @@ function ClientInput(props: ClientInputProps) {
 
     return (
         <tr>
-            <td>
+            <td className="md:min-w-56">
                 <RolePicker
                     roles={props.roles}
                     value={roleId}
@@ -93,25 +93,26 @@ function ClientRow({ roles, roleId, number, remove }: ClientRowProps) {
     const matchedRole = roles.find(role => role.id === roleId);
     return (
         <tr className={hidden ? "hidden" : ""}>
-            <td>
+            <td className="pl-2">
                 {
                     matchedRole ? <span style={{ color: `#${matchedRole.color.toString(16)}` }}>
                         {matchedRole.name}
                     </span> : <i>Role not found.</i>
                 }
             </td>
-            <td>{number}</td>
+            <td className="pl-4">{number}</td>
 
-            <td>
-                <button onClick={() => {
-                    setHidden(true);
-                    remove(roleId).catch(e => {
-                        setHidden(false);
-                        console.error(e);
-                    });
-                }} aria-label="Delete role">
-                    &times;
-                </button>
+            <td className="pl-4">
+                <Button
+                    action={() => {
+                        setHidden(true);
+                        remove(roleId).catch(e => {
+                            setHidden(false);
+                            console.error(e);
+                        });
+                    }}
+                    style="danger"
+                />
             </td>
         </tr>
     );
@@ -121,7 +122,7 @@ export function ClientRoleMapping(props: Props) {
     const [records, setRecords] = React.useState(props.records);
 
     return (
-        <table className="w-full table-fixed">
+        <table className="table-fixed border-separate border-spacing-2">
             <thead>
                 <tr>
                     <th>Role</th>
