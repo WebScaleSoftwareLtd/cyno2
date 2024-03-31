@@ -1,13 +1,18 @@
 import React from "react";
 import AvatarMenu from "../server/UserSidebar";
 import Link from "next/link";
+import Image from "next/image";
 
 export default () => {
-    // TODO: Make link a image
     return (
-        <nav className="dark:bg-slate-800 p-4 flex justify-between items-center shadow-lg">
+        <nav className="dark:bg-slate-800 p-2 pr-4 flex justify-between items-center shadow-lg">
             <Link href="/" className="text-lg font-bold">
-                Cyno
+                <Image
+                    src="/cyno_small.png"
+                    alt="Cyno"
+                    width={50}
+                    height={50}
+                />
             </Link>
             <div>
                 <React.Suspense fallback={<></>}>

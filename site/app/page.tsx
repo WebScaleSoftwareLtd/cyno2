@@ -29,7 +29,7 @@ async function LazyButton() {
 
 async function Feature({ url, title, children }: React.PropsWithChildren<{url: string; title: string}>) {
     return (
-        <div className="flex-col m-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 max-w-72 text-center">
+        <div className="flex-col m-4 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 max-w-72 text-center">
             <Image
                 src={url}
                 alt=""
