@@ -1,5 +1,5 @@
 import React from "react";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import Button from "@/components/atoms/Button";
 import GuildSidebar from "@/components/atoms/GuildSidebar";
 import Loading from "@/components/atoms/Loading";
@@ -10,7 +10,7 @@ type Props = React.PropsWithChildren<{params: { guildId: string }}>;
 async function GuildLayout({ params, children }: Props) {
     // Get the guild.
     const guild = await getGuild(params.guildId);
-    if (!guild) return notFound();
+    if (!guild) return redirect("/");
 
     // Return the layout which the configuration gets rendered into.
     return (

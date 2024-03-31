@@ -9,7 +9,6 @@ type ClientInputProps = {
     roleColumn: string;
     numberColumn: string;
     records: {[key: string]: number | bigint}[];
-    setRecords: (records: {[key: string]: number | bigint}[]) => void;
     create: (roleId: string, number: number) => Promise<void>;
     min?: number;
     max?: number;
@@ -28,12 +27,7 @@ function ClientInput(props: ClientInputProps) {
         }
 
         // Add the role.
-        props.create(roleId, number).then(() => {
-            props.setRecords([...props.records, {
-                [props.roleColumn]: roleIdBigInt,
-                [props.numberColumn]: number,
-            }]);
-        });
+        props.create(roleId, number);
     }, [roleId, number]);
 
     return (
@@ -159,8 +153,13 @@ export function ClientRoleMapping(props: Props) {
                     roleColumn={props.roleColumn}
                     numberColumn={props.numberColumn}
                     records={records}
-                    setRecords={setRecords}
-                    create={props.create}
+                    create={async (roleId, number) => {
+                        await props.create(roleId, number);
+                        setRecords([...records, {
+                            [props.roleColumn]: BigInt(roleId),
+                            [props.numberColumn]: number,
+                        }]);
+                    }}
                     min={props.min}
                     max={props.max}
                 />

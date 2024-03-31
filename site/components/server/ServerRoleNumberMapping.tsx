@@ -89,8 +89,17 @@ async function AsyncComponent<
         // Ensure the number is actually a number.
         if (typeof number !== "number") throw new Error("Not a number.");
 
-        // Make sure the role exists.
-        if (!roles.find(role => role.id === roleId)) throw new Error("Role doesn't exist.");
+        // Make sure the role exists. For some reason, Next doesn't see this as a server component if
+        // I don't do it this way.
+        // The better code: if (!roles.find(role => role.id === roleId)) throw new Error("Role doesn't exist.");
+        let found = false;
+        for (const role of roles) {
+            if (role.id === roleId) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) throw new Error("Role doesn't exist.");
 
         // Make sure the number is within the bounds.
         if (min !== undefined && number < min) throw new Error("Below minimum.");

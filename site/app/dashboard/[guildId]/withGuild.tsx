@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 import { Guild } from "@/utils/getDiscordGuilds";
 import Loading from "@/components/atoms/Loading";
@@ -12,7 +12,7 @@ type Props = {
 async function AsyncProvider({ guildId, component: Component }: Props) {
     // Get the guild.
     const guild = await getGuild(guildId);
-    if (!guild) return notFound();
+    if (!guild) return redirect("/");
 
     // Return the layout which the configuration gets rendered into.
     return <Component guild={guild} />;
