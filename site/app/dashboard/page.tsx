@@ -197,7 +197,7 @@ async function Guilds() {
 
 export default async function SelectGuild() {
     return (
-        <main>
+        <main className="m-12">
             <h1 className="text-3xl font-bold">Select a Guild</h1>
             <p className="text-gray-500 dark:text-gray-200 mt-4">Select a guild to change its configuration:</p>
 

@@ -53,7 +53,7 @@ async function GuildLayout({ params, children }: Props) {
 
 export default async function AsyncGuildLayout(props: Props) {
     return (
-        <main>
+        <main className="m-12">
             <div className="max-w-5xl mx-auto">
                 <React.Suspense fallback={<Loading />}>
                     <GuildLayout {...props} />

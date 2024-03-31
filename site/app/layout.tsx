@@ -12,9 +12,7 @@ export default function RootLayout({ children }: React.PropsWithChildren<{}>) {
         <html lang="en">
             <body className="dark:bg-slate-900 dark:text-white">
                 <Navbar />
-                <div className="m-12">
-                    {children}
-                </div>
+                {children}
             </body>
         </html>
     );
