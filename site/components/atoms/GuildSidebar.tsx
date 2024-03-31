@@ -14,10 +14,6 @@ const options = [
         suffix: "/economy",
     },
     {
-        key: "Permissions",
-        suffix: "/permissions",
-    },
-    {
         key: "Birthdays",
         suffix: "/birthdays",
     },
@@ -35,6 +31,7 @@ function SidebarButton({ title, active, uri }: SidebarButtonProps) {
     return <Link
         href={uri}
         className={`font-bold w-full px-2 ${active && "text-blue-500 dark:text-blue-400"}`}
+        aria-selected={active}
     >{title}</Link>;
 }
 
