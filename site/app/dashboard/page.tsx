@@ -4,7 +4,8 @@ import Loading from "@/components/atoms/Loading";
 import KillLogin from "@/components/atoms/KillLogin";
 import GuildCards from "@/components/atoms/GuildCards";
 import { client } from "database";
-import getDiscordUser, { User } from "@/utils/getDiscordUser";
+import type { User } from "@/utils/getDiscordUser";
+import getUser from "@/components/server/cached/getUser";
 
 function inviteUrl(guildId: string) {
     const url = new URL("https://discord.com/oauth2/authorize");
@@ -47,14 +48,14 @@ async function Guilds() {
     // Cache the user when checking the database.
     let userCached: User | null = null;
     const magicThrowObj = {};
-    const getUser = async () => {
+    const getUserFromVar = async () => {
         if (userCached) return userCached;
-        userCached = await getDiscordUser();
+        userCached = await getUser();
         if (!userCached) throw magicThrowObj;
         return userCached;
     };
     const isAdmin = async (guildId: bigint) => {
-        const uid = (await getUser()).id;
+        const uid = (await getUserFromVar()).id;
         return client.query.dashboardAdmins.findFirst({
             where: (admins, { and, eq }) => and(
                 eq(admins.userId, BigInt(uid)),

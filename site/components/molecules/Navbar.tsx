@@ -1,5 +1,5 @@
 import React from "react";
-import AvatarMenu from "../atoms/UserSidebar";
+import AvatarMenu from "../server/UserSidebar";
 import Link from "next/link";
 
 export default () => {

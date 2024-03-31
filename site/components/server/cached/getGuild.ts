@@ -1,5 +1,5 @@
 import getDiscordGuilds from "@/utils/getDiscordGuilds";
-import getDiscordUser from "@/utils/getDiscordUser";
+import getUser from "./getUser";
 import { client } from "database";
 import { cache } from "react";
 
@@ -7,7 +7,7 @@ import { cache } from "react";
 
 async function getGuild(guildId: string) {
     // Spawn a promise we might need to get the user. Do not await it.
-    const userPromise = getDiscordUser().catch(() => null);
+    const userPromise = getUser().catch(() => null);
 
     // Get the guild.
     const guild = (await getDiscordGuilds())?.find((g) => g.id === guildId);
