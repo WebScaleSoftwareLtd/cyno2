@@ -6,4 +6,7 @@ export default {
     menu: () => "dark:!bg-gray-800 dark:!border-gray-700",
     option: () => "dark:hover:!bg-gray-700 dark:!bg-gray-800",
     singleValue: () => "dark:!text-white",
+    multiValue: () => "dark:!bg-gray-700",
+    multiValueLabel: () => "dark:!text-white",
+    multiValueRemove: () => "dark:hover:!bg-gray-700",
 } as const;

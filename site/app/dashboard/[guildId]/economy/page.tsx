@@ -7,6 +7,7 @@ import ServerCheckbox from "@/components/server/ServerCheckbox";
 import ServerNumberInput from "@/components/server/ServerNumberInput";
 import ServerFileUpload from "@/components/server/ServerFileUpload";
 import ServerTextInput from "@/components/server/ServerTextInput";
+import ServerChannelInput from "@/components/server/ServerChannelInput";
 
 async function GuildEconomy({ guild }: { guild: Guild }) {
     return (
@@ -98,7 +99,14 @@ async function GuildEconomy({ guild }: { guild: Guild }) {
                     description="This option defines the number of seconds cooldown between drops."
                 />
 
-                TODO: Channels
+                <ServerChannelInput
+                    tableName="allowedDropChannels"
+                    column="channelId"
+                    guildId={guild.id}
+                    multiple={true}
+                    title="Drop Channels"
+                    description="This option defines the channels where drops are allowed."
+                />
             </Section>
 
             <Section title="Timely Functionality">

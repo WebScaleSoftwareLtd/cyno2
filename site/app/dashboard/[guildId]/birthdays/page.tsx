@@ -3,6 +3,7 @@ import withGuild from "../withGuild";
 import ServerRoleInput from "@/components/server/ServerRoleInput";
 import ServerTextInput from "@/components/server/ServerTextInput";
 import ServerNumberInput from "@/components/server/ServerNumberInput";
+import ServerChannelInput from "@/components/server/ServerChannelInput";
 
 async function GuildBirthdays({ guild }: { guild: Guild }) {
     return (
@@ -27,13 +28,14 @@ async function GuildBirthdays({ guild }: { guild: Guild }) {
                 description="This option defines the message that will be sent to a channel on a users birthday."
             />
 
-            {/* <ServerChannelInput
+            <ServerChannelInput
                 tableName="guildBirthdayConfig"
-                column="birthdayChannel"
+                column="channelId"
                 guildId={guild.id}
+                multiple={false}
                 title="Birthday Channel"
                 description="This option defines the channel that the birthday message will be sent to."
-            /> */}
+            />
 
             <ServerNumberInput
                 tableName="guildBirthdayConfig"
