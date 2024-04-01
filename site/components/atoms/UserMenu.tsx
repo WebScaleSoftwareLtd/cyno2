@@ -2,13 +2,36 @@
 
 import type { User } from "@/utils/getDiscordUser";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const buttonStyle =
-    "w-full hover:bg-gray-50 dark:hover:bg-gray-900 p-1 rounded-md text-left";
+    "w-full hover:bg-gray-50 dark:hover:bg-gray-900 py-1 px-3 rounded-md text-left";
 
 export default function UserMenu({ user }: { user: User }) {
     const [isOpen, setIsOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (ref.current) {
+            const clickHn = (e: Event) => {
+                // Check if any of the elements are the ref.
+                let el = e.target as HTMLElement;
+                for (;;) {
+                    if (el === ref.current) return;
+                    if (el.parentElement) {
+                        el = el.parentElement;
+                        continue;
+                    }
+                    break;
+                }
+
+                // Set isOpen to false.
+                setIsOpen(false);
+            };
+            window.addEventListener("click", clickHn);
+            return () => window.removeEventListener("click", clickHn);
+        }
+    }, [ref]);
 
     const logout = (e: FormEvent) => {
         e.preventDefault();
@@ -18,7 +41,7 @@ export default function UserMenu({ user }: { user: User }) {
     };
 
     return (
-        <div className="relative">
+        <div className="relative" ref={ref}>
             <button
                 className="flex items-center"
                 aria-haspopup="menu"
