@@ -6,7 +6,8 @@
         "build": "node ./build.cjs",
         "dev": "npm run build && DEV=1 node --enable-source-maps index.cjs",
         "start": "node --enable-source-maps index.cjs",
-        "commands:migrate": "npm run build && CMD_MIGRATE=1 node --enable-source-maps index.cjs"
+        "commands:migrate": "npm run build && CMD_MIGRATE=1 node --enable-source-maps index.cjs",
+        "tsc": "tsc --noEmit"
     },
     "devDependencies": {
         "@types/better-sqlite3": "^7.6.9",
