@@ -28,6 +28,13 @@ To develop Cyno, you will need the following:
 
 Once you have these, you can run `npm ci` to go ahead and install all the dependencies for all of your packages and then run `npm run dev`. The first time you run this, you will get a CLI setup wizard to walk you through setting up your devlopment environment. After that (or instantly if you have walked through the setup before), foreman will then start all the required processes. You can then go to `localhost:5100` to see the dashboard or interact with the bot in Discord.
 
+Some useful commands for development (all of these are ran in the root folder):
+
+-   `npm run db:generate-migrations`: Generate database migrations. This should be ran when you change the schema.
+-   `npm run db:migrate`: Pushes the migrations to the database. This is ran initially when you setup your development environment, but may be useful if you make any changes to the schema.
+-   `npm run commands:migrate`: Runs migrations for commands on your Discord account. This is ran initially when you setup your development environment, but may be useful if you add a command.
+-   `npm run bump-node`: Bumps the Node version in nvmrc and all of the Dockerfile's to the latest LTS release of Node.js.
+
 ## Setting up Cyno (Single Shard)
 
 This is the approach you probably want to take if you just need a single Discord shard. You will need the following:
