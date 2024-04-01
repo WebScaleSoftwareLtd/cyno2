@@ -18,6 +18,6 @@
         "commands:migrate": "npm run commands:migrate --workspace bot",
         "db:migrate": "npm run db:migrate --workspace database",
         "db:generate-migrations": "npm run db:generate-migrations --workspace database",
-        "prepare": "husky"
+        "prepare": "husky || true"
     }
 }
