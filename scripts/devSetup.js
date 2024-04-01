@@ -27,7 +27,7 @@ class AsyncAsk {
     }
 
     async question(query) {
-        return new Promise(r => this.iface.question(query, r));
+        return new Promise((r) => this.iface.question(query, r));
     }
 }
 
@@ -44,7 +44,9 @@ function runCommand(name, args) {
 async function devQuestions(root) {
     const rl = new AsyncAsk();
     const clientId = await rl.question("What is the Discord client ID: ");
-    const clientSecret = await rl.question("What is the Discord client secret: ");
+    const clientSecret = await rl.question(
+        "What is the Discord client secret: ",
+    );
 
     console.log(`
 Ok great! Now click the Bot tab and click "Add Bot" if you haven't already. We need the token.
@@ -54,8 +56,12 @@ Ok great! Now click the Bot tab and click "Add Bot" if you haven't already. We n
     console.log(`
 Ok great! Now open uploadthing and go to your project then API Keys. Click the eye and then copy each bit as needed.
 `);
-    const utSecret = await rl.question("What is the uploadthing secret (the bit after UPLOADTHING_SECRET=): ");
-    const utAppId = await rl.question("What is the uploadthing app ID (the bit after UPLOADTHING_APP_ID=): ");
+    const utSecret = await rl.question(
+        "What is the uploadthing secret (the bit after UPLOADTHING_SECRET=): ",
+    );
+    const utAppId = await rl.question(
+        "What is the uploadthing app ID (the bit after UPLOADTHING_APP_ID=): ",
+    );
 
     const envFile = `DISCORD_REDIRECT_URI=http://localhost:5100/api/auth/callback
 DATABASE_URL=file:../database.db
@@ -97,7 +103,7 @@ We need 2 things to setup the development environment:
 Firstly, we need the client ID/secret for the Discord bot. You can find these under OAuth2 in your test bots application page. Whilst you are there, you should add the redirect URI of http://localhost:5100/api/auth/callback
 `);
 
-    devQuestions(root).catch(err => {
+    devQuestions(root).catch((err) => {
         console.error(err);
         process.exit(1);
     });
