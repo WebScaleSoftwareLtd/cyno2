@@ -21,6 +21,7 @@
         "lint:fix": "prettier . --write && npm run tsc && npm run lint --workspace site -- --fix",
         "commands:migrate": "dotenv -- npm run commands:migrate --workspace bot",
         "db:migrate": "npm run db:migrate --workspace database",
-        "db:generate-migrations": "npm run db:generate-migrations --workspace database"
+        "db:generate-migrations": "npm run db:generate-migrations --workspace database",
+        "bump-node": "node scripts/bumpNode.js"
     }
 }
