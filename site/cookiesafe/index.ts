@@ -5,6 +5,11 @@ import type { ResponseCookie, ResponseCookies } from "next/dist/compiled/@edge-r
 // Defines the promise to get the decryption key.
 let decryptionKeyPromise = getKey();
 
+// Cursed.
+function someCursedShitToMakeWebpackIgnore(s: string) {
+    return s;
+}
+
 // Gets the key. Always returns a successful promise, even in a error case.
 async function getKey() {
     // Try to get from the environment.
@@ -13,7 +18,7 @@ async function getKey() {
     // Try to get from the filesystem.
     let readFile;
     try {
-        readFile = (await import("fs/promises")).readFile;
+        readFile = (await import(someCursedShitToMakeWebpackIgnore("fs/promises"))).readFile;
     } catch {
         return new Error(
             "Your current environment does not support fs/promises and no cookie variable was found."
