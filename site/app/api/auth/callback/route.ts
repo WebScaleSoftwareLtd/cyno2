@@ -1,4 +1,4 @@
-import encryptionVault from "@/utils/encryptionVault";
+import { setEncryptedCookie } from "@/cookiesafe";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -56,18 +56,17 @@ export async function GET(req: NextRequest) {
 
     // Turn the response into a encrypted cookie.
     const responseJson = await response.json();
+    const expires = Date.now() + responseJson.expires_in * 1000;
     const dataArray = [
         responseJson.access_token,
         responseJson.refresh_token,
-        Date.now() + responseJson.expires_in * 1000,
+        expires,
     ];
-    const encData = (await encryptionVault)
-        .encrypt(JSON.stringify(dataArray))
-        .toString();
     const redirect = NextResponse.redirect(`${req.nextUrl.origin}/dashboard`);
-    redirect.cookies.set("encrypted_token", encData, {
+    await setEncryptedCookie("encrypted_token", JSON.stringify(dataArray), {
         path: "/",
         sameSite: "lax",
-    });
+        expires,
+    }, redirect.cookies);
     return redirect;
 }
