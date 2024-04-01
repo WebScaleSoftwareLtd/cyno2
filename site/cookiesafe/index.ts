@@ -8,7 +8,7 @@ let decryptionKeyPromise = getKey();
 // Gets the key. Always returns a successful promise, even in a error case.
 async function getKey() {
     // Try to get from the environment.
-    if (process.env.COOKIE_KEY) return process.env.COOKIE_KEY;
+    if (process.env.COOKIE_PRIVATE_KEY) return process.env.COOKIE_PRIVATE_KEY;
 
     // Try to get from the filesystem.
     let readFile;
