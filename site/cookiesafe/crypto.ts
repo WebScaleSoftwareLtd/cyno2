@@ -26,14 +26,14 @@ export async function encrypt(key: string, data: string) {
     // Encrypt the data.
     const encrypted = await crypto.subtle.encrypt(
         { name: "AES-GCM", iv },
-        await crypto.subtle.importKey("raw", keyHash, "AES-GCM", true, ["encrypt"]),
+        await crypto.subtle.importKey("raw", keyHash, "AES-GCM", true, [
+            "encrypt",
+        ]),
         dataBytes,
     );
 
     // Return the base64 encoded string of the IV and encrypted string.
-    return toBase64(concat(
-        iv, new Uint8Array(encrypted),
-    ));
+    return toBase64(concat(iv, new Uint8Array(encrypted)));
 }
 
 // Compare 2 uint8 arrays.
@@ -59,7 +59,9 @@ export async function decrypt(key: string, data: string) {
     // Decrypt the data.
     const decrypted = await crypto.subtle.decrypt(
         { name: "AES-GCM", iv },
-        await crypto.subtle.importKey("raw", keyHash, "AES-GCM", true, ["decrypt"]),
+        await crypto.subtle.importKey("raw", keyHash, "AES-GCM", true, [
+            "decrypt",
+        ]),
         encrypted,
     );
 
@@ -81,5 +83,5 @@ export async function sign(key: string, cookieName: string, data: string) {
     const hash = await crypto.subtle.digest("SHA-256", keyBytes);
 
     // Return the hash base64 encoded plus a period and the data.
-    return await toBase64(new Uint8Array(hash)) + "." + data;
+    return (await toBase64(new Uint8Array(hash))) + "." + data;
 }

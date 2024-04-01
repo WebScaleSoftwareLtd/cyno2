@@ -47,13 +47,13 @@ export default function UserMenu({ user }: { user: User }) {
                 aria-haspopup="menu"
                 onClick={() => setIsOpen((prev) => !prev)}
             >
-                {
-                    user.avatar && <img
+                {user.avatar && (
+                    <img
                         src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`}
                         alt=""
                         className="h-8 w-8 rounded-full"
                     />
-                }
+                )}
                 <span className="ml-2">{user.username}</span>
             </button>
             {isOpen && (

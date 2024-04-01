@@ -63,10 +63,15 @@ export async function GET(req: NextRequest) {
         expires,
     ];
     const redirect = NextResponse.redirect(`${req.nextUrl.origin}/dashboard`);
-    await setEncryptedCookie("encrypted_token", JSON.stringify(dataArray), {
-        path: "/",
-        sameSite: "lax",
-        expires,
-    }, redirect.cookies);
+    await setEncryptedCookie(
+        "encrypted_token",
+        JSON.stringify(dataArray),
+        {
+            path: "/",
+            sameSite: "lax",
+            expires,
+        },
+        redirect.cookies,
+    );
     return redirect;
 }
