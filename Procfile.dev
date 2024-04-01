@@ -1,2 +1,2 @@
 bot: npm run dev --workspace bot
-site: RUNTIME=node npm run dev --workspace site
+site: NODE_RUNTIME=1 npm run dev --workspace site
