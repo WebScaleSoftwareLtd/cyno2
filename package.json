@@ -9,14 +9,15 @@
     "devDependencies": {
         "foreman": "^3.0.1",
         "prettier": "^3.2.5",
-        "husky": "^9.0.11"
+        "husky": "^9.0.11",
+        "dotenv-cli": "^7.4.1"
     },
     "scripts": {
         "prepare": "husky || true",
-        "dev": "node ./ensurePrivateKey.js && nf -j Procfile.dev start",
+        "dev": "node scripts/devSetup.js && nf -j Procfile.dev start",
         "lint": "prettier . --check && npm run lint --workspace site",
         "lint:fix": "prettier . --write && npm run lint --workspace site -- --fix",
-        "commands:migrate": "npm run commands:migrate --workspace bot",
+        "commands:migrate": "dotenv -- npm run commands:migrate --workspace bot",
         "db:migrate": "npm run db:migrate --workspace database",
         "db:generate-migrations": "npm run db:generate-migrations --workspace database"
     }
