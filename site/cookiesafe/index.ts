@@ -25,7 +25,7 @@ async function getKey() {
         );
     }
     try {
-        return (await readFile("private.key", { encoding: "utf-8" })).toString()
+        return (await readFile("private.key", { encoding: "utf-8" })).toString() as string;
     } catch (err) {
         return err as Error;
     }
