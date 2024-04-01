@@ -29,7 +29,11 @@ async function GuildProvider(props: Props) {
 export default function withGuild(
     component: React.ComponentType<{ guild: Guild }>,
 ) {
-    return async ({ params }: { params: { guildId: string } }) => {
+    return async function GuildParamWrapper({
+        params,
+    }: {
+        params: { guildId: string };
+    }) {
         return <GuildProvider guildId={params.guildId} component={component} />;
     };
 }

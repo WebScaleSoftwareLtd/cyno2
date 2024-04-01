@@ -51,7 +51,6 @@ export default function DiscordEmojiPicker({ value, onChange, emojis }: Props) {
                     e.preventDefault();
                     setPickerVisible((x) => !x);
                 }}
-                aria-haspopup={pickerVisible ? "true" : "false"}
             >
                 <button
                     type="submit"

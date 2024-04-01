@@ -11,8 +11,8 @@
     },
     "scripts": {
         "dev": "node ./ensurePrivateKey.js && nf -j Procfile.dev start",
-        "lint": "prettier . --check",
-        "lint:fix": "prettier . --write",
+        "lint": "prettier . --check && npm run lint --workspace site",
+        "lint:fix": "prettier . --write && npm run lint --workspace site -- --fix",
         "db:migrate": "npm run db:migrate --workspace database",
         "db:generate-migrations": "npm run db:generate-migrations --workspace database"
     }

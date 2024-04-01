@@ -1,7 +1,7 @@
 import getUser from "./cached/getUser";
 import UserMenu from "../atoms/UserMenu";
 
-export default async function () {
+export default async function UserSidebar() {
     // Get the user.
     const user = await getUser();
     if (!user) {

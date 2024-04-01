@@ -15,11 +15,9 @@ type Props = {
 
 export default function ChannelPicker(props: Props) {
     // Get the currently selected channels if multiple.
-    let currentlySelected: bigint[] = [];
-    let setCurrentlySelected: (value: bigint[]) => void = () => {};
-    if (props.multiple) {
-        [currentlySelected, setCurrentlySelected] = useState(props.records);
-    }
+    const [currentlySelected, setCurrentlySelected] = useState(
+        props.multiple ? props.records : [],
+    );
 
     // Map the options.
     const options = props.channels.map((channel) => ({
