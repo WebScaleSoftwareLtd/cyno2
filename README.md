@@ -4,6 +4,9 @@
 <p align="center">
     <b>Cyno:</b> The bot that makes your Discord server more fun!
 </p>
+<p align="center">
+    <a href="#developing-cyno">Developing Cyno</a> | <a href="#setting-up-cyno-single-shard">Setting up Cyno (Single Shard)</a>
+</p>
 
 ---
 
@@ -24,3 +27,13 @@ To develop Cyno, you will need the following:
 -   node,js 20 or higher (lower Node versions might work, but are untested).
 
 Once you have these, you can run `npm ci` to go ahead and install all the dependencies for all of your packages and then run `npm run dev`. The first time you run this, you will get a CLI setup wizard to walk you through setting up your devlopment environment. After that (or instantly if you have walked through the setup before), foreman will then start all the required processes. You can then go to `localhost:5100` to see the dashboard or interact with the bot in Discord.
+
+## Setting up Cyno (Single Shard)
+
+This is the approach you probably want to take if you just need a single Discord shard. You will need the following:
+
+-   A Linux server to run Cyno on with Docker, Docker Compose, and Bun installed.
+-   A Discord bot user.
+-   A uploadthing project.
+
+On the server, clone Cyno to the folder `/opt/cyno`, cd to the directory, and run `bun scripts/serverSetup.js`. This script will setup your environment (if it isn't setup already) and then install/upgrade Cyno.
