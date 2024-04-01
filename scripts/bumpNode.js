@@ -16,11 +16,12 @@ async function main() {
         const fileContents = (
             await readFile(fp, { encoding: "utf-8" })
         ).toString();
-        const [_, rest] = fileContents.split("\n", 2);
+        const a = fileContents.split("\n");
+        a.shift();
         await writeFile(
             fp,
             `FROM node:${version.substring(1)}-alpine
-${rest}`,
+${a.join("\n")}`,
         );
     }
 }
