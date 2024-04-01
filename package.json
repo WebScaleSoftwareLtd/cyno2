@@ -10,13 +10,14 @@
         "foreman": "^3.0.1",
         "prettier": "^3.2.5",
         "husky": "^9.0.11",
-        "dotenv-cli": "^7.4.1"
+        "dotenv-cli": "^7.4.1",
+        "concurrently": "^8.2.2"
     },
     "scripts": {
         "prepare": "husky || true",
         "tsc": "npm run tsc --workspaces",
         "dev": "node scripts/devSetup.js && nf -j Procfile.dev start",
-        "lint": "prettier . --check && npm run tsc && npm run lint --workspace site",
+        "lint": "concurrently 'prettier . --check' 'npm run tsc' 'npm run lint --workspace site'",
         "lint:fix": "prettier . --write && npm run tsc && npm run lint --workspace site -- --fix",
         "commands:migrate": "dotenv -- npm run commands:migrate --workspace bot",
         "db:migrate": "npm run db:migrate --workspace database",
