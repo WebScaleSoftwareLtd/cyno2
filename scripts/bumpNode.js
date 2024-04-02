@@ -20,7 +20,7 @@ async function main() {
         a.shift();
         await writeFile(
             fp,
-            `FROM node:${version.substring(1)}-alpine
+            `FROM node:${version.substring(1)}-bookworm
 ${a.join("\n")}`,
         );
     }
