@@ -242,7 +242,7 @@ if (upgrade) {
 
 // Start the containers whilst building the bot.
 await runCommand(
-    "docker compose up -d -f docker-compose.generated.yml --build",
+    "docker compose -f docker-compose.generated.yml up -d --build",
 );
 
 // Handle commands migration by executing "npm run commands:migrate --workspace bot" in the bot compose container.
