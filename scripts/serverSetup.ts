@@ -165,7 +165,7 @@ if (upgrade) {
         (await ask("How do you want to deploy the web server?", [
             "Use Caddy to manage HTTPS and use ports 443/80",
             "Use Caddy to manage HTTP and expose on port 8080",
-        ])) === "Use Caddy to manage HTTPS"
+        ])) === "Use Caddy to manage HTTPS and use ports 443/80"
             ? { type: "caddy" as const, ssl: true }
             : { type: "caddy" as const, ssl: false };
     const hostname = await noBlankResponse(
