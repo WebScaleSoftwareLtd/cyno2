@@ -1,0 +1,16 @@
+db:
+    build:
+        context: .
+        dockerfile: Dockerfile.libsql-server
+    env:
+        SQLD_DB_PATH: /config/data.sqld
+    volumes:
+        - ./server_cfg:/config
+
+db_migrate:
+    image: cyno_site
+    command: npm run db:migrate
+    env_file:
+        - .env
+    depends_on:
+        - db

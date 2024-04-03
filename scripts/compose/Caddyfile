@@ -1,0 +1,9 @@
+{$SITE_ADDRESS} {
+    route {
+        file_server { 
+            root /config/public
+            pass_thru
+        }
+        reverse_proxy app:3000
+    }
+}

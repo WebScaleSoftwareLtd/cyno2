@@ -1,0 +1,4 @@
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y curl xz-utils
+RUN curl --proto '=https' --tlsv1.2 -LsSf https://github.com/tursodatabase/libsql/releases/download/libsql-server-v0.24.4/libsql-server-installer.sh | sh
+ENTRYPOINT ["/root/.cargo/bin/sqld", "--http-listen-addr=0.0.0.0:8000"]

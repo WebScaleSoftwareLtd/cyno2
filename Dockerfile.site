@@ -9,6 +9,6 @@ RUN npm ci
 COPY . /home/node/app
 ENV NODE_ENV=production
 ENV NODE_RUNTIME=1
-RUN COOKIE_PRIVATE_KEY=unneeded DATABASE_URL=file:./random_db.db npm run build --workspace site
+RUN COOKIE_PRIVATE_KEY=unneeded DATABASE_URL=file:../random_db.db npm run build --workspace site
 RUN rm -rf random_db.db
 CMD ["npm", "start", "--workspace", "site"]
