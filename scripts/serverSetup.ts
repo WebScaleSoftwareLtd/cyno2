@@ -249,3 +249,6 @@ if (upgrade) {
 await runCommand(
     "docker compose -f docker-compose.generated.yml up -d --build",
 );
+
+// Exit the process.
+process.exit(0);
