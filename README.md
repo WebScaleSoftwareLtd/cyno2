@@ -43,4 +43,12 @@ This is the approach you probably want to take if you just need a single Discord
 -   A Discord bot user.
 -   A uploadthing project.
 
-On the server, clone Cyno to the folder `/opt/cyno`, cd to the directory, and run `bun scripts/serverSetup.ts`. This script will setup your environment (if it isn't setup already) and then install/upgrade Cyno.
+From here, run the following commands and follow the setup wizard to setup your server:
+
+```sh
+git clone https://github.com/webscalesoftwareltd/cyno2.git /opt/cyno
+cd /opt/cyno
+bun scripts/serverSetup.ts
+```
+
+To perform updates after this, run `cd /opt/cyno && bun scripts/serverSetup.ts`.
