@@ -3,12 +3,15 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+    // Get the origin.
+    const origin = req.headers.get("x-forwarded-host") || req.nextUrl.origin;
+
     // Check if the state is valid.
     if (
         cookies().get("state")?.value !== req.nextUrl.searchParams.get("state")
     ) {
         // Redirect the user to the homepage.
-        return NextResponse.redirect(`${req.nextUrl.origin}/`);
+        return NextResponse.redirect(`${origin}/`);
     }
 
     // Make sure the code exists.
@@ -62,7 +65,7 @@ export async function GET(req: NextRequest) {
         responseJson.refresh_token,
         expires,
     ];
-    const redirect = NextResponse.redirect(`${req.nextUrl.origin}/dashboard`);
+    const redirect = NextResponse.redirect(`${origin}/dashboard`);
     await setEncryptedCookie(
         "encrypted_token",
         JSON.stringify(dataArray),
