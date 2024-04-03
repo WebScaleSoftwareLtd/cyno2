@@ -6,6 +6,7 @@ db:
         SQLD_DB_PATH: /config/data.sqld
     volumes:
         - ./server_cfg:/config
+    restart: always
 
 db_migrate:
     build:

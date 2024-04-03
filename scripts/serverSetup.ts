@@ -181,7 +181,7 @@ if (upgrade) {
     console.log(`
 Time to setup Discord! You will need to create a new application on the Discord Developer Portal.
 
-You should set the redirect URI to https://${hostname}/api/auth/callback. I am going to ask some information about the application now.
+You should set the redirect URI to https://${hostname}/api/auth/callback and turn on the members intent. I am going to ask some information about the application now.
 `);
     const clientId = await noBlankResponse("Enter the client ID: ");
     const clientSecret = await noBlankResponse("Enter the client secret: ");

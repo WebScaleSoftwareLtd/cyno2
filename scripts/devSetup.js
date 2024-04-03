@@ -50,6 +50,8 @@ async function devQuestions(root) {
 
     console.log(`
 Ok great! Now click the Bot tab and click "Add Bot" if you haven't already. We need the token.
+
+Also make sure to turn on the members intent.
 `);
     const token = await rl.question("What is the Discord token: ");
 
