@@ -218,7 +218,7 @@ Configuration generated! 🎉
 // Run the command.
 async function runCommand(command: string, allowThrow?: boolean) {
     console.log(`📜 ${command}`);
-    const r = await $`${{ raw: command }}`;
+    const r = await $`${{ raw: command }}`.throws(false);
     if (r.exitCode !== 0 && !allowThrow) process.exit(r.exitCode);
 }
 
@@ -235,7 +235,7 @@ await runCommand(
 // If it is an upgrade, stop the containers.
 if (upgrade) {
     await runCommand(
-        "docker compose down -f docker-compose.generated.yml",
+        "docker compose -f docker-compose.generated.yml down",
         true,
     );
 }
