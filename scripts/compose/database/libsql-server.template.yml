@@ -8,7 +8,9 @@ db:
         - ./server_cfg:/config
 
 db_migrate:
-    image: cyno_site
+    build:
+        context: .
+        dockerfile: Dockerfile.site
     command: npm run db:migrate
     env_file:
         - .env
