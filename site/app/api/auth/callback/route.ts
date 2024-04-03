@@ -4,7 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     // Get the origin.
-    const origin = req.headers.get("x-forwarded-host") || req.nextUrl.origin;
+    const fHost = req.headers.get("x-forwarded-host");
+    const origin = fHost ? `https://${fHost}` : req.nextUrl.origin;
 
     // Check if the state is valid.
     if (
