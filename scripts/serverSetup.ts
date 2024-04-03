@@ -145,9 +145,15 @@ if (upgrade) {
             "Enter the connection URI for the LibSQL server (such as Turso): ",
         );
         env.push(`DATABASE_URL=${url}`);
+        const authToken = (
+            await rlQuestion(
+                "Enter the auth token for the LibSQL server (can be blank): ",
+            )
+        ).trim();
+        if (authToken !== "") env.push(`DATABASE_AUTH_TOKEN=${authToken}`);
     } else {
         // Use the local DB.
-        env.push("DATABASE_URL=libsql://db:8000");
+        env.push("DATABASE_URL=http://db:8000");
     }
 
     // Ask the user how they want to deploy the web server.
@@ -166,7 +172,32 @@ if (upgrade) {
         `DISCORD_REDIRECT_URI=https://${hostname}/api/auth/callback`,
     );
 
-    // TODO: more code
+    // Log that we are going to setup Discord.
+    console.log(`
+Time to setup Discord! You will need to create a new application on the Discord Developer Portal.
+
+You should set the redirect URI to https://${hostname}/api/auth/callback. I am going to ask some information about the application now.
+`);
+    const clientId = await noBlankResponse("Enter the client ID: ");
+    const clientSecret = await noBlankResponse("Enter the client secret: ");
+    const token = await noBlankResponse("Enter the bot token: ");
+    env.push(
+        `DISCORD_CLIENT_ID=${clientId}`,
+        `DISCORD_CLIENT_SECRET=${clientSecret}`,
+        `TOKEN=${token}`,
+    );
+
+    // Log that we are going to setup uploadthing.
+    console.log(`
+Now open uploadthing and go to your project then API Keys. Click the eye and then copy each bit as needed.
+`);
+    const utSecret = await noBlankResponse(
+        "What is the uploadthing secret (the bit after UPLOADTHING_SECRET=): ",
+    );
+    const utAppId = await noBlankResponse(
+        "What is the uploadthing app ID (the bit after UPLOADTHING_APP_ID=): ",
+    );
+    env.push(`UPLOADTHING_SECRET=${utSecret}`, `UPLOADTHING_APP_ID=${utAppId}`);
 
     // Generate the Docker Compose configuration and write the .env file.
     await generateDockerCompose(turso, tls);
@@ -198,13 +229,19 @@ await runCommand(
 );
 
 // If it is an upgrade, stop the containers.
-if (upgrade)
+if (upgrade) {
     await runCommand(
         "docker compose down -f docker-compose.generated.yml",
         true,
     );
+}
 
 // Start the containers whilst building the bot.
 await runCommand(
     "docker compose up -d -f docker-compose.generated.yml --build",
+);
+
+// Handle commands migration by executing "npm run commands:migrate --workspace bot" in the bot compose container.
+await runCommand(
+    "docker compose run bot npm run commands:migrate --workspace bot",
 );
