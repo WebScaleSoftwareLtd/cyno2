@@ -2,7 +2,7 @@ db:
     build:
         context: .
         dockerfile: Dockerfile.libsql-server
-    env:
+    environment:
         SQLD_DB_PATH: /config/data.sqld
     volumes:
         - ./server_cfg:/config

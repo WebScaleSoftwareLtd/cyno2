@@ -3,6 +3,7 @@ caddy:
     volumes:
         - ./scripts/compose/Caddyfile:/etc/caddy/Caddyfile
         - ./server_cfg/caddy_data:/data
+        - ./server_cfg:/config
     env_file:
         - .env
     ports:
