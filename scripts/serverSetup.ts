@@ -96,7 +96,7 @@ async function generateDockerCompose(
             "\n" +
             indent(
                 await Bun.file(
-                    `scripts/web/caddy-${webServer.ssl ? "https" : "http"}.template.yml`,
+                    `scripts/compose/web/caddy-${webServer.ssl ? "https" : "http"}.template.yml`,
                 ).text(),
                 "    ",
             );
@@ -104,7 +104,9 @@ async function generateDockerCompose(
         config +=
             "\n" +
             indent(
-                await Bun.file("scripts/web/cloudflare.template.yml").text(),
+                await Bun.file(
+                    "scripts/compose/web/cloudflare.template.yml",
+                ).text(),
                 "    ",
             );
     }
