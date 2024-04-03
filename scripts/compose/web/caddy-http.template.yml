@@ -1,5 +1,5 @@
 caddy:
-    image: 2.7-alpine
+    image: caddy:2.7-alpine
     volumes:
         - ./scripts/compose/Caddyfile:/etc/caddy/Caddyfile
         - ./server_cfg/caddy_data:/data

@@ -1,5 +1,6 @@
 import { $ } from "bun";
 import readline from "readline";
+import { randomBytes } from "crypto";
 
 // Build the readline interface.
 const rl = readline.createInterface({
@@ -202,6 +203,10 @@ Now open uploadthing and go to your project then API Keys. Click the eye and the
         "What is the uploadthing app ID (the bit after UPLOADTHING_APP_ID=): ",
     );
     env.push(`UPLOADTHING_SECRET=${utSecret}`, `UPLOADTHING_APP_ID=${utAppId}`);
+
+    // Add the cookie private key.
+    const data = randomBytes(32).toString("hex");
+    env.push(`COOKIE_PRIVATE_KEY=${data}`);
 
     // Generate the Docker Compose configuration and write the .env file.
     await generateDockerCompose(turso, tls);
