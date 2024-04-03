@@ -74,7 +74,9 @@ async function generateDockerCompose(
         config +=
             "\n" +
             indent(
-                await Bun.file("scripts/compose/turso.template.yml").text(),
+                await Bun.file(
+                    "scripts/compose/database/turso.template.yml",
+                ).text(),
                 "    ",
             );
     } else {
@@ -82,7 +84,7 @@ async function generateDockerCompose(
             "\n" +
             indent(
                 await Bun.file(
-                    "scripts/compose/libsql-server.template.yml",
+                    "scripts/compose/database/libsql-server.template.yml",
                 ).text(),
                 "    ",
             );
