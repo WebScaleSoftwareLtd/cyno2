@@ -1,0 +1,30 @@
+name: Manual workflow actions
+on: [workflow_dispatch]
+
+jobs:
+    db_migrate:
+        name: Run db:migrate
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+            - run: npm ci
+            - run: npm run db:migrate --workspace database
+              env:
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+                  DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+
+    commands_migrate:
+        name: Run commands:migrate
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+            - run: npm ci
+            - run: npm run commands:migrate --workspace bot
+              env:
+                  TOKEN: ${{ secrets.DISCORD_TOKEN }}
