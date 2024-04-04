@@ -29,3 +29,4 @@ jobs:
                   file: ./Dockerfile.bot
                   push: true
                   tags: ghcr.io/${{ env.REPO }}/bot:latest,ghcr.io/${{ env.REPO }}/bot:${{ github.sha }}
+                  platforms: linux/amd64,linux/arm64
