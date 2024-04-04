@@ -3,9 +3,10 @@
 # The local database.
 database.db
 
-# The server configuration folder.
+# The server configuration files.
 server_cfg/
 docker-compose.generated.yml
+k8s.generated.yml
 
 # Dependencies
 node_modules

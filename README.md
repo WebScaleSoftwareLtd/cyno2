@@ -5,7 +5,7 @@
     <b>Cyno:</b> The bot that makes your Discord server more fun!
 </p>
 <p align="center">
-    <a href="#developing-cyno">Developing Cyno</a> | <a href="#setting-up-cyno-single-shard">Setting up Cyno (Single Shard)</a>
+    <a href="#developing-cyno">Developing Cyno</a> | <a href="#setting-up-cyno-single-shard">Setting up Cyno (Single Shard)</a> | <a href="#setting-up-cyno-at-scale">Setting up Cyno at scale</a>
 </p>
 
 ---
@@ -53,3 +53,26 @@ bun scripts/serverSetup.ts
 ```
 
 To perform updates after this, run `cd /opt/cyno && bun scripts/serverSetup.ts`.
+
+## Setting up Cyno at scale
+
+So you want to setup Cyno at scale? You should have some experiences with scaling services and do the following:
+
+1. You should use Turso for the database and Vercel for hosting the web side. You want to reduce the burdeon on yourself at scale, and this is the best way to do that. Deploying a web app or database at scale is a lot harder than the bot portion.
+2. You are going to want to pre-containerise the bot code. This repository automatically does that when you commit to main, but you may need to set this up if you fork.
+3. If you fork, you may need to edit `scripts/k8s.template.yml` to change the image.
+4. You will need to add the following environment variables to Vercel and as secrets to Kubernetes:
+
+```env
+DATABASE_AUTH_TOKEN=<your turso auth token>
+DATABASE_URL=<your turso database url>
+DISCORD_CLIENT_ID=<your discord client id>
+DISCORD_CLIENT_SECRET=<your discord client secret>
+DISCORD_REDIRECT_URI=<your discord redirect URI, https://<your domain>/api/auth/callback>
+TOKEN=<your discord token>
+UPLOADTHING_SECRET=<your uploadthing secret>
+UPLOADTHING_APP_ID=<your uploadthing app id>
+COOKIE_PRIVATE_KEY=<32 bytes for the cookie key>
+```
+
+5. You can use `scripts/generate_k8s.py <commit hash>` to generate a Kubernetes manifest from the template with `{hash}` substituted for the commit hash. This will be saved as `k8s.generated.yml` which you can apply to your cluster.
