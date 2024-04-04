@@ -92,7 +92,7 @@ export default async function Home() {
                     Discord bot that adds fun functionality to your server:
                 </p>
 
-                <div className="flex flex-wrap">
+                <div className="sm:flex sm:flex-wrap max-sm:w-max max-sm:mx-auto">
                     <Feature url="/balance.png" title="Economy">
                         Cyno supports a fully featured economy system with
                         wallets, sharing currency, and testing your luck with
