@@ -40,8 +40,10 @@ jobs:
         runs-on: ubuntu-20.04
         steps:
             - uses: actions/checkout@v4
+            - name: Lowercase github repository
+              run: echo "REPO=`echo ${{github.repository}} | tr '[:upper:]' '[:lower:]'`" >>${GITHUB_ENV}
             - name: Generate the Kubernetes file
-              run: python3 scripts/generate_k8s.py ${{ github.sha }}
+              run: python3 scripts/generate_k8s.py ${{ github.sha }} ${{ env.REPO }}
             - name: Install oci-cli
               uses: bytesbay/oci-cli-action@v1.0.2
               with:

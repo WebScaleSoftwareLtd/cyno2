@@ -75,4 +75,4 @@ UPLOADTHING_APP_ID=<your uploadthing app id>
 COOKIE_PRIVATE_KEY=<32 bytes for the cookie key>
 ```
 
-5. You can use `scripts/generate_k8s.py <commit hash>` to generate a Kubernetes manifest from the template with `{hash}` substituted for the commit hash. This will be saved as `k8s.generated.yml` which you can apply to your cluster.
+5. You can use `scripts/generate_k8s.py <commit hash> <repo>` to generate a Kubernetes manifest from the template with `{hash}` substituted for the commit hash and `{repo}` substituted for the repository. This will be saved as `k8s.generated.yml` which you can apply to your cluster.
