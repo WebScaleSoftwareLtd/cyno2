@@ -59,7 +59,7 @@ export default async function Home() {
                     alt="Cyno"
                     className="mb-6"
                     width={200}
-                    height={200}
+                    height={127}
                 />
 
                 <div className="flex">
