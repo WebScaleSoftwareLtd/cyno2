@@ -3,6 +3,9 @@ on:
     push:
         branches:
             - main
+        paths:
+            - "bot/**"
+            - "database/**"
 
 jobs:
     bot-docker:
@@ -30,3 +33,26 @@ jobs:
                   push: true
                   tags: ghcr.io/${{ env.REPO }}/bot:latest,ghcr.io/${{ env.REPO }}/bot:${{ github.sha }}
                   platforms: linux/amd64,linux/arm64
+
+    k8s-deploy:
+        name: Deploy to Kubernetes
+        needs: bot-docker
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - name: Generate the Kubernetes file
+              run: python3 scripts/generate_k8s.py ${{ github.sha }}
+            - name: Install oci-cli
+              uses: bytesbay/oci-cli-action@v1.0.2
+              with:
+                  user: "${{ secrets.OCI_USER }}"
+                  fingerprint: "${{ secrets.OCI_FINGERPRINT }}"
+                  tenancy: "${{ secrets.OCI_TENANCY }}"
+                  region: "${{ secrets.OCI_REGION }}"
+                  api_key: |
+                      ${{ secrets.OCI_API_KEY }}
+                  verbose: true
+            - name: Get the Kubernetes cluster
+              run: oci ce cluster create-kubeconfig --cluster-id ${{ secrets.OCI_CLUSTER_ID }} --file $HOME/.kube/config --region us-sanjose-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
+            - name: Deploy to Kubernetes
+              run: kubectl apply -f k8s.generated.yml
