@@ -18,6 +18,7 @@
         "prepare": "husky || true",
         "tsc": "npm run tsc --workspaces",
         "dev": "node scripts/devSetup.js && nf -j Procfile.dev start",
+        "prettier": "prettier . --check",
         "lint": "concurrently 'prettier . --check' 'npm run tsc' 'npm run lint --workspace site'",
         "lint:fix": "prettier . --write && npm run tsc && npm run lint --workspace site -- --fix",
         "commands:migrate": "dotenv -- npm run commands:migrate --workspace bot",

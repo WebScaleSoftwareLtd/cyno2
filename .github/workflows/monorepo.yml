@@ -1,0 +1,14 @@
+name: All packages
+on: [push]
+
+jobs:
+    prettier:
+        name: Run next lint
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+            - run: npm ci
+            - run: npm run prettier

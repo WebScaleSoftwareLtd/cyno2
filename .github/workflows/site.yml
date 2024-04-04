@@ -1,0 +1,28 @@
+name: Site package
+on:
+    push:
+        paths:
+            - "site/**"
+
+jobs:
+    tsc:
+        name: Run TSC
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+            - run: npm ci
+            - run: npm run tsc --workspace site
+
+    lint:
+        name: Run next lint
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+            - run: npm ci
+            - run: npm run lint --workspace site
