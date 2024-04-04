@@ -1,0 +1,16 @@
+name: Command migrations
+on: [workflow_dispatch]
+
+jobs:
+    commands_migrate:
+        name: Run commands:migrate
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+            - run: npm ci
+            - run: npm run commands:migrate --workspace bot
+              env:
+                  TOKEN: ${{ secrets.DISCORD_TOKEN }}
