@@ -8,7 +8,7 @@ jobs:
     bot-docker:
         name: Build and push bot docker image
         runs-on: ubuntu-20.04
-        tasks:
+        steps:
             - uses: actions/checkout@v4
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
