@@ -228,13 +228,13 @@ async function runCommand(command: string, allowThrow?: boolean) {
 }
 
 // Build the site and copy public.
-await runCommand("docker compose -f docker-compose.generated.yml build site");
+await runCommand("docker build -t cyno-site -f Dockerfile.site .");
 await runCommand("mkdir -p server_cfg/public/_next/static");
 await runCommand(
-    "docker compose -f docker-compose.generated.yml run site --rm -v ./server_cfg:/server_cfg cp -r /home/node/app/site/public /server_cfg",
+    "docker run --rm -v ./server_cfg:/server_cfg cyno-site cp -r /home/node/app/site/public /server_cfg",
 );
 await runCommand(
-    "docker compose -f docker-compose.generated.yml run site --rm -v ./server_cfg:/server_cfg cp -r /home/node/app/site/.next/static /server_cfg/public/_next",
+    "docker run --rm -v ./server_cfg:/server_cfg cyno-site cp -r /home/node/app/site/.next/static /server_cfg/public/_next",
 );
 
 // If it is an upgrade, stop the containers.
