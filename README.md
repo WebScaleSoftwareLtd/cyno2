@@ -30,6 +30,7 @@ Once you have these, you can run `npm ci` to go ahead and install all the depend
 
 Some useful commands for development (all of these are ran in the root folder):
 
+-   `npm run lint:fix`: Automatically tries to fix lint errors. Run this if the linting commit hook fails.
 -   `npm run db:generate-migrations`: Generate database migrations. This should be ran when you change the schema.
 -   `npm run db:migrate`: Pushes the migrations to the database. This is ran initially when you setup your development environment, but may be useful if you make any changes to the schema.
 -   `npm run commands:migrate`: Runs migrations for commands on your Discord account. This is ran initially when you setup your development environment, but may be useful if you add a command.
