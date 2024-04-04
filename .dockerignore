@@ -7,3 +7,4 @@ bot/dist/
 site/.next/
 site/private.key
 .env
+server_cfg/
