@@ -8,3 +8,4 @@ site/.next/
 site/private.key
 .env
 server_cfg/
+docker-compose.generated.yml

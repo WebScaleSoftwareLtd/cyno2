@@ -5,6 +5,7 @@ database.db
 
 # The server configuration folder.
 server_cfg/
+docker-compose.generated.yml
 
 # Dependencies
 node_modules
