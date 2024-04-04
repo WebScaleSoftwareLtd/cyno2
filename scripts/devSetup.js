@@ -27,7 +27,14 @@ class AsyncAsk {
     }
 
     async question(query) {
-        return new Promise((r) => this.iface.question(query, r));
+        for (;;) {
+            const x = (
+                await new Promise((r) => this.iface.question(query, r))
+            ).trim();
+            if (x !== "") {
+                return x;
+            }
+        }
     }
 }
 
