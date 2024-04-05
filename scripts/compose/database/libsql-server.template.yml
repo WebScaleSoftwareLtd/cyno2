@@ -1,6 +1,6 @@
 db:
     build:
-        context: .
+        context: ./scripts/compose
         dockerfile: Dockerfile.libsql-server
     environment:
         SQLD_DB_PATH: /config/data.sqld
