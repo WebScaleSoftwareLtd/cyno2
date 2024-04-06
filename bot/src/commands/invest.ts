@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type AutocompleteFocusedOption,
     type ApplicationCommandOptionChoiceData,
     type CommandInteraction,
@@ -15,7 +15,7 @@ import yahooFinance from "yahoo-finance2";
 
 export const description = "Allows you to invest your currency in a stock.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "amount",
         description: "The amount you wish to invest.",

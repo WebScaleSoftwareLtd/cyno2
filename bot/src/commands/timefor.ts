@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
 } from "discord.js";
 import { notAMember } from "../views/errors";
@@ -9,7 +9,7 @@ import error from "../views/layouts/error";
 
 export const description = "Gets the time for a user.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "user",
         description: "The user to check the balance of.",

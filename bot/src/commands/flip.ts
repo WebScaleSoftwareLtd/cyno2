@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
 } from "discord.js";
 import take from "../queries/financial/take";
@@ -11,7 +11,7 @@ import add from "../queries/financial/add";
 export const description =
     "Allows you to gamble your currency by flipping a virtual coin.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "amount",
         description: "The amount you wish to gamble.",

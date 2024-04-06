@@ -1,5 +1,5 @@
 import {
-    APIApplicationCommandOption,
+    APIApplicationCommandBasicOption,
     ApplicationCommandOptionType,
     CommandInteraction,
     PermissionResolvable,
@@ -13,7 +13,7 @@ import success from "../views/layouts/success";
 export const description =
     "Reminds this current channel of something at a specific time.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "message",
         description: "The message to remind with.",

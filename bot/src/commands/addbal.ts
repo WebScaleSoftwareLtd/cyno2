@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
     type PermissionResolvable,
 } from "discord.js";
@@ -16,7 +16,7 @@ export const defaultPermissions: PermissionResolvable = [
     "ManageGuild",
 ];
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "user",
         description: "The user to add balance to.",

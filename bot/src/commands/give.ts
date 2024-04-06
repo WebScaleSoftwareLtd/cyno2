@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
 } from "discord.js";
 import * as errors from "../views/errors";
@@ -10,7 +10,7 @@ import transfer from "../queries/financial/transfer";
 
 export const description = "Allows you to give your balance to someone else.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "recipient",
         description: "The person who would be getting the currency.",

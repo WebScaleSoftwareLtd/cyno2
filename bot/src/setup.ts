@@ -1,8 +1,10 @@
 // Get the discord.js types.
-import type {
-    ApplicationCommand,
-    AutocompleteInteraction,
-    Client,
+import {
+    ApplicationCommandOptionType,
+    type APIApplicationCommandSubcommandOption,
+    type ApplicationCommand,
+    type AutocompleteInteraction,
+    type Client,
 } from "discord.js";
 import { globalState, setupReactDjs } from "./state";
 
@@ -13,11 +15,26 @@ import guildCreate from "./events/guildCreate";
 import guildDelete from "./events/guildDelete";
 
 // Get everything required for command setup.
-import type { Command } from "./globalTypes";
+import type { Command, ParentCommand, RootCommand } from "./globalTypes";
 import * as commands from "./commands";
 
 // Log that the module was loaded.
 console.log("Module loaded!");
+
+// Handle subcommand mapping.
+function mapSubcommands(subcommands: { [name: string]: RootCommand }) {
+    return Object.entries(subcommands).map(
+        ([name, { options, description }]) => {
+            const opt: APIApplicationCommandSubcommandOption = {
+                type: ApplicationCommandOptionType.Subcommand,
+                name,
+                options,
+                description,
+            };
+            return opt;
+        },
+    );
+}
 
 // Handle command migrations.
 const commandRegistration = async (client: Client) => {
@@ -29,7 +46,10 @@ const commandRegistration = async (client: Client) => {
             client.application!.commands.create({
                 name,
                 description: cmd.description,
-                options: cmd.options,
+                options:
+                    "subcommands" in cmd
+                        ? mapSubcommands((cmd as ParentCommand).subcommands)
+                        : cmd.options,
                 defaultMemberPermissions: cmd.defaultPermissions,
             }),
         );
@@ -78,10 +98,18 @@ export default (client: Client) => {
         interaction: AutocompleteInteraction,
     ) => {
         // Get the command.
-        const command = (commands as Record<string, Command | undefined>)[
+        let command = (commands as Record<string, Command | undefined>)[
             interaction.commandName
         ];
         if (!command) return;
+
+        // Check if the command has sub-commands and if this is one of those.
+        if ("subcommands" in command) {
+            const subcommand =
+                command.subcommands[interaction.options.getSubcommand()];
+            if (!subcommand) return;
+            command = subcommand;
+        }
 
         // If there isn't a select menu handler, return.
         if (!command.autocompleteHandler) return;
@@ -100,12 +128,24 @@ export default (client: Client) => {
             return autocompleteHandler(interaction);
         if (!interaction.isCommand()) return;
 
-        const command = (commands as Record<string, Command | undefined>)[
+        let command = (commands as Record<string, Command | undefined>)[
             interaction.commandName
         ];
         if (!command) {
             interaction.reply("Unknown command!");
             return;
+        }
+
+        // Handle sub-commands.
+        if ("subcommands" in command) {
+            if (!interaction.isChatInputCommand()) return;
+            const subcommand =
+                command.subcommands[interaction.options.getSubcommand()];
+            if (!subcommand) {
+                interaction.reply("Unknown subcommand!");
+                return;
+            }
+            command = subcommand;
         }
 
         await command.run(interaction);

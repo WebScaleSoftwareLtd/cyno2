@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type PermissionResolvable,
     type CommandInteraction,
 } from "discord.js";
@@ -12,7 +12,7 @@ import Balance from "./shared/Balance";
 export const description =
     "Allows you to remotely check someone else's balance.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "user",
         description: "The user to check the balance of.",

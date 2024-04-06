@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
     type EmbedField,
     type User,
@@ -69,7 +69,7 @@ const Leaderboard = ({ initPageResult, pageLoader }: Props) => {
 
 export const description = "Displays the guilds leaderboards.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "type",
         description: "The type of leaderboard you want.",

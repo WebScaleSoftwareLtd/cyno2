@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
     type Message,
 } from "discord.js";
@@ -13,7 +13,7 @@ import { client, currencyDrop } from "database";
 
 export const description = "Allows you to drop currency.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "amount",
         description: "The amount you wish to give.",

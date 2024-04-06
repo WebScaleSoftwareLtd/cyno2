@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
 } from "discord.js";
 import error from "../views/layouts/error";
@@ -8,7 +8,7 @@ import error from "../views/layouts/error";
 export const description =
     "Allows you to set your birthday. You can only do this once.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "birthday",
         description: "The date of your birthday.",

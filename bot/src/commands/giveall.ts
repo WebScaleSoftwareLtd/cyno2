@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type CommandInteraction,
 } from "discord.js";
 import addMany from "../queries/financial/addMany";
@@ -10,7 +10,7 @@ import { getGuild } from "../queries/guild";
 export const description =
     "Give all users which have a role an amount of currency.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "role",
         description: "The role to give currency to.",

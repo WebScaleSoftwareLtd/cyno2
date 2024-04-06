@@ -1,6 +1,6 @@
 import {
     type CommandInteraction,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     ApplicationCommandOptionType,
 } from "discord.js";
 import take from "../queries/financial/take";
@@ -45,7 +45,7 @@ const wheelRatios = [
 
 export const description = "Allows you to gamble your currency on a wheel.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "amount",
         description: "The amount you wish to gamble.",

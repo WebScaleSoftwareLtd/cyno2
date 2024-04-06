@@ -1,6 +1,6 @@
 import {
     ApplicationCommandOptionType,
-    type APIApplicationCommandOption,
+    type APIApplicationCommandBasicOption,
     type ApplicationCommandOptionChoiceData,
     type AutocompleteFocusedOption,
     type CommandInteraction,
@@ -12,7 +12,7 @@ import success from "../views/layouts/success";
 export const description =
     "Sets the location for your user. Used for timezone lookups.";
 
-export const options: APIApplicationCommandOption[] = [
+export const options: APIApplicationCommandBasicOption[] = [
     {
         name: "location",
         description: "The location to set the timezone to.",
