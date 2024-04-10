@@ -14,7 +14,6 @@ import BetterSQLite3 from "better-sqlite3";
 import { client } from "database";
 import * as schema from "database/schema";
 import { takeableTables } from "database/takeout";
-import { sql } from "drizzle-orm";
 
 export const description = "Allows you to import a dumped database.";
 
