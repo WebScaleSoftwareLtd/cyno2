@@ -8,6 +8,7 @@ export * as flip from "./flip";
 export * as give from "./give";
 export * as giveall from "./giveall";
 export * as ping from "./ping";
+export * as import from "./import";
 export * as invest from "./invest";
 export * as leaderboard from "./leaderboard";
 export * as remindchannel from "./remindchannel";

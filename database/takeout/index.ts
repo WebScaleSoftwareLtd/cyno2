@@ -9,6 +9,10 @@ import { sql } from "drizzle-orm";
 import { readFile, unlink } from "fs/promises";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 
+// Export out the takeable tables.
+export { takeableTables };
+
+// The default way to take data out.
 export default async function takeout(gid: bigint) {
     // Create a temp file.
     const tempFile = path.join(
