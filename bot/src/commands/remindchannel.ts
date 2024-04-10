@@ -40,7 +40,6 @@ export async function run(interaction: CommandInteraction) {
     const duration = durationParse(
         interaction.options.get("duration")!.value as string,
     );
-    console.log(duration);
 
     // If duration is less than 1 minute in ms, return.
     if (duration < 60000)
