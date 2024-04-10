@@ -1,4 +1,4 @@
-const PRECOMPILED_YMDHMS = /\d+?[ymdhs]/gi;
+const PRECOMPILED_YMDHMS = /\d+?([ymdhs])/gi;
 
 export default function (time: string) {
     // Get the time in milliseconds.
@@ -13,14 +13,14 @@ export default function (time: string) {
             case "y":
                 timeInMs += value * 365 * 24 * 60 * 60 * 1000;
                 break;
-            case "m":
-                timeInMs += value * 30 * 24 * 60 * 60 * 1000;
-                break;
             case "d":
                 timeInMs += value * 24 * 60 * 60 * 1000;
                 break;
             case "h":
                 timeInMs += value * 60 * 60 * 1000;
+                break;
+            case "m":
+                timeInMs += value * 60 * 1000;
                 break;
             case "s":
                 timeInMs += value * 1000;

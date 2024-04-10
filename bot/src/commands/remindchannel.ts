@@ -40,6 +40,7 @@ export async function run(interaction: CommandInteraction) {
     const duration = durationParse(
         interaction.options.get("duration")!.value as string,
     );
+    console.log(duration);
 
     // If duration is less than 1 minute in ms, return.
     if (duration < 60000)
@@ -64,6 +65,6 @@ export async function run(interaction: CommandInteraction) {
     await success(
         interaction,
         "Channel Reminder Set",
-        `You have successfully set a reminder for this channel in ${duration / 1000} seconds.`,
+        "You have successfully set a reminder for this channel",
     );
 }
