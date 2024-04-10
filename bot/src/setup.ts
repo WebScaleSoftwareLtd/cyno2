@@ -5,7 +5,6 @@ import {
     PermissionsBitField,
     type APIApplicationCommandSubcommandOption,
     type AutocompleteInteraction,
-    type APIApplicationCommand,
     type Client,
 } from "discord.js";
 import { API } from "@discordjs/core/http-only";
