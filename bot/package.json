@@ -24,7 +24,8 @@
         "react": "^18.2.0",
         "react-djs": "1.0.0",
         "yahoo-finance2": "^2.9.0",
-        "zod": "^3.22.4"
+        "zod": "^3.22.4",
+        "@discordjs/core": "^1.1.1"
     },
     "optionalDependencies": {
         "@libsql/linux-x64-gnu": "^0.2.0-pre.7"

@@ -1,11 +1,14 @@
 // Get the discord.js types.
 import {
     ApplicationCommandOptionType,
+    REST,
+    PermissionsBitField,
     type APIApplicationCommandSubcommandOption,
-    type ApplicationCommand,
     type AutocompleteInteraction,
+    type APIApplicationCommand,
     type Client,
 } from "discord.js";
+import { API } from "@discordjs/core/http-only";
 import { globalState, setupReactDjs } from "./state";
 
 // Get all of the discord.js events.
@@ -37,48 +40,41 @@ function mapSubcommands(subcommands: { [name: string]: RootCommand }) {
 }
 
 // Handle command migrations.
-const commandRegistration = async (client: Client) => {
-    const currentCommands = await client.application!.commands.fetch();
-    const promises: Promise<ApplicationCommand>[] = [];
-    for (const [name, command] of Object.entries(commands)) {
+async function commandRegistration() {
+    const api = new API(
+        new REST({ version: "10" }).setToken(process.env.TOKEN!),
+    );
+    const me = await api.users.getCurrent();
+    const cmds = Object.entries(commands).map(([name, command]) => {
         const cmd: Command = command;
-        promises.push(
-            client.application!.commands.create({
-                name,
-                description: cmd.description,
-                options:
-                    "subcommands" in cmd
-                        ? mapSubcommands((cmd as ParentCommand).subcommands)
-                        : cmd.options,
-                defaultMemberPermissions: cmd.defaultPermissions,
-            }),
-        );
-        currentCommands.delete(name);
-    }
-    await Promise.all([
-        Promise.all(promises),
-        Promise.all(
-            currentCommands.map((_, name) =>
-                client.application!.commands.delete(name),
-            ),
-        ),
-    ]);
-};
+        return {
+            name,
+            description: cmd.description,
+            options:
+                "subcommands" in cmd
+                    ? mapSubcommands((cmd as ParentCommand).subcommands)
+                    : cmd.options,
+            default_member_permissions: cmd.defaultPermissions
+                ? new PermissionsBitField(cmd.defaultPermissions).toJSON()
+                : undefined,
+        };
+    });
+    await api.applicationCommands.bulkOverwriteGlobalCommands(me.id, cmds);
+}
 
 export default (client: Client) => {
     if (process.env.CMD_MIGRATE === "1") {
-        // Handle command migrations.
-        client.on("ready", async () => {
+        return (async () => {
+            // Handle command migrations.
             try {
-                await commandRegistration(client);
+                await commandRegistration();
                 console.log("Commands migrated!");
                 process.exit(0);
             } catch (err) {
                 console.error(err);
                 process.exit(1);
             }
-        });
-        return () => client.removeAllListeners();
+        })();
     }
 
     // Add Discord events.
