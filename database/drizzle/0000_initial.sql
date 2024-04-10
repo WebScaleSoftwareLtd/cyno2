@@ -43,12 +43,28 @@ CREATE TABLE `guild_birthday_config` (
 	FOREIGN KEY (`guild_id`) REFERENCES `guilds`(`guild_id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `guild_intervals` (
+	`job_id` text PRIMARY KEY NOT NULL,
+	`guild_id` blob NOT NULL,
+	`interval` integer NOT NULL,
+	`job_type` text NOT NULL,
+	`json` blob NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `guild_timely_config` (
 	`guild_id` blob PRIMARY KEY NOT NULL,
 	`enabled` integer DEFAULT false NOT NULL,
 	`amount` integer DEFAULT 10 NOT NULL,
 	`hours_between_collections` integer DEFAULT 24 NOT NULL,
 	FOREIGN KEY (`guild_id`) REFERENCES `guilds`(`guild_id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE TABLE `guild_timeouts` (
+	`job_id` text PRIMARY KEY NOT NULL,
+	`guild_id` blob NOT NULL,
+	`timeout` integer NOT NULL,
+	`job_type` text NOT NULL,
+	`json` blob NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `guilds` (
@@ -62,8 +78,7 @@ CREATE TABLE `guilds` (
 	`level_multiplier` integer DEFAULT 10 NOT NULL,
 	`drop_message` text DEFAULT '{emoji} {amount} has dropped into this channel!' NOT NULL,
 	`level_up_message` text DEFAULT 'Congratulations {user}, you have leveled up to level {level}!' NOT NULL,
-	`level_up_dm` integer DEFAULT true NOT NULL,
-	`drops_calculation` text DEFAULT '5' NOT NULL,
+	`level_up_dm` integer DEFAULT false NOT NULL,
 	`drop_blanks` integer DEFAULT 0 NOT NULL,
 	`drop_seconds_cooldown` integer DEFAULT 5,
 	`destroy_at` integer
@@ -71,7 +86,7 @@ CREATE TABLE `guilds` (
 --> statement-breakpoint
 CREATE TABLE `last_guild_takeout` (
 	`guild_id` blob PRIMARY KEY NOT NULL,
-	`last_takeout` integer,
+	`last_takeout` integer NOT NULL,
 	FOREIGN KEY (`guild_id`) REFERENCES `guilds`(`guild_id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
@@ -82,9 +97,8 @@ CREATE TABLE `level_blacklisted_channels` (
 );
 --> statement-breakpoint
 CREATE TABLE `level_roles` (
-	`role_id` blob,
+	`role_id` blob NOT NULL,
 	`guild_id` blob NOT NULL,
-	`user_id` blob NOT NULL,
 	`level` integer NOT NULL,
 	FOREIGN KEY (`guild_id`) REFERENCES `guilds`(`guild_id`) ON UPDATE no action ON DELETE cascade
 );
@@ -99,7 +113,7 @@ CREATE TABLE `role_shop` (
 --> statement-breakpoint
 CREATE TABLE `shares` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`created_at` integer NOT NULL,
 	`guild_id` blob NOT NULL,
 	`user_id` blob NOT NULL,
 	`invested` integer NOT NULL,
@@ -116,12 +130,12 @@ CREATE TABLE `time_locations` (
 CREATE TABLE `timely_collections` (
 	`user_id` blob NOT NULL,
 	`guild_id` blob NOT NULL,
-	`last_collected` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`last_collected` integer NOT NULL,
 	FOREIGN KEY (`guild_id`) REFERENCES `guilds`(`guild_id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `transactions` (
-	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`created_at` integer NOT NULL,
 	`guild_id` blob NOT NULL,
 	`user_id` blob NOT NULL,
 	`amount` blob NOT NULL,
@@ -130,23 +144,27 @@ CREATE TABLE `transactions` (
 );
 --> statement-breakpoint
 CREATE TABLE `wallet` (
-	`user_id` blob,
+	`user_id` blob NOT NULL,
 	`guild_id` blob NOT NULL,
 	`balance` blob NOT NULL,
 	FOREIGN KEY (`guild_id`) REFERENCES `guilds`(`guild_id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE INDEX `adc_guild_id_idx` ON `allowed_drop_channels` (`guild_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `adc_guild_channel_idx` ON `allowed_drop_channels` (`guild_id`,`channel_id`);--> statement-breakpoint
 CREATE INDEX `drop_guild_id_idx` ON `currency_drop` (`guild_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `admins_guild_member_idx` ON `dashboard_admins` (`guild_id`,`user_id`);--> statement-breakpoint
 CREATE INDEX `xp_guild_id_idx` ON `experience_points` (`guild_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `xp_guild_member_idx` ON `experience_points` (`guild_id`,`user_id`);--> statement-breakpoint
 CREATE INDEX `xp_guild_total_xp_idx` ON `experience_points` (`guild_id`,`total_xp`);--> statement-breakpoint
+CREATE INDEX `guild_intervals_guild_id_idx` ON `guild_intervals` (`guild_id`);--> statement-breakpoint
+CREATE INDEX `guild_intervals_job_type_idx` ON `guild_intervals` (`guild_id`,`job_type`);--> statement-breakpoint
+CREATE INDEX `guild_timeouts_guild_id_idx` ON `guild_timeouts` (`guild_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `guilds_destroy_at_idx` ON `guilds` (`destroy_at`);--> statement-breakpoint
 CREATE INDEX `lbc_guild_id_idx` ON `level_blacklisted_channels` (`guild_id`);--> statement-breakpoint
 CREATE INDEX `lr_guild_id_idx` ON `level_roles` (`guild_id`);--> statement-breakpoint
 CREATE INDEX `lr_guild_level_idx` ON `level_roles` (`guild_id`,`level`);--> statement-breakpoint
-CREATE UNIQUE INDEX `lr_guild_role_level_idx` ON `level_roles` (`guild_id`,`level`,`role_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `lr_guild_role_idx` ON `level_roles` (`role_id`);--> statement-breakpoint
 CREATE INDEX `role_shop_guild_id_idx` ON `role_shop` (`guild_id`);--> statement-breakpoint
 CREATE INDEX `shares_guild_id_idx` ON `shares` (`guild_id`);--> statement-breakpoint
 CREATE INDEX `shares_member_idx` ON `shares` (`guild_id`,`user_id`);--> statement-breakpoint
