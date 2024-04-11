@@ -27,10 +27,10 @@ repo = args[2]
 scripts_folder = os.path.dirname(os.path.realpath(__file__))
 
 # Generate the template file.
-with open(os.path.join(scripts_folder, 'k8s.template.yaml'), 'r') as f:
+with open(os.path.join(scripts_folder, 'k8s.template.yml'), 'r') as f:
     content = f.read().replace('{hash}', hash_).replace('{repo}', repo).replace('{shard_count}', str(shard_count))
-    with open(os.path.join(scripts_folder, '..', 'k8s.generated.yaml'), 'w+') as f:
+    with open(os.path.join(scripts_folder, '..', 'k8s.generated.yml'), 'w+') as f:
         f.write(content)
 
 # Log that the file was generated.
-print('Generated k8s.generated.yaml')
+print('Generated k8s.generated.yml')
