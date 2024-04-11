@@ -17,10 +17,13 @@ async function Guilds() {
     const mutualGuilds = (
         await client.query.guilds.findMany({
             columns: { guildId: true },
-            where: (guilds, { inArray }) =>
-                inArray(
-                    guilds.guildId,
-                    guildsArray.map((guild) => BigInt(guild.id)),
+            where: (guilds, { and, inArray, isNull }) =>
+                and(
+                    inArray(
+                        guilds.guildId,
+                        guildsArray.map((guild) => BigInt(guild.id)),
+                    ),
+                    isNull(guilds.destroyAt),
                 ),
         })
     ).map((x) => x.guildId.toString());
