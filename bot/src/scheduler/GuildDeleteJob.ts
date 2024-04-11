@@ -2,10 +2,8 @@ import { client, guilds } from "database";
 import ScheduledJob from "./ScheduledJob";
 import { and, eq, sql } from "drizzle-orm";
 
-export default class GuildDeleteJob extends ScheduledJob<string> {
-    constructor(private guildId: string) {
-        super();
-    }
+export default class GuildDeleteJob implements ScheduledJob<string> {
+    constructor(private guildId: string) {}
 
     toJson() {
         return this.guildId;
