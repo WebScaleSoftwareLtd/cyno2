@@ -28,10 +28,10 @@ scripts_folder = os.path.dirname(os.path.realpath(__file__))
 
 # Generate the template file.
 with open(os.path.join(scripts_folder, 'k8s.template.yaml'), 'r') as f:
-    content = f.read().
-        replace('{hash}', hash_).
-        replace('{repo}', repo).
-        replace('{shard_count}', str(shard_count))
+    content = f.read()
+        .replace('{hash}', hash_)
+        .replace('{repo}', repo)
+        .replace('{shard_count}', str(shard_count))
     with open(os.path.join(scripts_folder, '..', 'k8s.generated.yaml'), 'w+') as f:
         f.write(content)
 

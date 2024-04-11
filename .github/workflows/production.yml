@@ -7,6 +7,8 @@ on:
             - "bot/**"
             - "database/**"
             - ".github/workflows/production.yml"
+            - "scripts/k8s.template.yml"
+            - "scripts/generate_k8s.py"
 
 jobs:
     bot-docker:
