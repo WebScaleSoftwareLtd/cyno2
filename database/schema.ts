@@ -48,6 +48,7 @@ export const guilds = takeable(
                 mode: "number",
             }).default(5),
             destroyAt: integer("destroy_at", { mode: "timestamp" }),
+            destroyJobId: text("destroy_job_id"),
         },
         (table) => {
             return {
@@ -410,7 +411,7 @@ export const guildTimeouts = takeable(
         "guild_timeouts",
         {
             jobId: text("job_id").primaryKey(),
-            guildId: blob("guild_id", { mode: "bigint" }).notNull(),
+            guildId: blob("guild_id", { mode: "bigint" }),
             timeout: integer("timeout", { mode: "timestamp" }).notNull(),
             jobType: text("job_type").notNull(),
             json: blob("json", { mode: "json" }).notNull(),

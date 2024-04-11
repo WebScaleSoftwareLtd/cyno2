@@ -1,6 +1,9 @@
-import type { Client } from "discord.js";
+import { getGuildIntervalsAndTimeouts } from "../scheduler";
 
-export default (client: Client) => {
+export default async () => {
+    // Get the sticky timeouts.
+    await getGuildIntervalsAndTimeouts(null);
+
     // Log that we are connected.
     console.log("Bot connected to Discord!");
 };

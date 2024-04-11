@@ -79,7 +79,7 @@ export default (client: Client) => {
 
     // Add Discord events.
     client.on("messageCreate", message);
-    client.on("ready", () => ready(client));
+    client.on("ready", ready);
     client.on("guildCreate", guildCreate);
     client.on("guildDelete", guildDelete);
 

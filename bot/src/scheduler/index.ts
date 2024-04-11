@@ -1,10 +1,11 @@
 import { client, guildIntervals, guildTimeouts } from "database";
-import { eq } from "drizzle-orm";
+import { eq, isNull } from "drizzle-orm";
 import ScheduledJob from "./ScheduledJob";
 import { randomUUID } from "crypto";
 
 import ChannelReminderJob from "./ChannelReminderJob";
 import BirthdayPollJob from "./BirthdayPollJob";
+import GuildDeleteJob from "./GuildDeleteJob";
 
 // Defines all of the job types.
 type JobConstructor<T> = new (data: T) => { toJson(): T; run(): Promise<void> };
@@ -13,11 +14,12 @@ type JobConstructor<T> = new (data: T) => { toJson(): T; run(): Promise<void> };
 const jobTypes: { [key: string]: JobConstructor<any> } = {
     ChannelReminderJob,
     BirthdayPollJob,
+    GuildDeleteJob,
 } as const;
 
 // Defines the mapping of guilds to timeouts.
 const guildTimeoutsMapping: Map<
-    bigint,
+    bigint | null,
     {
         intervals: Map<string, any>;
         timeouts: Map<string, any>;
@@ -25,7 +27,7 @@ const guildTimeoutsMapping: Map<
 > = new Map();
 
 // Clears all timeouts for a guild.
-function clearGuildTimeouts(guildId: bigint) {
+function clearGuildTimeouts(guildId: bigint | null) {
     const g = guildTimeoutsMapping.get(guildId);
     guildTimeoutsMapping.delete(guildId);
     if (g) {
@@ -35,7 +37,7 @@ function clearGuildTimeouts(guildId: bigint) {
 }
 
 // Gets the guilds intervals and timeouts.
-export async function getGuildIntervalsAndTimeouts(guildId: bigint) {
+export async function getGuildIntervalsAndTimeouts(guildId: bigint | null) {
     // Clear them locally if they already exist.
     clearGuildTimeouts(guildId);
 
@@ -47,7 +49,10 @@ export async function getGuildIntervalsAndTimeouts(guildId: bigint) {
 
     // Get the timeouts for the guild and set them up.
     const timeouts = await client.query.guildTimeouts.findMany({
-        where: (guildTimeouts, { eq }) => eq(guildTimeouts.guildId, guildId),
+        where: (guildTimeouts, { eq, isNull }) =>
+            guildId
+                ? eq(guildTimeouts.guildId, guildId)
+                : isNull(guildTimeouts.guildId),
     });
     for (const timeout of timeouts) {
         // If the job type doesn't exist, skip it.
@@ -101,7 +106,10 @@ export async function getGuildIntervalsAndTimeouts(guildId: bigint) {
 
     // Get the intervals for the guild and set them up.
     const intervals = await client.query.guildIntervals.findMany({
-        where: (guildIntervals, { eq }) => eq(guildIntervals.guildId, guildId),
+        where: (guildIntervals, { eq, isNull }) =>
+            guildId
+                ? eq(guildIntervals.guildId, guildId)
+                : isNull(guildIntervals.guildId),
     });
     for (const interval of intervals) {
         // If the job type doesn't exist, skip it.
@@ -138,9 +146,9 @@ function getJobType<T extends ScheduledJob<any>>(job: T) {
     throw new Error("Job type not found.");
 }
 
-// Create a timeout for a specific job.
+// Create a timeout for a specific job. Guild ID being null makes it a sticky job.
 export async function createTimeout<T extends ScheduledJob<any>>(
-    guildId: bigint,
+    guildId: bigint | null,
     job: T,
     timeout: Date,
 ) {
@@ -204,6 +212,9 @@ export async function createTimeout<T extends ScheduledJob<any>>(
         // Get the guilds intervals and timeouts.
         await getGuildIntervalsAndTimeouts(guildId);
     }
+
+    // Return the job id.
+    return jobId;
 }
 
 // Create a interval for a specific job.
@@ -274,4 +285,31 @@ export async function intervalJobTypeExists(guildId: bigint, jobType: string) {
             ),
     });
     return !!val;
+}
+
+// Deletes a job from the database and the mapping.
+export async function deleteTimeout(guildId: bigint | null, jobId: string) {
+    // Delete the timeout from the database.
+    await client
+        .delete(guildTimeouts)
+        .where(
+            eq(
+                eq(guildTimeouts.jobId, jobId),
+                guildId
+                    ? eq(guildTimeouts.guildId, guildId)
+                    : isNull(guildTimeouts.guildId),
+            ),
+        )
+        .execute();
+
+    // Check if the guild is in the mapping.
+    const mapping = guildTimeoutsMapping.get(guildId);
+    if (mapping) {
+        // Clear the timeout from the mapping.
+        const timeout = mapping.timeouts.get(jobId);
+        if (timeout) {
+            clearTimeout(timeout);
+            mapping.timeouts.delete(jobId);
+        }
+    }
 }

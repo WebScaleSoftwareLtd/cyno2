@@ -1,8 +1,8 @@
 import {
-    APIApplicationCommandBasicOption,
     ApplicationCommandOptionType,
-    CommandInteraction,
-    PermissionResolvable,
+    type APIApplicationCommandBasicOption,
+    type CommandInteraction,
+    type PermissionResolvable,
 } from "discord.js";
 import durationParse from "../utils/durationParse";
 import error from "../views/layouts/error";
@@ -64,6 +64,6 @@ export async function run(interaction: CommandInteraction) {
     await success(
         interaction,
         "Channel Reminder Set",
-        "You have successfully set a reminder for this channel",
+        "You have successfully set a reminder for this channel.",
     );
 }
