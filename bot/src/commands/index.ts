@@ -11,6 +11,7 @@ export * as ping from "./ping";
 export * as import from "./import";
 export * as invest from "./invest";
 export * as leaderboard from "./leaderboard";
+export * as movebal from "./movebal";
 export * as remindchannel from "./remindchannel";
 export * as remotebal from "./remotebal";
 export * as roleshop from "./roleshop";
