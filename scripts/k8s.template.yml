@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: bot
+
+spec:
+    replicas: {shard_count}
+    serviceName: bot
+    selector:
+        matchLabels:
+            app: bot
+    template:
+        spec:
+            containers:
+                - name: bot
+                  image: "ghcr.io/{repo}/bot:{hash}"
+                  resources:
+                      requests:
+                          memory: "1Gi"
+                          cpu: "0.3"
+                      limits:
+                          memory: "2Gi"
+                          cpu: "1"
+                  env:
+                      - name: POD_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
+                      - name: SHARD_COUNT
+                        value: "{shard_count}"
+                      - name: DATABASE_URL
+                        valueFrom:
+                            secretKeyRef:
+                                name: bot
+                                key: database_url
+                      - name: DATABASE_AUTH_TOKEN
+                        valueFrom:
+                            secretKeyRef:
+                                name: bot
+                                key: database_auth_token
+                      - name: TOKEN
+                        valueFrom:
+                            secretKeyRef:
+                                name: bot
+                                key: token

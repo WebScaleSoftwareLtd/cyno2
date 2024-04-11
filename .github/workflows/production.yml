@@ -6,6 +6,7 @@ on:
         paths:
             - "bot/**"
             - "database/**"
+            - ".github/workflows/production.yml"
 
 jobs:
     bot-docker:
@@ -23,7 +24,7 @@ jobs:
                   registry: ghcr.io
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
-            - name: Lowercase github repository
+            - name: Lowercase GitHub repository
               run: echo "REPO=`echo ${{github.repository}} | tr '[:upper:]' '[:lower:]'`" >>${GITHUB_ENV}
             - name: Build and push
               uses: docker/build-push-action@v5
@@ -40,10 +41,12 @@ jobs:
         runs-on: ubuntu-20.04
         steps:
             - uses: actions/checkout@v4
-            - name: Lowercase github repository
+            - name: Lowercase GitHub repository
               run: echo "REPO=`echo ${{github.repository}} | tr '[:upper:]' '[:lower:]'`" >>${GITHUB_ENV}
             - name: Generate the Kubernetes file
-              run: python3 scripts/generate_k8s.py ${{ github.sha }} ${{ env.REPO }}
+              run: python3 scripts/generate_k8s.py ${{ env.SHARD_COUNT }} ${{ github.sha }} ${{ env.REPO }}
+              env:
+                  SHARD_COUNT: "1"
             - name: Install oci-cli
               uses: bytesbay/oci-cli-action@v1.0.2
               with:
