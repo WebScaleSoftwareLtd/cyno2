@@ -43,3 +43,8 @@ spec:
                             secretKeyRef:
                                 name: bot
                                 key: token
+                      - name: SENTRY_DSN
+                        valueFrom:
+                            secretKeyRef:
+                                name: bot
+                                key: sentry_dsn
