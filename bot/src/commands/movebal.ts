@@ -16,11 +16,13 @@ export const options: APIApplicationCommandBasicOption[] = [
         name: "source",
         description: "The user to take balance from.",
         type: ApplicationCommandOptionType.User,
+        required: true,
     },
     {
         name: "target",
         description: "The user to give balance to.",
         type: ApplicationCommandOptionType.User,
+        required: true,
     },
 ];
 
