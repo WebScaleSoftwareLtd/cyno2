@@ -6,6 +6,7 @@ import {
     type APIApplicationCommandSubcommandOption,
     type AutocompleteInteraction,
     type Client,
+    ApplicationCommandType,
 } from "discord.js";
 import { API } from "@discordjs/core/http-only";
 import { globalState, setupReactDjs } from "./state";
@@ -47,6 +48,7 @@ async function commandRegistration() {
     const cmds = Object.entries(commands).map(([name, command]) => {
         const cmd: Command = command;
         return {
+            contexts: [0], // Guild only.
             name,
             description: cmd.description,
             options:
