@@ -19,6 +19,7 @@ import guildDelete from "./events/guildDelete";
 // Get everything required for command setup.
 import type { Command, ParentCommand, RootCommand } from "./globalTypes";
 import * as commands from "./commands";
+import { handleException, unhandledDestructor } from "./exceptionHandler";
 
 // Log that the module was loaded.
 console.log("Module loaded!");
@@ -144,9 +145,18 @@ export default (client: Client) => {
             command = subcommand;
         }
 
-        await command.run(interaction);
+        try {
+            await command.run(interaction);
+        } catch (err) {
+            // Tell the user something went wrong.
+            await interaction.reply("Oops! Something went wrong.");
+            handleException(err as Error);
+        }
     });
 
     // Defines the destructor.
-    return () => client.removeAllListeners();
+    return () => {
+        client.removeAllListeners();
+        unhandledDestructor && unhandledDestructor();
+    };
 };

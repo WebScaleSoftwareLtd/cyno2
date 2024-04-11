@@ -1,3 +1,6 @@
+// Import the exception handler right away.
+import "./exceptionHandler";
+
 // Setup the libsql client.
 import { globalState } from "./state";
 import { createClient } from "@libsql/client";
