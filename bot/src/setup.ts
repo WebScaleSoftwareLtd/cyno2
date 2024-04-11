@@ -6,7 +6,6 @@ import {
     type APIApplicationCommandSubcommandOption,
     type AutocompleteInteraction,
     type Client,
-    ApplicationCommandType,
 } from "discord.js";
 import { API } from "@discordjs/core/http-only";
 import { globalState, setupReactDjs } from "./state";
