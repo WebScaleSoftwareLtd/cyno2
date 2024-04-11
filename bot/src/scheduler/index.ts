@@ -131,6 +131,13 @@ export async function getGuildIntervalsAndTimeouts(guildId: bigint) {
     guildTimeoutsMapping.set(guildId, guildMapping);
 }
 
+function getJobType<T extends ScheduledJob<any>>(job: T) {
+    for (const [name, JobClass] of Object.entries(jobTypes)) {
+        if (job instanceof JobClass) return name;
+    }
+    throw new Error("Job type not found.");
+}
+
 // Create a timeout for a specific job.
 export async function createTimeout<T extends ScheduledJob<any>>(
     guildId: bigint,
@@ -144,7 +151,7 @@ export async function createTimeout<T extends ScheduledJob<any>>(
         .values({
             guildId,
             jobId,
-            jobType: job.constructor.name,
+            jobType: getJobType(job),
             timeout,
             json: job.toJson(),
         })
@@ -212,7 +219,7 @@ export async function createInterval<T extends ScheduledJob<any>>(
         .values({
             guildId,
             jobId,
-            jobType: job.constructor.name,
+            jobType: getJobType(job),
             interval,
             json: job.toJson(),
         })
