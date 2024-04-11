@@ -61,7 +61,7 @@ CREATE TABLE `guild_timely_config` (
 --> statement-breakpoint
 CREATE TABLE `guild_timeouts` (
 	`job_id` text PRIMARY KEY NOT NULL,
-	`guild_id` blob NOT NULL,
+	`guild_id` blob,
 	`timeout` integer NOT NULL,
 	`job_type` text NOT NULL,
 	`json` blob NOT NULL
@@ -81,7 +81,8 @@ CREATE TABLE `guilds` (
 	`level_up_dm` integer DEFAULT false NOT NULL,
 	`drop_blanks` integer DEFAULT 0 NOT NULL,
 	`drop_seconds_cooldown` integer DEFAULT 5,
-	`destroy_at` integer
+	`destroy_at` integer,
+	`destroy_job_id` text
 );
 --> statement-breakpoint
 CREATE TABLE `last_guild_takeout` (

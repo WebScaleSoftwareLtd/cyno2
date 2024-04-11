@@ -1,1 +1,0 @@
-ALTER TABLE guilds ADD `destroy_job_id` text;

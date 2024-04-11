@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "809ba325-9f11-44cd-ad3e-85ff1d1fa6bb",
+  "id": "04550842-14fe-46e6-ae60-dbd829d465f6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "allowed_drop_channels": {
@@ -471,7 +471,7 @@
           "name": "guild_id",
           "type": "blob",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "timeout": {
@@ -618,6 +618,13 @@
         "destroy_at": {
           "name": "destroy_at",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "destroy_job_id": {
+          "name": "destroy_job_id",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

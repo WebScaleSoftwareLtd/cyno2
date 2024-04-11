@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1712762158083,
-      "tag": "0000_initial",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1712832907938,
-      "tag": "0001_nasty_galactus",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1712833334284,
-      "tag": "0002_loving_doorman",
+      "when": 1712837087012,
+      "tag": "0000_initial_release",
       "breakpoints": true
     }
   ]
