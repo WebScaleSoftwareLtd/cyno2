@@ -15,6 +15,19 @@ async function getGuild(guildId: string) {
     // If the guild does not exist, return null.
     if (!guild) return null;
 
+    // Check if the guild exists in the database.
+    const exists = !!(await client.query.guilds
+        .findFirst({
+            columns: { guildId: true },
+            where: (guilds, { and, eq, isNull }) =>
+                and(
+                    eq(guilds.guildId, BigInt(guild.id)),
+                    isNull(guilds.destroyAt),
+                ),
+        })
+        .execute());
+    if (!exists) return null;
+
     // Check if the user is a dashboard admin.
     const isAdmin = async (guildId: bigint) => {
         // Get the user so we can get their ID.
