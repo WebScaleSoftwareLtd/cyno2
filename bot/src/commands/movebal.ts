@@ -3,6 +3,7 @@ import {
     ApplicationCommandOptionType,
     type APIApplicationCommandBasicOption,
     type CommandInteraction,
+    type PermissionResolvable,
 } from "discord.js";
 import { and, eq, sql } from "drizzle-orm";
 import success from "../views/layouts/success";
@@ -21,6 +22,12 @@ export const options: APIApplicationCommandBasicOption[] = [
         description: "The user to give balance to.",
         type: ApplicationCommandOptionType.User,
     },
+];
+
+export const defaultPermissions: PermissionResolvable = [
+    "Administrator",
+    "ManageGuild",
+    "ManageMessages",
 ];
 
 export async function run(interaction: CommandInteraction) {
