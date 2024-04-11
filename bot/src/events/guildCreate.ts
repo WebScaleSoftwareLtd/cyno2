@@ -7,6 +7,7 @@ import {
     intervalJobTypeExists,
 } from "../scheduler";
 import BirthdayPollJob from "../scheduler/BirthdayPollJob";
+import { eq } from "drizzle-orm";
 
 export default async function (guild: Guild) {
     // Ensure the guild is in the database.
@@ -16,7 +17,7 @@ export default async function (guild: Guild) {
         .values({ guildId })
         .onConflictDoUpdate({
             target: [guilds.guildId],
-            set: { destroyAt: null, destroyJobId: null },
+            set: { destroyAt: null },
         })
         .returning({
             destroyJobId: guilds.destroyJobId,
@@ -25,8 +26,16 @@ export default async function (guild: Guild) {
 
     // Cancel any destroy job.
     if (v.length !== 0 && v[0].destroyJobId) {
+        // Delete the timeout.
         const jobId = v[0].destroyJobId;
         await deleteTimeout(null, jobId);
+
+        // Remove the destroy job from the database.
+        await client
+            .update(guilds)
+            .set({ destroyJobId: null })
+            .where(eq(guilds.guildId, guildId))
+            .execute();
     }
 
     // Load in the timeouts and intervals for the guild.
