@@ -8,6 +8,7 @@ if (process.env.SENTRY_DSN) {
 } else {
     const cb = (e: any) => console.error(e);
     process.on("unhandledRejection", cb);
+    unhandledDestructor = () => process.off("unhandledRejection", cb);
 }
 
 export { unhandledDestructor };
