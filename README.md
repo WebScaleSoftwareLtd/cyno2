@@ -15,6 +15,7 @@ This repository contains the source tree for Cyno. There are 3 main parts to the
 -   `bot`: The source code for the bot. The bot uses [react-djs](https://github.com/iamjsd/react-djs) to manage interactions.
 -   `site`: This contains the Next app router based site that powers the dashboard at [cyno.lol](https://cyno.lol). This is designed to both be deployable on the edge at Vercel (for our managed instance) and to be able to be self-hosted for custom instances of the bot.
 -   `database`: This package contains the database logic that is shared between both of these.
+-   `scripts`: Scripts and anything the scripts require for managing the deployment and management of the bots monolith.
 
 Husky is used to ensure code consistency on commit and run the lints within the web application. The bot is built using some custom logic built on top of ESBuild. In some situations, when you add dependencies, you may need to update `bot/build.cjs` to stop it being bundled. The bot will hot reload in development mode.
 
