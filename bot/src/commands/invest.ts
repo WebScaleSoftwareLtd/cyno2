@@ -93,7 +93,6 @@ export async function run(interaction: CommandInteraction) {
             "You cannot invest in this share since it does not have a USD price.",
         );
     }
-    const shareCount = Math.floor(amount / stock.regularMarketPrice) || 1;
 
     // Write the stock to the database.
     await client
@@ -104,7 +103,7 @@ export async function run(interaction: CommandInteraction) {
             userId: uid,
             invested: amount,
             stockName: stock.symbol,
-            shareCount,
+            shareCount: amount / stock.regularMarketPrice,
         })
         .execute();
 

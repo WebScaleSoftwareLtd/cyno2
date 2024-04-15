@@ -119,7 +119,7 @@ CREATE TABLE `shares` (
 	`user_id` blob NOT NULL,
 	`invested` integer NOT NULL,
 	`stock_name` text NOT NULL,
-	`share_count` integer NOT NULL,
+	`share_count` real NOT NULL,
 	FOREIGN KEY (`guild_id`) REFERENCES `guilds`(`guild_id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint

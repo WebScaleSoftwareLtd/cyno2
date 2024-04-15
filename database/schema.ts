@@ -5,6 +5,7 @@ import {
     sqliteTable,
     uniqueIndex,
     index,
+    real,
 } from "drizzle-orm/sqlite-core";
 import { takeable } from "./takeout/takeable";
 
@@ -267,7 +268,7 @@ export const shares = takeable(
             userId: blob("user_id", { mode: "bigint" }).notNull(),
             invested: integer("invested", { mode: "number" }).notNull(),
             stockName: text("stock_name").notNull(),
-            shareCount: integer("share_count", { mode: "number" }).notNull(),
+            shareCount: real("share_count").notNull(),
         },
         (table) => {
             return {
