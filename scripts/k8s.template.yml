@@ -10,6 +10,9 @@ spec:
         matchLabels:
             app: bot
     template:
+        metadata:
+            labels:
+                app: bot
         spec:
             containers:
                 - name: bot
