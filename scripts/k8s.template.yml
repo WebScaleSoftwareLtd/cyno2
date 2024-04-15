@@ -34,20 +34,20 @@ spec:
                       - name: DATABASE_URL
                         valueFrom:
                             secretKeyRef:
-                                name: bot
+                                name: cyno
                                 key: database_url
                       - name: DATABASE_AUTH_TOKEN
                         valueFrom:
                             secretKeyRef:
-                                name: bot
+                                name: cyno
                                 key: database_auth_token
                       - name: TOKEN
                         valueFrom:
                             secretKeyRef:
-                                name: bot
+                                name: cyno
                                 key: token
                       - name: SENTRY_DSN
                         valueFrom:
                             secretKeyRef:
-                                name: bot
+                                name: cyno
                                 key: sentry_dsn
