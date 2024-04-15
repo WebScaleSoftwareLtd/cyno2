@@ -89,6 +89,5 @@ export async function run(interaction: CommandInteraction) {
                 description: wheelFormat.replace("EMOJI", wheel.Emoji),
             },
         ],
-        ephemeral: true,
     });
 }

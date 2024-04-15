@@ -40,5 +40,6 @@ export async function run(interaction: CommandInteraction) {
                 description: `<@${user.id}>: **${xp.xp}XP | Level ${xp.level}**\n\n${blocks}`,
             },
         ],
+        ephemeral: true,
     });
 }
