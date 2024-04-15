@@ -158,7 +158,10 @@ export async function run(interaction: CommandInteraction) {
     // Get interaction information.
     const roles = interaction.guild!.roles.cache;
     const gid = BigInt(interaction.guildId!);
-    const memberRoles = interaction.member!.roles as string[];
+    let memberRoles = interaction.member!.roles;
+    if (!Array.isArray(memberRoles)) {
+        memberRoles = [...memberRoles.cache.keys()];
+    }
 
     // Do the database queries.
     const soldRoles = await client.query.roleShop
