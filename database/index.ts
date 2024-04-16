@@ -3,6 +3,7 @@ export * from "./schema";
 
 import { createClient } from "@libsql/client";
 import { client, setup } from "./client";
+import fetchPatcher from "./fetchPatcher";
 if (!client) {
     // Get the database URL.
     const url = process.env.DATABASE_URL;
@@ -15,5 +16,5 @@ if (!client) {
     });
 
     // Call setup with this.
-    setup(client);
+    setup(fetchPatcher(client));
 }

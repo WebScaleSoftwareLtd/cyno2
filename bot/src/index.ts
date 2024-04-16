@@ -4,16 +4,19 @@ import "./exceptionHandler";
 // Setup the libsql client.
 import { globalState } from "./state";
 import { createClient } from "@libsql/client";
+import fetchPatcher from "database/fetchPatcher";
 if (!globalState.databaseConnection) {
     // Get the database URL.
     const url = process.env.DATABASE_URL;
     if (!url) throw new Error("DATABASE_URL is not set!");
 
     // Create a libsql client.
-    const client = createClient({
-        url,
-        authToken: process.env.DATABASE_AUTH_TOKEN,
-    });
+    const client = fetchPatcher(
+        createClient({
+            url,
+            authToken: process.env.DATABASE_AUTH_TOKEN,
+        }),
+    );
 
     // Set the state to the client.
     globalState.databaseConnection = client;
