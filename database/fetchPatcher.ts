@@ -21,6 +21,9 @@ async function backoff<T>(m: () => Promise<T>): Promise<T> {
             ) {
                 console.warn("Socket hang up, retrying in 10ms...");
                 await timeout(10);
+            } else {
+                // Rethrow the error.
+                throw e;
             }
         }
     }
