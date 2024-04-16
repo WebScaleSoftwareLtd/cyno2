@@ -4,7 +4,6 @@ import "./exceptionHandler";
 // Setup the libsql client.
 import { globalState } from "./state";
 import { createClient } from "@libsql/client";
-import fetch from "database/fetch";
 if (!globalState.databaseConnection) {
     // Get the database URL.
     const url = process.env.DATABASE_URL;
@@ -14,7 +13,6 @@ if (!globalState.databaseConnection) {
     const client = createClient({
         url,
         authToken: process.env.DATABASE_AUTH_TOKEN,
-        fetch,
     });
 
     // Set the state to the client.
