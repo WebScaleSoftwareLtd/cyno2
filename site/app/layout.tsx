@@ -2,6 +2,7 @@ import "./globals.css";
 import React from "react";
 import Navbar from "@/components/molecules/Navbar";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
     title: "Cyno",
@@ -16,7 +17,12 @@ export default function RootLayout({ children }: React.PropsWithChildren<{}>) {
             <body className="dark:bg-slate-900 dark:text-white">
                 <Navbar />
                 {children}
-                {process.env.NODE_RUNTIME !== "1" && <Analytics />}
+                {process.env.NODE_RUNTIME !== "1" && (
+                    <>
+                        <Analytics />
+                        <SpeedInsights />
+                    </>
+                )}
             </body>
         </html>
     );
