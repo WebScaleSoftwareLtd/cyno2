@@ -3,6 +3,7 @@ export * from "./schema";
 
 import { createClient } from "@libsql/client";
 import { client, setup } from "./client";
+import fetch from "./fetch";
 if (!client) {
     // Get the database URL.
     const url = process.env.DATABASE_URL;
@@ -12,6 +13,7 @@ if (!client) {
     const client = createClient({
         url,
         authToken: process.env.DATABASE_AUTH_TOKEN,
+        fetch,
     });
 
     // Call setup with this.
