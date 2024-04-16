@@ -9,25 +9,26 @@
         "tsc": "tsc --noEmit"
     },
     "dependencies": {
+        "@uploadthing/react": "^6.4.1",
+        "@vercel/analytics": "^1.2.2",
         "database": "*",
         "drizzle-orm": "^0.30.4",
+        "emoji-picker-react": "^4.9.2",
+        "fast-base64": "^0.1.8",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "zod": "^3.22.4",
         "react-select": "5.8.0",
-        "emoji-picker-react": "^4.9.2",
-        "uploadthing": "^6.7.0",
-        "@uploadthing/react": "^6.4.1",
         "react-spinners": "^0.13.8",
-        "fast-base64": "^0.1.8"
+        "uploadthing": "^6.7.0",
+        "zod": "^3.22.4"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.18",
+        "eslint": "^8.57.0",
+        "eslint-config-next": "^14.1.4",
         "next": "^14.1.4",
         "postcss": "^8.4.37",
         "tailwindcss": "^3.4.1",
-        "typescript": "5.3.3",
-        "eslint": "^8.57.0",
-        "eslint-config-next": "^14.1.4"
+        "typescript": "5.3.3"
     }
 }
