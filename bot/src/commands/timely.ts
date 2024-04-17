@@ -26,13 +26,17 @@ export async function run(interaction: CommandInteraction) {
 
     // Find the user's last collection.
     const uid = BigInt(interaction.user.id);
+    const now = new Date();
     const lastCollection = await client.query.timelyCollections
         .findFirst({
             where: (collections, { eq, and }) =>
                 and(eq(collections.guildId, gid), eq(collections.userId, uid)),
         })
         .execute();
-    if (lastCollection && lastCollection.lastCollected >= new Date()) {
+    if (
+        lastCollection &&
+        lastCollection.lastCollected.getTime() >= now.getTime()
+    ) {
         const nextCollection =
             lastCollection.lastCollected.getTime() +
             guildTimelyConfig.hoursBetweenCollections * 60 * 60 * 1000;
@@ -47,7 +51,6 @@ export async function run(interaction: CommandInteraction) {
     await add(gid, uid, BigInt(guildTimelyConfig.amount), "Timely collection");
 
     // Update the collection time.
-    const now = new Date();
     await client
         .insert(timelyCollections)
         .values({
