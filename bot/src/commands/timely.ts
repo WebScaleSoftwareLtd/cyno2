@@ -27,6 +27,8 @@ export async function run(interaction: CommandInteraction) {
     // Find the user's last collection.
     const uid = BigInt(interaction.user.id);
     const now = new Date();
+    const collectionsMs =
+        guildTimelyConfig.hoursBetweenCollections * 60 * 60 * 1000;
     const lastCollection = await client.query.timelyCollections
         .findFirst({
             where: (collections, { eq, and }) =>
@@ -35,11 +37,10 @@ export async function run(interaction: CommandInteraction) {
         .execute();
     if (
         lastCollection &&
-        lastCollection.lastCollected.getTime() >= now.getTime()
+        lastCollection.lastCollected.getTime() >= now.getTime() - collectionsMs
     ) {
         const nextCollection =
-            lastCollection.lastCollected.getTime() +
-            guildTimelyConfig.hoursBetweenCollections * 60 * 60 * 1000;
+            lastCollection.lastCollected.getTime() + collectionsMs;
         return error(
             interaction,
             "Not So Fast!",
