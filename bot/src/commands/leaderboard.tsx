@@ -3,7 +3,6 @@ import {
     type APIApplicationCommandBasicOption,
     type CommandInteraction,
     type EmbedField,
-    type User,
 } from "discord.js";
 import { useState } from "react";
 import { client } from "database";
@@ -88,14 +87,6 @@ export const options: APIApplicationCommandBasicOption[] = [
     },
 ];
 
-const getUser = (id: string, interaction: CommandInteraction): User | null => {
-    const member = interaction.guild?.members.cache.get(id);
-    if (member) return member.user;
-
-    const user = interaction.client.users.cache.get(id);
-    return user ?? null;
-};
-
 export async function run(interaction: CommandInteraction) {
     // Get the guild/user ID.
     const gid = BigInt(interaction.guildId!);
@@ -117,19 +108,9 @@ export async function run(interaction: CommandInteraction) {
 
         // Return the embed fields.
         return {
-            fields: res.map((w, i) => {
-                // Get the number of this user.
-                const num = (page - 1) * 5 + i + 1;
-
-                // Format the username.
-                let name = `${num}) Unfetchable User (${w.userId})`;
-                const userCache = getUser(`${w.userId}`, interaction);
-                if (userCache)
-                    name = `${num}) ${userCache.username}${userCache.discriminator === "0" ? "" : `#${userCache.discriminator}`}`;
-
-                // Return the embed field.
+            fields: res.map((w) => {
                 return {
-                    name,
+                    name: `<@${w.userId}>`,
                     value: `${guild.currencyEmoji} ${w.balance}`,
                     inline: true,
                 };
@@ -153,19 +134,9 @@ export async function run(interaction: CommandInteraction) {
 
             // Return the embed fields.
             return {
-                fields: res.map((x, i) => {
-                    // Get the number of this user.
-                    const num = (page - 1) * 5 + i + 1;
-
-                    // Format the username.
-                    let name = `${num}) Unfetchable User (${x.userId})`;
-                    const userCache = getUser(`${x.userId}`, interaction);
-                    if (userCache)
-                        name = `${num}) ${userCache.username}${userCache.discriminator === "0" ? "" : `#${userCache.discriminator}`}`;
-
-                    // Return the embed field.
+                fields: res.map((x) => {
                     return {
-                        name,
+                        name: `<@${x.userId}>`,
                         value: `Level ${x.level} (${x.xp} XP)`,
                         inline: true,
                     };
