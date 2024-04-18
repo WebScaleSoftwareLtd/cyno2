@@ -30,7 +30,7 @@ export async function run(interaction: CommandInteraction) {
     const sufficientFunds = await take(
         gid,
         BigInt(interaction.user.id),
-        BigInt(amount),
+        amount,
         "Dropped currency",
     );
 
@@ -46,7 +46,7 @@ export async function run(interaction: CommandInteraction) {
     const message = await renderManager.reply(
         interaction,
         <CurrencyDrop
-            amount={BigInt(amount)}
+            amount={amount}
             emoji={guild.currencyEmoji}
             blanks={guild.dropBlanks}
             description={guild.dropMessage}

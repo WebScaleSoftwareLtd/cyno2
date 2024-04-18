@@ -43,7 +43,7 @@ export async function run(interaction: CommandInteraction) {
     await set(
         BigInt(interaction.guildId!),
         BigInt(user.id),
-        BigInt(amount),
+        amount,
         `Balance set by <@${interaction.user.id}>`,
     );
 

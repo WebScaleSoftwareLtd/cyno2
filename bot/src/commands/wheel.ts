@@ -64,7 +64,7 @@ export async function run(interaction: CommandInteraction) {
     // Take the money.
     const gid = BigInt(interaction.guildId!);
     const uid = BigInt(interaction.user.id);
-    const sufficient = await take(gid, uid, BigInt(amount), "Spun wheel");
+    const sufficient = await take(gid, uid, amount, "Spun wheel");
     const guild = await getGuild(gid);
     if (!sufficient)
         return insufficientFunds(interaction, amount, guild.currencyEmoji);
@@ -77,8 +77,7 @@ export async function run(interaction: CommandInteraction) {
     const earnings = Math.floor(amount * wheel.Ratio);
 
     // If it isn't 0, give the user the money.
-    if (earnings !== 0)
-        await add(gid, uid, BigInt(earnings), "Wheel spin earnings");
+    if (earnings !== 0) await add(gid, uid, earnings, "Wheel spin earnings");
 
     // Reply with the wheel.
     await interaction.reply({

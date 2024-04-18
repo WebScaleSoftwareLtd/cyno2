@@ -47,12 +47,7 @@ export async function run(interaction: CommandInteraction) {
     const reason = interaction.options.get("reason")!.value as string;
 
     const guild = await getGuild(BigInt(interaction.guildId!));
-    await add(
-        BigInt(interaction.guildId!),
-        BigInt(user.id),
-        BigInt(amount),
-        reason,
-    );
+    await add(BigInt(interaction.guildId!), BigInt(user.id), amount, reason);
 
     return success(
         interaction,

@@ -78,7 +78,7 @@ export async function run(interaction: CommandInteraction) {
     const sufficientFunds = await take(
         gid,
         uid,
-        BigInt(amount),
+        amount,
         `Invested in ${stock.shortName}`,
     );
     const guild = await getGuild(gid);

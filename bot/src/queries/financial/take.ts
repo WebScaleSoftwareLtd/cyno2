@@ -4,7 +4,7 @@ import { client, transactions, wallet } from "database";
 export default (
     guildId: bigint,
     userId: bigint,
-    amount: bigint,
+    amount: number,
     reason: string,
 ) =>
     client.transaction(async (tx) => {

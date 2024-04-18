@@ -7,7 +7,7 @@ import add from "../queries/financial/add";
 
 type Props = {
     blanks: number;
-    amount: bigint;
+    amount: number;
     emoji: string;
     description: string;
     embedImageUrl: string;

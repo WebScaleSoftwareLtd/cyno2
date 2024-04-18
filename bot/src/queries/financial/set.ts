@@ -3,7 +3,7 @@ import { client, transactions, wallet } from "database";
 export default (
     guildId: bigint,
     userId: bigint,
-    balance: bigint,
+    balance: number,
     reason: string,
 ) =>
     client.transaction(async (tx) => {
@@ -12,7 +12,7 @@ export default (
             where: (tx, { and, eq }) =>
                 and(eq(tx.guildId, guildId), eq(tx.userId, userId)),
         });
-        let balanceBefore = 0n;
+        let balanceBefore = 0;
         if (walletRow) {
             // Set the balance before to the old balance.
             balanceBefore = walletRow.balance;

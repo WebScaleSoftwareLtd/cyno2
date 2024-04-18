@@ -54,7 +54,7 @@ async function handleDrops(
     const reply = await renderManager.create(
         message.channel,
         <CurrencyDrop
-            amount={BigInt(amount)}
+            amount={amount}
             emoji={guild.currencyEmoji}
             blanks={guild.dropBlanks}
             description={guild.dropMessage}

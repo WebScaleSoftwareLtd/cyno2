@@ -201,7 +201,7 @@ const ManageShare = ({
             await add(
                 gid,
                 uid,
-                BigInt(share.value),
+                share.value,
                 `Sold ${share.shareCount} shares in ${share.shareLabel || "Unknown Share"}`,
             );
         }
