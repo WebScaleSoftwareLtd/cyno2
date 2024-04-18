@@ -110,8 +110,8 @@ export async function run(interaction: CommandInteraction) {
         return {
             fields: res.map((w) => {
                 return {
-                    name: `<@${w.userId}>`,
-                    value: `${guild.currencyEmoji} ${w.balance}`,
+                    name: "\u200b",
+                    value: `<@${w.userId}>\n\n${guild.currencyEmoji} ${w.balance}`,
                     inline: true,
                 };
             }),
@@ -136,8 +136,8 @@ export async function run(interaction: CommandInteraction) {
             return {
                 fields: res.map((x) => {
                     return {
-                        name: `<@${x.userId}>`,
-                        value: `Level ${x.level} (${x.xp} XP)`,
+                        name: "\u200b",
+                        value: `<@${x.userId}>\n\nLevel ${x.level} (${x.xp} XP)`,
                         inline: true,
                     };
                 }),
