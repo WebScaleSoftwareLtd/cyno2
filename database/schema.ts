@@ -176,7 +176,7 @@ export const wallet = takeable(
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            balance: blob("balance", { mode: "bigint" }).notNull(),
+            balance: integer("balance").notNull(),
         },
         (table) => {
             return {
@@ -232,7 +232,7 @@ export const transactions = takeable(
                     onDelete: "cascade",
                 }),
             userId: blob("user_id", { mode: "bigint" }).notNull(),
-            amount: blob("amount", { mode: "bigint" }).notNull(),
+            amount: integer("amount").notNull(),
             reason: text("reason").notNull(),
         },
         (table) => {

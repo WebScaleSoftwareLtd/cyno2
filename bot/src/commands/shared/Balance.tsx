@@ -9,7 +9,7 @@ import { Button, Embed } from "react-djs";
 type Props = {
     uid: bigint;
     gid: bigint;
-    balance: bigint | undefined;
+    balance: number | undefined;
     self: boolean;
     emoji: string;
 };

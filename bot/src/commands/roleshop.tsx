@@ -14,7 +14,7 @@ type Props = {
     guildRoles: Role[];
     soldRoles: (typeof roleShop.$inferSelect)[];
     initMemberRoles: string[];
-    initBalance: bigint;
+    initBalance: number;
 };
 
 const RoleShop = ({
@@ -85,7 +85,7 @@ const RoleShop = ({
                             await take(
                                 guild.guildId,
                                 uid,
-                                BigInt(price),
+                                price,
                                 `Bought <@&${roleIdS}>`,
                             );
 
@@ -103,7 +103,7 @@ const RoleShop = ({
                                 await add(
                                     guild.guildId,
                                     uid,
-                                    BigInt(price),
+                                    price,
                                     "Refund: Role apply failed",
                                 );
                                 setApplyError(true);
@@ -112,7 +112,7 @@ const RoleShop = ({
 
                             // Update the state.
                             setMemberRoles([...memberRoles, roleIdS]);
-                            setBalance(balance - BigInt(price));
+                            setBalance(balance - price);
                         }}
                         key={pageIndex + offset}
                     />,
@@ -181,7 +181,7 @@ export async function run(interaction: CommandInteraction) {
                         ),
                 })
                 .execute()
-        )?.balance ?? BigInt(0);
+        )?.balance ?? 0;
 
     // Render the component.
     renderManager.reply(

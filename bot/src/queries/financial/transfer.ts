@@ -5,7 +5,7 @@ export default (
     guildId: bigint,
     sourceUserId: bigint,
     targetUserId: bigint,
-    amount: bigint,
+    amount: number,
     outboundReason: string,
     inboundReason?: string,
 ) =>

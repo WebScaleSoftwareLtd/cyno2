@@ -4,7 +4,7 @@ import { client, transactions, wallet } from "database";
 export default async (
     guildId: bigint,
     userId: bigint,
-    amount: bigint,
+    amount: number,
     reason: string,
 ) => {
     const v = await client.batch([

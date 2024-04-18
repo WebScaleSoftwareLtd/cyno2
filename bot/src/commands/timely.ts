@@ -49,7 +49,7 @@ export async function run(interaction: CommandInteraction) {
     }
 
     // Add to the users balance.
-    await add(gid, uid, BigInt(guildTimelyConfig.amount), "Timely collection");
+    await add(gid, uid, guildTimelyConfig.amount, "Timely collection");
 
     // Update the collection time.
     await client

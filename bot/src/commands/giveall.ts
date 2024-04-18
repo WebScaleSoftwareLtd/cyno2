@@ -43,7 +43,7 @@ export async function run(interaction: CommandInteraction) {
     await addMany(
         gid,
         memberIds,
-        BigInt(amount),
+        amount,
         `Gave by <@${interaction.user.id}> to all users with the role ${role ? role.name : "they specified"}`,
     );
 

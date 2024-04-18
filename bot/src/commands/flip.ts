@@ -38,7 +38,7 @@ export async function run(interaction: CommandInteraction) {
     const sufficientFunds = await take(
         gid,
         BigInt(interaction.user.id),
-        BigInt(amount),
+        amount,
         "Flipped a coin",
     );
 
@@ -78,7 +78,7 @@ export async function run(interaction: CommandInteraction) {
     await add(
         gid,
         BigInt(interaction.user.id),
-        BigInt(amount * 2),
+        amount * 2,
         "Coin landed on betted side",
     );
 

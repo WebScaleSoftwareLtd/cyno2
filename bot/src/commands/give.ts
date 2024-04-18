@@ -43,7 +43,7 @@ export async function run(interaction: CommandInteraction) {
         gid,
         BigInt(interaction.user.id),
         BigInt(user.id),
-        BigInt(amount),
+        amount,
         `Paid <@${user.id}>`,
         `Paid by <@${interaction.user.id}>`,
     );
