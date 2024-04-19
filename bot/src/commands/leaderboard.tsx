@@ -98,7 +98,7 @@ export async function run(interaction: CommandInteraction) {
     let pageLoader: (page: number) => Promise<PageResult> = async (page) => {
         // Get the database result.
         const res = await client.query.wallet.findMany({
-            where: (xp, { eq }) => eq(xp.guildId, gid),
+            where: (w, { eq }) => eq(w.guildId, gid),
             limit: 6,
             offset: (page - 1) * 5,
             orderBy: (w, { desc }) => desc(w.balance),
