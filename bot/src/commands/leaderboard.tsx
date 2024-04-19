@@ -5,11 +5,10 @@ import {
     type EmbedField,
 } from "discord.js";
 import { useState } from "react";
-import { client, wallet } from "database";
+import { client } from "database";
 import { getGuild } from "../queries/guild";
 import { renderManager } from "../state";
 import { Button, Embed } from "react-djs";
-import { desc, eq } from "drizzle-orm";
 
 type PageResult = {
     fields: EmbedField[];
@@ -98,13 +97,12 @@ export async function run(interaction: CommandInteraction) {
     // Defines the wallet page loader.
     let pageLoader: (page: number) => Promise<PageResult> = async (page) => {
         // Get the database result.
-        const res = await client
-            .select()
-            .from(wallet)
-            .where(eq(wallet.guildId, gid))
-            .orderBy(desc(wallet.balance))
-            .limit(6)
-            .all();
+        const res = await client.query.wallet.findMany({
+            where: (w, { eq }) => eq(w.guildId, gid),
+            limit: 6,
+            offset: (page - 1) * 5,
+            orderBy: (w, { desc }) => desc(w.balance),
+        });
         const endPage = res.length < 6;
         if (!endPage) res.pop();
 
