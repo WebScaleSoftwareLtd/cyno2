@@ -102,6 +102,9 @@ type UserXP = {
     level: number;
 };
 
+// Matches no pings in the nickname.
+const NO_PINGS_REGEX = /(no|do[-_ ]*not)[-_ ]*ping/gi;
+
 async function handleLevelUp(
     message: Message,
     guild: typeof guilds.$inferSelect,
@@ -115,9 +118,23 @@ async function handleLevelUp(
     // Check if we should DM this message.
     const channel = guild.levelUpDM ? message.author : message.channel;
 
+    // Check if the user wants no pings.
+    const nickname = message.member?.nickname;
+    let userWantsNoPings = false;
+    if (nickname) {
+        userWantsNoPings = NO_PINGS_REGEX.test(nickname);
+    }
+
     try {
         // Send the message.
-        const msg = await channel.send(levelUpMessage);
+        const msg = await channel.send({
+            content: levelUpMessage,
+            allowedMentions: userWantsNoPings
+                ? {
+                      parse: [],
+                  }
+                : undefined,
+        });
 
         // If this isn't a DM, try to delete after 3 seconds.
         if (!guild.levelUpDM) {
