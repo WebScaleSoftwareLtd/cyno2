@@ -7,6 +7,7 @@ import { client } from "database";
 import type { User } from "@/utils/getDiscordUser";
 import getUser from "@/components/server/cached/getUser";
 import inviteUrl from "@/utils/inviteUrl";
+import adminUsers from "@/utils/adminUsers";
 
 async function Guilds() {
     // Get the users guilds.
@@ -56,6 +57,7 @@ async function Guilds() {
     };
     const isAdmin = async (guildId: bigint) => {
         const uid = (await getUserFromVar()).id;
+        if (adminUsers(uid)) return true;
         return client.query.dashboardAdmins.findFirst({
             where: (admins, { and, eq }) =>
                 and(

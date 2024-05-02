@@ -2,6 +2,7 @@ import getDiscordGuilds from "@/utils/getDiscordGuilds";
 import getUser from "./getUser";
 import { client } from "database";
 import { cache } from "react";
+import adminUsers from "@/utils/adminUsers";
 
 // I'm not a big fan of where this lives, but it serves a weird role.
 
@@ -33,6 +34,9 @@ async function getGuild(guildId: string) {
         // Get the user so we can get their ID.
         const user = await userPromise;
         if (!user) return false;
+
+        // Check if the user is a dashboard admin.
+        if (adminUsers(user.id)) return true;
 
         // Check if the user is an admin.
         return !!(await client.query.dashboardAdmins.findFirst({
