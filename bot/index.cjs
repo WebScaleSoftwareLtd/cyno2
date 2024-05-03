@@ -21,7 +21,7 @@ const { Client } = require("discord.js");
 const client = new Client({
     intents: ["Guilds", "GuildMessages", "GuildMembers"],
     shardCount,
-    shardId,
+    shards: [shardId],
 });
 
 // Require the bundle.
