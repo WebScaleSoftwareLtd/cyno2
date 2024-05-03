@@ -62,8 +62,7 @@ const RoleShop = ({
     page.forEach(({ roleId, price }, pageIndex) => {
         // Get the role.
         const roleIdS = `${roleId}`;
-        const role = guildRoles.find((r) => r.id === roleIdS);
-        if (!role) return;
+        const role = guildRoles.find((r) => r.id === roleIdS)!;
 
         // Get the description and create the button.
         let description = `Tag Preview: <@&${roleIdS}>\n`;
@@ -164,7 +163,7 @@ export async function run(interaction: CommandInteraction) {
     }
 
     // Do the database queries.
-    const soldRoles = await client.query.roleShop
+    let soldRoles = await client.query.roleShop
         .findMany({
             where: (role, { eq }) => eq(role.guildId, gid),
         })
@@ -182,6 +181,9 @@ export async function run(interaction: CommandInteraction) {
                 })
                 .execute()
         )?.balance ?? 0;
+
+    // Filter roles by roles that are in the guild.
+    soldRoles = soldRoles.filter((role) => roles.has(role.roleId.toString()));
 
     // Render the component.
     renderManager.reply(
