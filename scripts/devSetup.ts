@@ -1,13 +1,14 @@
-"use strict";
+import { fileURLToPath } from "url";
+import { spawnSync } from "child_process";
+import { randomBytes } from "crypto";
+import { statSync, writeFileSync } from "fs";
+import { join, dirname } from "path";
+import readline from "readline";
 
-const { spawnSync } = require("child_process");
-const { randomBytes } = require("crypto");
-const { statSync, writeFileSync } = require("fs");
-const { join } = require("path");
-const readline = require("readline");
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 function ensurePrivateKey() {
-    const path = join(__dirname, "..", "site", "private.key");
+    const path = join(root, "site", "private.key");
     try {
         statSync(path);
         return;
@@ -19,6 +20,8 @@ function ensurePrivateKey() {
 }
 
 class AsyncAsk {
+    private iface: readline.Interface;
+
     constructor() {
         this.iface = readline.createInterface({
             input: process.stdin,
@@ -26,10 +29,10 @@ class AsyncAsk {
         });
     }
 
-    async question(query) {
+    async question(query: string) {
         for (;;) {
             const x = (
-                await new Promise((r) => this.iface.question(query, r))
+                await new Promise<string>((r) => this.iface.question(query, r))
             ).trim();
             if (x !== "") {
                 return x;
@@ -38,17 +41,17 @@ class AsyncAsk {
     }
 }
 
-function runCommand(name, args) {
+function runCommand(name: string, args: string[]) {
     const res = spawnSync(name, args, {
         stdio: "inherit",
         shell: process.env.SHELL || true,
         env: process.env,
     });
     if (res.error) throw res.error;
-    if (res.status !== 0) process.exit(res.status);
+    if (res.status !== 0) process.exit(res.status!);
 }
 
-async function devQuestions(root) {
+async function devQuestions() {
     const rl = new AsyncAsk();
     const clientId = await rl.question("What is the Discord client ID: ");
     const clientSecret = await rl.question(
@@ -92,7 +95,6 @@ Setup complete!`);
 }
 
 function devEnvSetup() {
-    const root = join(__dirname, "..");
     try {
         statSync(join(root, ".env"));
         return;
@@ -112,7 +114,7 @@ We need 2 things to setup the development environment:
 Firstly, we need the client ID/secret for the Discord bot. You can find these under OAuth2 in your test bots application page. Whilst you are there, you should add the redirect URI of http://localhost:5100/api/auth/callback
 `);
 
-    devQuestions(root).catch((err) => {
+    devQuestions().catch((err) => {
         console.error(err);
         process.exit(1);
     });
