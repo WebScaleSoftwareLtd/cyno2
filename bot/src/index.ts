@@ -23,10 +23,12 @@ if (!globalState.databaseConnection) {
 }
 
 // Setup the database module. We do this before all because it uses a sub-module and a global in our hot reloading.
-import { setup } from "database/client";
-import type { Client } from "discord.js";
-setup(globalState.databaseConnection);
+import { setup as dbSetup } from "database/client";
+dbSetup(globalState.databaseConnection);
 
 // Import the setup. Force the bundler to import this later.
 const setupImport = import("./setup");
-export default async (client: Client) => (await setupImport).default(client);
+export const setup = async () => (await setupImport).default();
+
+// Export a function to get the client.
+export const getClient = () => globalState.client;
