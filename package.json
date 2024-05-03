@@ -1,6 +1,7 @@
 {
     "name": "cyno",
     "private": true,
+    "type": "module",
     "workspaces": [
         "bot",
         "database",
@@ -12,7 +13,8 @@
         "husky": "^9.0.11",
         "dotenv-cli": "^7.4.1",
         "concurrently": "^8.2.2",
-        "@types/bun": "^1.0.12"
+        "@types/bun": "^1.0.12",
+        "tsx": "^4.9.0"
     },
     "scripts": {
         "prepare": "husky || true",
@@ -24,6 +26,6 @@
         "commands:migrate": "dotenv -- npm run commands:migrate --workspace bot",
         "db:migrate": "npm run db:migrate --workspace database",
         "db:generate-migrations": "npm run db:generate-migrations --workspace database",
-        "bump-node": "node scripts/bumpNode.js"
+        "bump-node": "tsx scripts/bumpNode.ts"
     }
 }
