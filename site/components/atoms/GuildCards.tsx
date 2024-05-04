@@ -21,7 +21,7 @@ function GuildCard({
 }: GuildCardProps) {
     return (
         <div className="w-full align-middle">
-            <div className="dark:bg-gray-800 p-4 shadow-lg rounded-lg w-3/4">
+            <div className="dark:bg-gray-800 p-4 shadow-lg rounded-lg not-md:w-3/4">
                 <p>
                     <img
                         src={
@@ -67,7 +67,7 @@ export default function GuildCards({
             <p className="text-gray-500 dark:text-gray-200 mt-2">
                 {description}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-8 not-md:w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-8 w-full">
                 {cards
                     .sort((a, b) => a.guildName.localeCompare(b.guildName))
                     .map((card) => (
