@@ -14,6 +14,10 @@ export const runtime = process.env.NODE_RUNTIME === "1" ? "nodejs" : "edge";
 export default function RootLayout({ children }: React.PropsWithChildren<{}>) {
     return (
         <html lang="en">
+            <head>
+                <meta name="darkreader-lock" />
+            </head>
+
             <body className="dark:bg-slate-900 dark:text-white">
                 <Navbar />
                 {children}
