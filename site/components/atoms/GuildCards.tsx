@@ -67,7 +67,7 @@ export default function GuildCards({
             <p className="text-gray-500 dark:text-gray-200 mt-2">
                 {description}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 my-8">
                 {cards
                     .sort((a, b) => a.guildName.localeCompare(b.guildName))
                     .map((card) => (
