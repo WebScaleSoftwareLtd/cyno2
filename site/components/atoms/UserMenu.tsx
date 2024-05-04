@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 const buttonStyle =
-    "w-full hover:bg-gray-50 dark:hover:bg-gray-900 py-1 px-3 rounded-md text-left";
+    "w-full hover:bg-neutral-50 dark:hover:bg-gray-900 py-1 px-3 rounded-md text-left";
 
 export default function UserMenu({ user }: { user: User }) {
     const [isOpen, setIsOpen] = useState(false);

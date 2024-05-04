@@ -31,7 +31,7 @@ function SidebarButton({ title, active, uri }: SidebarButtonProps) {
     return (
         <Link
             href={uri}
-            className={`font-bold w-full px-2 ${active && "text-blue-500 dark:text-blue-400"}`}
+            className={`font-bold w-full px-2 ${active && "text-blue-700 dark:text-blue-400"}`}
             aria-selected={active}
         >
             {title}
@@ -56,7 +56,7 @@ export default function GuildSidebar({ guildId }: { guildId: string }) {
     const endIndex = options.length - 1;
     return (
         <>
-            <div className="bg-gray-50 dark:bg-gray-950 p-4 rounded-lg sm:mr-8 mr-0 sm:mb-0 mb-6 shadow-lg">
+            <div className="bg-neutral-50 dark:bg-gray-950 p-4 rounded-lg sm:mr-8 mr-0 sm:mb-0 mb-6 shadow-md">
                 {options.map((opts, index) => {
                     return (
                         <React.Fragment key={opts.key}>

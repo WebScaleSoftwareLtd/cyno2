@@ -35,7 +35,7 @@ async function Feature({
     children,
 }: React.PropsWithChildren<{ url: string; title: string }>) {
     return (
-        <div className="flex-col m-4 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 max-w-72 text-center">
+        <div className="flex-col m-4 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 drop-shadow-xl max-w-72 text-center">
             <Image
                 src={url}
                 alt=""
@@ -57,7 +57,7 @@ export default async function Home() {
                 <Image
                     src="/cyno.png"
                     alt="Cyno"
-                    className="mb-6"
+                    className="mb-6 drop-shadow-xl"
                     width={200}
                     height={127}
                 />
