@@ -1,12 +1,6 @@
 import type { Guild } from "discord.js";
 import { client, guilds } from "database";
-import {
-    createInterval,
-    deleteTimeout,
-    getGuildIntervalsAndTimeouts,
-    intervalJobTypeExists,
-} from "../scheduler";
-import BirthdayPollJob from "../scheduler/BirthdayPollJob";
+import { deleteTimeout, getGuildIntervalsAndTimeouts } from "../scheduler";
 import { eq } from "drizzle-orm";
 
 export default async function (guild: Guild) {
@@ -40,14 +34,6 @@ export default async function (guild: Guild) {
 
     // Load in the timeouts and intervals for the guild.
     await getGuildIntervalsAndTimeouts(guildId);
-    if (!(await intervalJobTypeExists(guildId, "BirthdayPollJob"))) {
-        // Start the birthday poll job to go every 2 minutes.
-        await createInterval(
-            guildId,
-            new BirthdayPollJob(guildId.toString()),
-            2 * 60 * 1000,
-        );
-    }
 
     // Get the members from the guild.
     await guild.members.fetch();

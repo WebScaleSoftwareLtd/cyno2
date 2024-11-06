@@ -13,10 +13,6 @@ const options = [
         key: "Economy",
         suffix: "/economy",
     },
-    {
-        key: "Birthdays",
-        suffix: "/birthdays",
-    },
 ] as const;
 
 const ALL_NUMBERS = /^[0-9]+$/;

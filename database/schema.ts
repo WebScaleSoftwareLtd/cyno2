@@ -383,12 +383,6 @@ export const timeLocation = sqliteTable("time_locations", {
     location: text("location").notNull(),
 });
 
-export const birthdays = sqliteTable("birthdays", {
-    userId: blob("user_id", { mode: "bigint" }).notNull().primaryKey(),
-    day: integer("day", { mode: "number" }).notNull(),
-    month: integer("month", { mode: "number" }).notNull(),
-});
-
 export const guildBirthdayConfig = takeable(
     sqliteTable("guild_birthday_config", {
         guildId: blob("guild_id", { mode: "bigint" })

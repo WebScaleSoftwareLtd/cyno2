@@ -4,7 +4,6 @@ import ScheduledJob from "./ScheduledJob";
 import { randomUUID } from "crypto";
 
 import ChannelReminderJob from "./ChannelReminderJob";
-import BirthdayPollJob from "./BirthdayPollJob";
 import GuildDeleteJob from "./GuildDeleteJob";
 
 // Defines all of the job types.
@@ -13,7 +12,6 @@ type JobConstructor<T> = new (data: T) => { toJson(): T; run(): Promise<void> };
 // Defines the job types.
 const jobTypes: { [key: string]: JobConstructor<any> } = {
     ChannelReminderJob,
-    BirthdayPollJob,
     GuildDeleteJob,
 } as const;
 
