@@ -75,8 +75,13 @@ Ok great! Now open uploadthing and go to your project then API Keys. Click the e
         "What is the uploadthing app ID (the bit after UPLOADTHING_APP_ID=): ",
     );
 
+    console.log(`
+Nearly there! Open neon.tech and create a new project, then copy the connection string.
+`);
+    const neonUrl = await rl.question("What is the Neon connection string: ");
+
     const envFile = `DISCORD_REDIRECT_URI=http://localhost:5100/api/auth/callback
-DATABASE_URL=file:../database.db
+DATABASE_URL=${neonUrl}
 DISCORD_CLIENT_ID=${clientId}
 DISCORD_CLIENT_SECRET=${clientSecret}
 TOKEN=${token}
@@ -110,6 +115,7 @@ We need 2 things to setup the development environment:
 
 1) A Discord bot user (you can make one at https://discord.com/developers/applications).
 2) A uploadthing user (you can make one at https://uploadthing.com - if you get redirected to Stripe, go back to the site, you do not need a paid plan for development).
+3) A Neon user (you can make one at https://neon.tech).
 
 Firstly, we need the client ID/secret for the Discord bot. You can find these under OAuth2 in your test bots application page. Whilst you are there, you should add the redirect URI of http://localhost:5100/api/auth/callback
 `);
