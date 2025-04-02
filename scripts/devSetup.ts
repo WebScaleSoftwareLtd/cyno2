@@ -111,7 +111,7 @@ function devEnvSetup() {
 | Cyno Development Environment Setup |
 --------------------------------------
 
-We need 2 things to setup the development environment:
+We need 3 things to setup the development environment:
 
 1) A Discord bot user (you can make one at https://discord.com/developers/applications).
 2) A uploadthing user (you can make one at https://uploadthing.com - if you get redirected to Stripe, go back to the site, you do not need a paid plan for development).
