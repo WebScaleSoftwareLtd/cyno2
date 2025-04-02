@@ -5,7 +5,6 @@
         "dev": "next dev --turbo",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
         "tsc": "tsc --noEmit"
     },
     "dependencies": {
