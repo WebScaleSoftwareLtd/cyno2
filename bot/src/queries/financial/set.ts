@@ -41,5 +41,5 @@ export default (
                 amount: balance - balanceBefore,
                 reason,
             })
-            .run();
+            .execute();
     });

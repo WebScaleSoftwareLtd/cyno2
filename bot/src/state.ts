@@ -1,13 +1,13 @@
-import type { Client } from "@libsql/client";
-import type { Client as DjsClient } from "discord.js";
+import type { Pool } from "@neondatabase/serverless";
+import type { Client } from "discord.js";
 import { RenderManager } from "react-djs";
 
 type State = {
     // Anything added here will be persisted across hot reloads.
-    databaseConnection?: Client;
+    databaseConnection?: Pool;
 
     // Defines the discord.js client.
-    client?: DjsClient;
+    client?: Client;
 };
 
 declare global {

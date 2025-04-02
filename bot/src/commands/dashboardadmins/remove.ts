@@ -35,7 +35,7 @@ export async function run(interaction: CommandInteraction) {
         .execute();
 
     // Handle if the user was never an admin.
-    if (res.rowsAffected === 0)
+    if (res.rowCount === 0)
         return error(
             interaction,
             "Not a Dashboard Admin",

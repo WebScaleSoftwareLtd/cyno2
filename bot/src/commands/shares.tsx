@@ -197,7 +197,7 @@ const ManageShare = ({
             .execute();
 
         // If the share was deleted, pay the user.
-        if (res.rowsAffected !== 0) {
+        if (res.rowCount !== 0) {
             await add(
                 gid,
                 uid,

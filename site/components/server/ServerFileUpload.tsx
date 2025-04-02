@@ -1,6 +1,5 @@
 import { client } from "database";
 import * as schema from "database/schema";
-import { sql } from "drizzle-orm";
 import { FileRouter } from "../external/uploadthing";
 import OptionCard from "../atoms/OptionCard";
 import EagerState from "../atoms/EagerState";
@@ -49,7 +48,8 @@ export default async function ServerFileUpload<
                 [props.column]: value,
             })
             .onConflictDoUpdate({
-                target: sql`guild_id`,
+                // @ts-ignore: This definitely exists or will fail earlier.
+                target: [schema[props.tableName].guildId],
 
                 // @ts-ignore: This definitely exists.
                 set: {

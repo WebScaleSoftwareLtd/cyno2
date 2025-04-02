@@ -37,7 +37,7 @@ export async function run(interaction: CommandInteraction) {
         .execute();
 
     // If the user is already a dashboard admin, return an error.
-    if (res.rowsAffected === 0)
+    if (res.rowCount === 0)
         return error(
             interaction,
             "Already a Dashboard Admin",

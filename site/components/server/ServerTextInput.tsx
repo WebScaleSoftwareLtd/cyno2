@@ -2,7 +2,6 @@ import { client } from "database";
 import * as schema from "database/schema";
 import dbCache from "./cached/dbCache";
 import getGuild from "./cached/getGuild";
-import { sql } from "drizzle-orm";
 import TextInput from "../molecules/TextInput";
 import React from "react";
 import { Validator, constructValidator } from "@/utils/jsonTextValidator";
@@ -48,7 +47,8 @@ export default async function ServerTextInput<
                 [props.column]: value,
             })
             .onConflictDoUpdate({
-                target: sql`guild_id`,
+                // @ts-ignore: This definitely exists or will fail earlier.
+                target: [schema[props.tableName].guildId],
 
                 // @ts-ignore: This definitely exists.
                 set: {

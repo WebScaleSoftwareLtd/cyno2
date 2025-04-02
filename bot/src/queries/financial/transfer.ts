@@ -25,7 +25,7 @@ export default (
             );
 
         // If a row wasn't updated, return false.
-        if (updateResult.rowsAffected !== 1) return false;
+        if (updateResult.rowCount !== 1) return false;
 
         // Insert the transaction to the source user.
         await tx
@@ -37,7 +37,7 @@ export default (
                 amount: -amount,
                 reason: outboundReason,
             })
-            .run();
+            .execute();
 
         // Add to the target user.
         await tx
@@ -53,7 +53,7 @@ export default (
                     balance: sql`${wallet.balance} + ${amount}`,
                 },
             })
-            .run();
+            .execute();
 
         // Insert the transaction to the target user.
         await tx
@@ -65,7 +65,7 @@ export default (
                 amount,
                 reason: inboundReason || outboundReason,
             })
-            .run();
+            .execute();
 
         // Return true.
         return true;

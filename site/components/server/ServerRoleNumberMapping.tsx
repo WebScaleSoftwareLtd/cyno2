@@ -4,7 +4,7 @@ import Loading from "../atoms/Loading";
 import OptionCard from "../atoms/OptionCard";
 import getGuild from "./cached/getGuild";
 import { client } from "database";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { ClientRoleMapping } from "../molecules/ClientRoleMapping";
 import getGuildRoles from "./cached/getGuildRoles";
 
@@ -131,7 +131,8 @@ async function AsyncComponent<
                 [numberColumn]: number,
             })
             .onConflictDoUpdate({
-                target: sql`role_id`,
+                // @ts-ignore: This definitely exists or will fail earlier.
+                target: [schema[tableName][roleColumn]],
 
                 // @ts-ignore: This definitely exists.
                 set: {

@@ -23,7 +23,7 @@ export default (
             );
 
         // If a row wasn't updated, return false.
-        if (updateResult.rowsAffected !== 1) return false;
+        if (updateResult.rowCount !== 1) return false;
 
         // Insert the transaction.
         await tx
@@ -35,7 +35,7 @@ export default (
                 amount: -amount,
                 reason,
             })
-            .run();
+            .execute();
 
         // Return true.
         return true;

@@ -1,33 +1,12 @@
 {
-  "version": "5",
-  "dialect": "sqlite",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1713199245119,
-      "tag": "0000_initial_release",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1713478090367,
-      "tag": "0001_migrate_transactions",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1713527908958,
-      "tag": "0002_fix_type_error",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1730907772767,
-      "tag": "0003_amazing_ulik",
+      "version": "7",
+      "when": 1743588763410,
+      "tag": "0000_magenta_red_wolf",
       "breakpoints": true
     }
   ]

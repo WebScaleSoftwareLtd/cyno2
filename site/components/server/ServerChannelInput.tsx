@@ -6,7 +6,7 @@ import getGuildChannels from "./cached/getGuildChannels";
 import dbCache from "./cached/dbCache";
 import { client } from "database";
 import getGuild from "./cached/getGuild";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import ChannelPicker from "../atoms/ChannelPicker";
 
 type Props<
@@ -96,14 +96,18 @@ async function AsyncComponent<
         if (typeof channelId !== "bigint") throw new Error("Not a bigint.");
 
         // Insert the value on the database.
-        let q = client.insert(schema[tableName]).values({
-            // @ts-ignore: It existed earlier or we wouldn't be here.
-            guildId: BigInt(guildId),
-            [column]: channelId,
-        });
+        let q: { execute: () => Promise<any> } = client
+            .insert(schema[tableName])
+            .values({
+                // @ts-ignore: It existed earlier or we wouldn't be here.
+                guildId: BigInt(guildId),
+                [column]: channelId,
+            });
         if (!multiple) {
+            // @ts-ignore: This definitely exists or will fail earlier.
             q = q.onConflictDoUpdate({
-                target: sql`guild_id`,
+                // @ts-ignore: This definitely exists or will fail earlier.
+                target: [schema[tableName].guildId],
 
                 // @ts-ignore: This definitely exists.
                 set: {

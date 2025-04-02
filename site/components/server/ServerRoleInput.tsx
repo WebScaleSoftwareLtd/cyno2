@@ -8,7 +8,6 @@ import dbCache from "./cached/dbCache";
 import EagerState from "../atoms/EagerState";
 import getGuild from "./cached/getGuild";
 import { client } from "database";
-import { sql } from "drizzle-orm";
 
 type Props<
     TableName extends keyof typeof schema,
@@ -53,7 +52,8 @@ async function AsyncComponent<
                 [column]: BigInt(roleId),
             })
             .onConflictDoUpdate({
-                target: sql`guild_id`,
+                // @ts-ignore: This definitely exists or will fail earlier.
+                target: [schema[tableName].guildId],
 
                 // @ts-ignore: This definitely exists.
                 set: {

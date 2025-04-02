@@ -63,7 +63,7 @@ export default ({
                     .execute();
 
                 // If nothing was deleted, return.
-                if (deleteResult.rowsAffected === 0) return;
+                if (deleteResult.rowCount === 0) return;
 
                 // Set the collector.
                 setCollector(ev.user.id);

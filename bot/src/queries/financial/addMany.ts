@@ -7,31 +7,29 @@ export default async (
     amount: number,
     reason: string,
 ) => {
-    return client.batch([
-        client
-            .insert(wallet)
-            .values(
-                userIds.map((userId) => ({
-                    guildId,
-                    userId,
-                    balance: amount,
-                })),
-            )
-            .onConflictDoUpdate({
-                target: [wallet.guildId, wallet.userId],
-                set: {
-                    balance: sql`${wallet.balance} + ${amount}`,
-                },
-            }),
-
-        client.insert(transactions).values(
+    await client
+        .insert(wallet)
+        .values(
             userIds.map((userId) => ({
-                createdAt: new Date(),
                 guildId,
                 userId,
-                amount,
-                reason,
+                balance: amount,
             })),
-        ),
-    ]);
+        )
+        .onConflictDoUpdate({
+            target: [wallet.guildId, wallet.userId],
+            set: {
+                balance: sql`${wallet.balance} + ${amount}`,
+            },
+        });
+
+    await client.insert(transactions).values(
+        userIds.map((userId) => ({
+            createdAt: new Date(),
+            guildId,
+            userId,
+            amount,
+            reason,
+        })),
+    );
 };

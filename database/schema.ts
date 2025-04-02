@@ -1,38 +1,32 @@
 import {
-    blob,
+    bigint,
     text,
     integer,
-    sqliteTable,
+    pgTable,
     uniqueIndex,
     index,
     real,
-} from "drizzle-orm/sqlite-core";
+    boolean,
+    timestamp,
+    serial,
+    jsonb,
+} from "drizzle-orm/pg-core";
 import { takeable } from "./takeout/takeable";
 
 export const guilds = takeable(
-    sqliteTable(
+    pgTable(
         "guilds",
         {
-            guildId: blob("guild_id", { mode: "bigint" }).primaryKey(),
-            dropsEnabled: integer("drops_enabled", { mode: "boolean" })
-                .notNull()
-                .default(true),
+            guildId: bigint("guild_id", { mode: "bigint" }).primaryKey(),
+            dropsEnabled: boolean("drops_enabled").notNull().default(true),
             currencyEmoji: text("currency_emoji").notNull().default("💰"),
-            dropAmountMin: integer("drop_amount_min", { mode: "number" })
-                .default(75)
-                .notNull(),
-            dropAmountMax: integer("drop_amount_max", { mode: "number" })
-                .default(100)
-                .notNull(),
+            dropAmountMin: integer("drop_amount_min").default(75).notNull(),
+            dropAmountMax: integer("drop_amount_max").default(100).notNull(),
             dropImage: text("drop_image")
                 .default("https://i.imgur.com/dFpT1Zy.jpg")
                 .notNull(),
-            xpEnabled: integer("xp_enabled", { mode: "boolean" })
-                .default(true)
-                .notNull(),
-            levelMultiplier: integer("level_multiplier", { mode: "number" })
-                .default(10)
-                .notNull(),
+            xpEnabled: boolean("xp_enabled").default(true).notNull(),
+            levelMultiplier: integer("level_multiplier").default(10).notNull(),
             dropMessage: text("drop_message")
                 .default("{emoji} {amount} has dropped into this channel!")
                 .notNull(),
@@ -41,358 +35,288 @@ export const guilds = takeable(
                     "Congratulations {user}, you have leveled up to level {level}!",
                 )
                 .notNull(),
-            levelUpDM: integer("level_up_dm", { mode: "boolean" })
-                .default(false)
-                .notNull(),
+            levelUpDM: boolean("level_up_dm").default(false).notNull(),
             dropBlanks: integer("drop_blanks").default(0).notNull(),
-            dropSecondsCooldown: integer("drop_seconds_cooldown", {
-                mode: "number",
-            }).default(5),
-            destroyAt: integer("destroy_at", { mode: "timestamp" }),
+            dropSecondsCooldown: integer("drop_seconds_cooldown").default(5),
+            destroyAt: timestamp("destroy_at"),
             destroyJobId: text("destroy_job_id"),
         },
-        (table) => {
-            return {
-                destroyAtIdx: uniqueIndex("guilds_destroy_at_idx").on(
-                    table.destroyAt,
-                ),
-            };
-        },
+        (table) => [uniqueIndex("guilds_destroy_at_idx").on(table.destroyAt)],
     ),
 );
 
 export const allowedDropChannels = takeable(
-    sqliteTable(
+    pgTable(
         "allowed_drop_channels",
         {
-            channelId: blob("channel_id", { mode: "bigint" }).primaryKey(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            channelId: bigint("channel_id", { mode: "bigint" }).primaryKey(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            lastDrop: integer("last_drop", { mode: "timestamp" }),
+            lastDrop: timestamp("last_drop"),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("adc_guild_id_idx").on(table.guildId),
-                guildChannelIdx: uniqueIndex("adc_guild_channel_idx").on(
-                    table.guildId,
-                    table.channelId,
-                ),
-            };
-        },
+        (table) => [
+            index("adc_guild_id_idx").on(table.guildId),
+            uniqueIndex("adc_guild_channel_idx").on(
+                table.guildId,
+                table.channelId,
+            ),
+        ],
     ),
 );
 
-export const lastGuildTakeout = sqliteTable("last_guild_takeout", {
-    guildId: blob("guild_id", { mode: "bigint" })
+export const lastGuildTakeout = pgTable("last_guild_takeout", {
+    guildId: bigint("guild_id", { mode: "bigint" })
         .primaryKey()
         .references(() => guilds.guildId, {
             onDelete: "cascade",
         }),
-    lastTakeout: integer("last_takeout", { mode: "timestamp" }).notNull(),
+    lastTakeout: timestamp("last_takeout").notNull(),
 });
 
 export const levelBlacklistedChannels = takeable(
-    sqliteTable(
+    pgTable(
         "level_blacklisted_channels",
         {
-            channelId: blob("channel_id", { mode: "bigint" }).primaryKey(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            channelId: bigint("channel_id", { mode: "bigint" }).primaryKey(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("lbc_guild_id_idx").on(table.guildId),
-            };
-        },
+        (table) => [index("lbc_guild_id_idx").on(table.guildId)],
     ),
 );
 
 export const experiencePoints = takeable(
-    sqliteTable(
+    pgTable(
         "experience_points",
         {
-            guildId: blob("guild_id", { mode: "bigint" })
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            userId: blob("user_id", { mode: "bigint" }).notNull(),
-            xp: integer("xp", { mode: "number" }).notNull(),
-            totalXp: integer("total_xp", { mode: "number" })
-                .default(0)
-                .notNull(),
-            level: integer("level", { mode: "number" }).default(1).notNull(),
-            lastXp: integer("last_xp", { mode: "timestamp" }).notNull(),
+            userId: bigint("user_id", { mode: "bigint" }).notNull(),
+            xp: integer("xp").notNull(),
+            totalXp: integer("total_xp").default(0).notNull(),
+            level: integer("level").default(1).notNull(),
+            lastXp: timestamp("last_xp").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("xp_guild_id_idx").on(table.guildId),
-                guildMemberIdx: uniqueIndex("xp_guild_member_idx").on(
-                    table.guildId,
-                    table.userId,
-                ),
-                guildTotalXpIdx: index("xp_guild_total_xp_idx").on(
-                    table.guildId,
-                    table.totalXp,
-                ),
-            };
-        },
+        (table) => [
+            index("xp_guild_id_idx").on(table.guildId),
+            uniqueIndex("xp_guild_member_idx").on(table.guildId, table.userId),
+            index("xp_guild_total_xp_idx").on(table.guildId),
+        ],
     ),
 );
 
 export const currencyDrop = takeable(
-    sqliteTable(
+    pgTable(
         "currency_drop",
         {
-            messageId: blob("message_id", { mode: "bigint" }).primaryKey(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            messageId: bigint("message_id", { mode: "bigint" }).primaryKey(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            amount: integer("amount", { mode: "number" }).notNull(),
+            amount: integer("amount").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("drop_guild_id_idx").on(table.guildId),
-            };
-        },
+        (table) => [index("drop_guild_id_idx").on(table.guildId)],
     ),
 );
 
 export const wallet = takeable(
-    sqliteTable(
+    pgTable(
         "wallet",
         {
-            userId: blob("user_id", { mode: "bigint" }).notNull(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            userId: bigint("user_id", { mode: "bigint" }).notNull(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
             balance: integer("balance").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("wallet_guild_id_idx").on(table.guildId),
-                guildMemberIdx: uniqueIndex("wallet_guild_member_idx").on(
-                    table.guildId,
-                    table.userId,
-                ),
-                guildBalanceIdx: index("wallet_guild_balance_idx").on(
-                    table.guildId,
-                    table.balance,
-                ),
-            };
-        },
+        (table) => [
+            index("wallet_guild_id_idx").on(table.guildId),
+            uniqueIndex("wallet_guild_member_idx").on(
+                table.guildId,
+                table.userId,
+            ),
+            index("wallet_guild_balance_idx").on(table.guildId, table.balance),
+        ],
     ),
 );
 
 export const levelRoles = takeable(
-    sqliteTable(
+    pgTable(
         "level_roles",
         {
-            roleId: blob("role_id", { mode: "bigint" }).notNull(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            roleId: bigint("role_id", { mode: "bigint" }).notNull(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            level: integer("level", { mode: "number" }).notNull(),
+            level: integer("level").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("lr_guild_id_idx").on(table.guildId),
-                guildLevelIdx: index("lr_guild_level_idx").on(
-                    table.guildId,
-                    table.level,
-                ),
-                guildRoleLevelIdx: uniqueIndex("lr_guild_role_idx").on(
-                    table.roleId,
-                ),
-            };
-        },
+        (table) => [
+            index("lr_guild_id_idx").on(table.guildId),
+            index("lr_guild_level_idx").on(table.guildId, table.level),
+            uniqueIndex("lr_guild_role_idx").on(table.roleId),
+        ],
     ),
 );
 
 export const transactions = takeable(
-    sqliteTable(
+    pgTable(
         "transactions",
         {
-            createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            createdAt: timestamp("created_at").notNull(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            userId: blob("user_id", { mode: "bigint" }).notNull(),
+            userId: bigint("user_id", { mode: "bigint" }).notNull(),
             amount: integer("amount").notNull(),
             reason: text("reason").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("tx_guild_id_idx").on(table.guildId),
-                memberIdx: index("tx_member_idx").on(
-                    table.guildId,
-                    table.userId,
-                ),
-                createdAtIdx: index("tx_created_at_idx").on(
-                    table.guildId,
-                    table.userId,
-                    table.createdAt,
-                ),
-            };
-        },
+        (table) => [
+            index("tx_guild_id_idx").on(table.guildId),
+            index("tx_member_idx").on(table.guildId, table.userId),
+            index("tx_created_at_idx").on(
+                table.guildId,
+                table.userId,
+                table.createdAt,
+            ),
+        ],
     ),
 );
 
 export const shares = takeable(
-    sqliteTable(
+    pgTable(
         "shares",
         {
-            id: integer("id", { mode: "number" }).primaryKey({
-                autoIncrement: true,
-            }),
-            createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            id: serial("id").primaryKey(),
+            createdAt: timestamp("created_at").notNull(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            userId: blob("user_id", { mode: "bigint" }).notNull(),
-            invested: integer("invested", { mode: "number" }).notNull(),
+            userId: bigint("user_id", { mode: "bigint" }).notNull(),
+            invested: integer("invested").notNull(),
             stockName: text("stock_name").notNull(),
             shareCount: real("share_count").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("shares_guild_id_idx").on(table.guildId),
-                memberIdx: index("shares_member_idx").on(
-                    table.guildId,
-                    table.userId,
-                ),
-                createdAtIdx: index("shares_created_at_idx").on(
-                    table.guildId,
-                    table.userId,
-                    table.createdAt,
-                ),
-            };
-        },
+        (table) => [
+            index("shares_guild_id_idx").on(table.guildId),
+            index("shares_member_idx").on(table.guildId, table.userId),
+            index("shares_created_at_idx").on(
+                table.guildId,
+                table.userId,
+                table.createdAt,
+            ),
+        ],
     ),
 );
 
 export const roleShop = takeable(
-    sqliteTable(
+    pgTable(
         "role_shop",
         {
-            roleId: blob("role_id", { mode: "bigint" }).primaryKey(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            roleId: bigint("role_id", { mode: "bigint" }).primaryKey(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            price: integer("price", { mode: "number" }).notNull(),
-            revised: integer("revised", { mode: "boolean" })
-                .default(false)
-                .notNull(),
+            price: integer("price").notNull(),
+            revised: boolean("revised").default(false).notNull(),
         },
-        (table) => {
-            return {
-                guild_id_idx: index("role_shop_guild_id_idx").on(table.guildId),
-            };
-        },
+        (table) => [index("role_shop_guild_id_idx").on(table.guildId)],
     ),
 );
 
 export const timelyCollections = takeable(
-    sqliteTable(
+    pgTable(
         "timely_collections",
         {
-            userId: blob("user_id", { mode: "bigint" }).notNull(),
-            guildId: blob("guild_id", { mode: "bigint" })
+            userId: bigint("user_id", { mode: "bigint" }).notNull(),
+            guildId: bigint("guild_id", { mode: "bigint" })
                 .notNull()
                 .references(() => guilds.guildId, {
                     onDelete: "cascade",
                 }),
-            lastCollected: integer("last_collected", {
-                mode: "timestamp",
-            }).notNull(),
+            lastCollected: timestamp("last_collected").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("timely_guild_id_idx").on(table.guildId),
-                guildMemberIdx: uniqueIndex("timely_guild_member_idx").on(
-                    table.guildId,
-                    table.userId,
-                ),
-            };
-        },
+        (table) => [
+            index("timely_guild_id_idx").on(table.guildId),
+            uniqueIndex("timely_guild_member_idx").on(
+                table.guildId,
+                table.userId,
+            ),
+        ],
     ),
 );
 
 export const guildTimelyConfig = takeable(
-    sqliteTable("guild_timely_config", {
-        guildId: blob("guild_id", { mode: "bigint" })
+    pgTable("guild_timely_config", {
+        guildId: bigint("guild_id", { mode: "bigint" })
             .primaryKey()
             .references(() => guilds.guildId, {
                 onDelete: "cascade",
             }),
-        enabled: integer("enabled", { mode: "boolean" })
-            .default(false)
-            .notNull(),
-        amount: integer("amount", { mode: "number" }).notNull().default(10),
-        hoursBetweenCollections: integer("hours_between_collections", {
-            mode: "number",
-        })
+        enabled: boolean("enabled").default(false).notNull(),
+        amount: integer("amount").notNull().default(10),
+        hoursBetweenCollections: integer("hours_between_collections")
             .notNull()
             .default(24),
     }),
 );
 
 export const dashboardAdmins = takeable(
-    sqliteTable(
+    pgTable(
         "dashboard_admins",
         {
-            guildId: blob("guild_id", { mode: "bigint" }).references(
+            guildId: bigint("guild_id", { mode: "bigint" }).references(
                 () => guilds.guildId,
                 {
                     onDelete: "cascade",
                 },
             ),
-            userId: blob("user_id", { mode: "bigint" }),
+            userId: bigint("user_id", { mode: "bigint" }),
         },
-        (table) => {
-            return {
-                guildMemberIdx: uniqueIndex("admins_guild_member_idx").on(
-                    table.guildId,
-                    table.userId,
-                ),
-            };
-        },
+        (table) => [
+            uniqueIndex("admins_guild_member_idx").on(
+                table.guildId,
+                table.userId,
+            ),
+        ],
     ),
 );
 
-export const timeLocation = sqliteTable("time_locations", {
-    userId: blob("user_id", { mode: "bigint" }).notNull().primaryKey(),
+export const timeLocation = pgTable("time_locations", {
+    userId: bigint("user_id", { mode: "bigint" }).notNull().primaryKey(),
     location: text("location").notNull(),
 });
 
 export const guildBirthdayConfig = takeable(
-    sqliteTable("guild_birthday_config", {
-        guildId: blob("guild_id", { mode: "bigint" })
+    pgTable("guild_birthday_config", {
+        guildId: bigint("guild_id", { mode: "bigint" })
             .primaryKey()
             .references(() => guilds.guildId, {
                 onDelete: "cascade",
             }),
-        roleId: blob("role_id", { mode: "bigint" }),
-        currency: integer("currency", { mode: "number" }).notNull().default(0),
-        channelId: blob("channel_id", { mode: "bigint" }),
+        roleId: bigint("role_id", { mode: "bigint" }),
+        currency: integer("currency").notNull().default(0),
+        channelId: bigint("channel_id", { mode: "bigint" }),
         birthdayMessage: text("birthday_message")
             .notNull()
             .default(
@@ -402,45 +326,35 @@ export const guildBirthdayConfig = takeable(
 );
 
 export const guildTimeouts = takeable(
-    sqliteTable(
+    pgTable(
         "guild_timeouts",
         {
             jobId: text("job_id").primaryKey(),
-            guildId: blob("guild_id", { mode: "bigint" }),
-            timeout: integer("timeout", { mode: "timestamp" }).notNull(),
+            guildId: bigint("guild_id", { mode: "bigint" }),
+            timeout: timestamp("timeout").notNull(),
             jobType: text("job_type").notNull(),
-            json: blob("json", { mode: "json" }).notNull(),
+            json: jsonb("json").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("guild_timeouts_guild_id_idx").on(
-                    table.guildId,
-                ),
-            };
-        },
+        (table) => [index("guild_timeouts_guild_id_idx").on(table.guildId)],
     ),
 );
 
 export const guildIntervals = takeable(
-    sqliteTable(
+    pgTable(
         "guild_intervals",
         {
             jobId: text("job_id").primaryKey(),
-            guildId: blob("guild_id", { mode: "bigint" }).notNull(),
+            guildId: bigint("guild_id", { mode: "bigint" }).notNull(),
             interval: integer("interval").notNull(),
             jobType: text("job_type").notNull(),
-            json: blob("json", { mode: "json" }).notNull(),
+            json: jsonb("json").notNull(),
         },
-        (table) => {
-            return {
-                guildIdIdx: index("guild_intervals_guild_id_idx").on(
-                    table.guildId,
-                ),
-                guildJobTypeIdx: index("guild_intervals_job_type_idx").on(
-                    table.guildId,
-                    table.jobType,
-                ),
-            };
-        },
+        (table) => [
+            index("guild_intervals_guild_id_idx").on(table.guildId),
+            index("guild_intervals_job_type_idx").on(
+                table.guildId,
+                table.jobType,
+            ),
+        ],
     ),
 );
